@@ -1,0 +1,29 @@
+# Daten (extern auf Laufwerk, zu groß für Git)
+data_march_2026/
+
+# Build-Artefakte (generiert durch Pipeline/Skripte)
+**/build/
+
+# LaTeX-Zwischendateien
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fls
+*.fdb_latexmk
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+
+# Pipeline-Log
+pipeline.log
+
+# Python
+__pycache__/
+*.pyc
+
+# IDE / Editor
+.vscode/
+.claude/

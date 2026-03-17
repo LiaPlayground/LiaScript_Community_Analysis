@@ -1,0 +1,41 @@
+# LiaScript Paper Pipeline - Python Dependencies
+
+# Core Data Processing
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Statistical Analysis
+scipy>=1.10.0
+scikit-learn>=1.2.0
+statsmodels>=0.14.0
+
+# Network Analysis
+networkx>=3.0
+python-louvain>=0.16  # Community detection
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+plotly>=5.14.0
+
+# Document Generation
+jinja2>=3.1.2
+pyyaml>=6.0
+pypandoc>=1.11  # For LaTeX/PDF conversion
+
+# Excel Export
+openpyxl>=3.1.0
+xlsxwriter>=3.1.0
+
+# Natural Language Processing (optional, for advanced topic modeling)
+nltk>=3.8
+gensim>=4.3.0  # Topic modeling
+
+# Utilities
+python-dateutil>=2.8.2
+tqdm>=4.65.0  # Progress bars
+
+# Development and Testing
+pytest>=7.3.0
+jupyter>=1.0.0
+ipython>=8.12.0

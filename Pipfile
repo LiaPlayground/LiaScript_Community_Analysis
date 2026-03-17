@@ -1,0 +1,33 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+pandas = "*"
+numpy = ">=1.24.0"
+scipy = ">=1.10.0"
+scikit-learn = ">=1.2.0"
+statsmodels = ">=0.14.0"
+networkx = ">=3.0"
+python-louvain = ">=0.16"
+matplotlib = ">=3.7.0"
+seaborn = "*"
+plotly = ">=5.14.0"
+jinja2 = ">=3.1.2"
+pyyaml = ">=6.0"
+openpyxl = ">=3.1.0"
+xlsxwriter = ">=3.1.0"
+nltk = ">=3.8"
+gensim = ">=4.3.0"
+python-dateutil = ">=2.8.2"
+tqdm = ">=4.65.0"
+
+[dev-packages]
+pytest = ">=7.3.0"
+jupyter = ">=1.0.0"
+ipython = ">=8.12.0"
+ipykernel = ">=6.0.0"
+
+[requires]
+python_version = "3"
