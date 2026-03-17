@@ -1,0 +1,56 @@
+# Feature Usage
+
+What LiaScript features do authors actually use?
+
+## Feature Adoption Rates
+
+| Feature | Adoption Rate |
+|---------|---------------|
+{% for feature in top_features %}
+| {{ feature.name }} | {{ feature.percent }}% |
+{% endfor %}
+
+---
+
+## Template System
+
+**{{ stats.template_usage_percent }}%** of courses use the LiaScript template system to import reusable components.
+
+### Top Templates
+
+| Template | Usage | Description |
+|----------|-------|-------------|
+{% for template in top_templates %}
+| {{ template.name }} | {{ template.percent }}% | {{ template.description }} |
+{% endfor %}
+
+{% raw %}    {{1}}{% endraw %}
+> **Key insight:** TikZ-Jax (LaTeX graphics) and Algebrite (computer algebra) dominate—reflecting strong STEM adoption.
+
+---
+
+## Feature Heatmap by Discipline
+
+![Feature Heatmap](figures/fig_feature_heatmap.png)
+
+Different disciplines show distinct feature preferences:
+
+- **Computer Science:** High code block and script usage
+- **Mathematics:** TikZ diagrams, Algebrite, formulas
+- **Language Learning:** Audio, TTS, quizzes
+- **Natural Sciences:** GeoGebra, simulations
+
+---
+
+## Accessibility
+
+LiaScript includes built-in accessibility features:
+
+| Feature | Adoption |
+|---------|----------|
+| Text-to-Speech configured | {{ stats.narrator_percent }}% |
+| TTS comments in content | {{ stats.tts_comments_percent }}% |
+
+{% raw %}    {{3}}{% endraw %}
+> Nearly half of all courses configure text-to-speech—indicating awareness of accessibility needs.
+

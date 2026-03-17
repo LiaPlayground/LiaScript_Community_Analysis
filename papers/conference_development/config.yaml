@@ -1,0 +1,75 @@
+# Conference Paper: LiaScript User Segmentation
+# Single focused research question: User groups and development implications
+
+paper:
+  id: conference_development
+  title: "Who Creates LiaScript Courses? User Segmentation and Implications for Platform Development"
+  short_title: "LiaScript User Segmentation"
+
+  authors:
+    - name: "Sebastian Zug"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "sebastian.zug@informatik.tu-freiberg.de"
+      orcid: "0000-0002-1022-8888"  # TODO: Replace with actual ORCID
+    - name: "André Dietrich"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "andre.dietrich@informatik.tu-freiberg.de"
+      orcid: "0000-0001-8894-1110"  # TODO: Replace with actual ORCID
+    - name: "Ines Aubel"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "ines.aubel@chemie.tu-freiberg.de"
+      orcid: "0000-0000-0000-0000"  # TODO: Replace with actual ORCID
+
+  metadata:
+    keywords:
+      - Open Educational Resources
+      - LiaScript
+      - User Segmentation
+      - Platform Development
+      - OER Authoring
+    bibliography: shared/literatur.bib
+    venue: "Conference on Open Education"  # TODO: Confirm venue
+    type: "conference"
+    language: en
+
+  output:
+    format:
+      - markdown
+      - latex
+      - pdf
+    template: koma-article
+    include_toc: false
+    output_dir: "papers/conference_development/build"
+
+  # Single focused research question
+  research_questions:
+    - id: RQ
+      question: "What user groups can be identified in the LiaScript ecosystem and what implications arise for the further development of the concept and tools?"
+      sub_questions:
+        - "How can authors be segmented by productivity and usage patterns?"
+        - "What feature preferences characterize each user segment?"
+        - "What development priorities emerge from segment-specific needs?"
+
+  # Analyses needed for this paper
+  analyses:
+    - user_segmentation
+    - feature_analysis
+    - three_group_analysis
+
+  sections:
+    - 01_abstract
+    - 02_introduction
+    - 03_background
+    - 04_methodology
+    - 05_results
+    - 06_discussion
+    - 07_conclusion
+    - 08_references
+
+  figures:
+    output_dir: "papers/conference_development/build/figures"
+    include:
+      - fig_user_segments
+      - fig_segment_distribution
+      - fig_feature_by_segment
+      - fig_development_priorities

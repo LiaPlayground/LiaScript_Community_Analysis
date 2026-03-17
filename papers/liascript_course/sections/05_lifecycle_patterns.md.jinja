@@ -1,0 +1,65 @@
+# Lifecycle Patterns
+
+How do LiaScript courses evolve over time?
+
+## The "Create and Forget" Pattern
+
+{% raw %}    {{0-1}}{% endraw %}
+**Surprising finding:** Most LiaScript courses have very short active lifespans.
+
+{% raw %}    {{1}}{% endraw %}
+| Metric | Value |
+|--------|-------|
+| Median lifespan | {{ stats.median_lifespan }} months |
+| One-shot courses (≤7 days) | {{ stats.oneshot_percent }}% |
+| Courses active < 1 month | {{ stats.short_lifecycle_percent }}% |
+
+---
+
+## Lifecycle Visualization
+
+![Lifecycle Pattern](figures/fig_lifecycle_pattern.png)
+
+---
+
+## What does this mean?
+
+{% raw %}    {{2}}{% endraw %}
+LiaScript courses behave like **academic publications** rather than software projects:
+
+{% raw %}    {{3}}{% endraw %}
+| Model | Behavior |
+|-------|----------|
+| Wikipedia | Continuously updated |
+| Open Source Software | Ongoing maintenance |
+| Traditional Textbooks | Periodic major revisions |
+| **LiaScript Courses** | **Create → Polish → Publish → Freeze** |
+
+{% raw %}    {{4}}{% endraw %}
+> This isn't necessarily bad! It aligns with the OER philosophy of "create once, share forever."
+
+---
+
+## Corpus Age Distribution
+
+![Age Distribution](figures/fig_age_distribution.png)
+
+The corpus is remarkably young:
+
+- **Median age:** {{ stats.median_age }} years
+- **< 1 year old:** {{ stats.young_percent }}%
+- **Oldest course:** {{ stats.oldest_age }} years
+
+---
+
+## Current Maintenance Status
+
+| Status | Courses | Percentage |
+|--------|---------|------------|
+| Recently active (< 6 months) | {{ stats.active_count }} | {{ stats.active_percent }}% |
+| Stale (6-24 months) | {{ stats.stale_count }} | {{ stats.stale_percent }}% |
+| Abandoned (> 24 months) | {{ stats.abandoned_count }} | {{ stats.abandoned_percent }}% |
+
+{% raw %}    {{5}}{% endraw %}
+> The high "recently active" rate primarily reflects the young age of the corpus, not ongoing maintenance.
+

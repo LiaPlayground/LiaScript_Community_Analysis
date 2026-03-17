@@ -1,0 +1,45 @@
+# Introduction
+
+Open Educational Resources (OER) platforms face a persistent challenge: how to prioritize development efforts when user needs are poorly understood. Platform developers typically rely on feature requests, bug reports, and informal community feedback—sources that overrepresent vocal users while underrepresenting the "silent majority" who may have different needs.
+
+**LiaScript** exemplifies this problem. As an open-source Markdown-based OER authoring system, LiaScript has grown from a university project to an ecosystem comprising {{ results.descriptive_stats.corpus.total_courses | default('2,751') }} courses across {{ results.descriptive_stats.corpus.total_repositories | default('680') }} repositories. Yet development priorities have been driven by anecdotal evidence rather than systematic analysis of how authors actually use the platform.
+
+## The Problem: Intuition-Driven Development
+
+Without empirical user data, platform development faces several risks:
+
+1. **Feature Bias:** Features requested by vocal power users may not benefit the majority
+2. **Entry Barriers:** Onboarding friction affects new users who rarely provide feedback
+3. **Misallocated Resources:** Development effort may focus on rarely-used capabilities
+4. **Ignored Segments:** User groups with distinct needs may be systematically overlooked
+
+## Our Approach: Data-Driven User Segmentation
+
+We propose a user segmentation approach that:
+
+1. **Identifies distinct user groups** based on observable behavior (productivity, feature usage)
+2. **Characterizes each segment's** preferences and patterns
+3. **Derives development priorities** that address segment-specific needs
+4. **Provides actionable recommendations** for platform developers
+
+## Research Questions
+
+This study addresses one core research question with three sub-questions:
+
+**RQ:** *What user groups can be identified in the LiaScript ecosystem and what implications arise for the further development of the concept and tools?*
+
+- **RQ.1:** How can authors be segmented by productivity and usage patterns?
+- **RQ.2:** What feature preferences characterize each user segment?
+- **RQ.3:** What development priorities emerge from segment-specific needs?
+
+## Contribution
+
+This paper makes three contributions:
+
+1. **Empirical:** First systematic user segmentation of a decentralized OER platform
+2. **Methodological:** Replicable approach for deriving development priorities from usage data
+3. **Practical:** Concrete recommendations for LiaScript development based on segment analysis
+
+## Paper Structure
+
+Section 3 provides background on LiaScript and the dataset. Section 4 describes our segmentation methodology. Section 5 presents results including segment profiles and feature preferences. Section 6 discusses implications and concrete recommendations. Section 7 concludes with broader applicability to other OER platforms.

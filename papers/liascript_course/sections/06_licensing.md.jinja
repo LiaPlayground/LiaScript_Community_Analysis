@@ -1,0 +1,68 @@
+# Licensing and Openness
+
+Are LiaScript materials truly "open"?
+
+## The Licensing Gap
+
+{% raw %}    {{0-1}}{% endraw %}
+**Critical finding:** Technical openness ≠ Legal openness
+
+{% raw %}    {{1}}{% endraw %}
+| License Category | Courses | Percentage |
+|------------------|---------|------------|
+| Unclear/Missing | {{ stats.unclear_count }} | {{ stats.unclear_percent }}% |
+| Creative Commons | {{ stats.cc_count }} | {{ stats.cc_percent }}% |
+| Permissive Open Source | {{ stats.permissive_count }} | {{ stats.permissive_percent }}% |
+| Copyleft (GPL family) | {{ stats.copyleft_count }} | {{ stats.copyleft_percent }}% |
+
+---
+
+## License Distribution
+
+![License Treemap](figures/fig_license_treemap.png)
+
+---
+
+## OER Compliance
+
+{% raw %}    {{2}}{% endraw %}
+**Only {{ stats.oer_compliant_percent }}%** of courses use OER-compliant licenses!
+
+{% raw %}    {{3}}{% endraw %}
+Without explicit open licenses, materials are technically "all rights reserved" under copyright law—preventing the **5R activities**:
+
+- **Retain** – keep a copy
+- **Reuse** – use in various ways
+- **Revise** – adapt and modify
+- **Remix** – combine with other content
+- **Redistribute** – share with others
+
+---
+
+## Why This Matters
+
+{% raw %}    {{5}}{% endraw %}
+Educators cannot legally reuse "public" materials without explicit permission.
+
+{% raw %}    {{6}}{% endraw %}
+**The contrast:**
+
+| Platform | Licensing Culture |
+|----------|-------------------|
+| Open Source Software | Licensing is standard |
+| LiaScript OER | Licensing often forgotten |
+
+---
+
+## Recommendations
+
+{% raw %}    {{7}}{% endraw %}
+**For course authors:**
+- Add explicit licenses (CC-BY or CC-BY-SA recommended)
+- Use LiaScript's `content_license` header field
+
+{% raw %}    {{8}}{% endraw %}
+**For the LiaScript community:**
+- Include license selection in starter templates
+- Promote licensing awareness
+

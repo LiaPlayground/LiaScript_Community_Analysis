@@ -1,0 +1,117 @@
+# Results
+
+## Author Segmentation
+
+{% if results.user_segmentation.author_segmentation %}
+{% set seg = results.user_segmentation.author_segmentation %}
+
+Our segmentation reveals a classic power-law distribution:
+
+**Table 1:** Author Segmentation by Productivity Level
+
+| Category | Definition | Authors | % of Authors | Courses | % of Courses |
+|----------|------------|---------|--------------|---------|--------------|
+| One-Time Author | 1 course | {{ seg.categories.one_time.author_count | large }} | {{ seg.categories.one_time.author_share | pct }} | {{ seg.categories.one_time.course_count | large }} | {{ seg.categories.one_time.course_share | pct }} |
+| Occasional Author | 2-5 courses | {{ seg.categories.occasional.author_count | large }} | {{ seg.categories.occasional.author_share | pct }} | {{ seg.categories.occasional.course_count | large }} | {{ seg.categories.occasional.course_share | pct }} |
+| Regular Author | 6-20 courses | {{ seg.categories.regular.author_count | large }} | {{ seg.categories.regular.author_share | pct }} | {{ seg.categories.regular.course_count | large }} | {{ seg.categories.regular.course_share | pct }} |
+| Active Author | 21-100 courses | {{ seg.categories.active.author_count | large }} | {{ seg.categories.active.author_share | pct }} | {{ seg.categories.active.course_count | large }} | {{ seg.categories.active.course_share | pct }} |
+| Power User | >100 courses | {{ seg.categories.power_user.author_count | large }} | {{ seg.categories.power_user.author_share | pct }} | {{ seg.categories.power_user.course_count | large }} | {{ seg.categories.power_user.course_share | pct }} |
+
+**Key Finding:** Power users ({{ seg.categories.power_user.author_share | pct }} of authors) create {{ seg.categories.power_user.course_share | pct }} of all content. The Gini coefficient of {{ seg.statistics.gini | num(2) }} indicates extreme concentration.
+
+**Implications:**
+- Development decisions disproportionately affect power user output
+- However, focusing only on power users ignores {{ (seg.categories.one_time.author_share + seg.categories.occasional.author_share) | pct }} of authors
+- A balanced approach must serve both high-volume producers and potential new contributors
+
+{% endif %}
+
+## Feature Preferences by Segment
+
+{% if results.user_segmentation.features_by_segment %}
+
+Different segments show distinct feature adoption patterns:
+
+**Table 2:** Feature Adoption Rates by User Segment
+
+| Feature | One-Time | Occasional | Regular | Active | Power User |
+|---------|----------|------------|---------|--------|------------|
+{% set features_to_show = ['import_statement', 'narrator_statement', 'video_syntax', 'version_statement', 'comment_in_beginning'] %}
+{% for feature in features_to_show %}
+| {{ feature | replace('_', ' ') | title }} | {% for segment in ['one_time', 'occasional', 'regular', 'active', 'power_user'] %}{% if results.user_segmentation.features_by_segment[segment] %}{{ results.user_segmentation.features_by_segment[segment].feature_rates.get(feature, 0) | pct }}{% else %}—{% endif %}{% if not loop.last %} | {% endif %}{% endfor %} |
+{% endfor %}
+
+{% if results.user_segmentation.segment_preferences %}
+### Segment Profiles
+
+{% for segment in ['one_time', 'occasional', 'regular', 'active', 'power_user'] %}
+{% if results.user_segmentation.segment_preferences[segment] %}
+{% set prefs = results.user_segmentation.segment_preferences[segment] %}
+**{{ segment | replace('_', ' ') | title }}:**
+{% if prefs.preferred_features %}- Preferred: {% for f in prefs.preferred_features[:3] %}{{ f[0] | replace('_', ' ') }} ({{ f[2] | num(1) }}x avg){% if not loop.last %}, {% endif %}{% endfor %}{% endif %}
+{% if prefs.avoided_features %}- Avoided: {% for f in prefs.avoided_features[:3] %}{{ f[0] | replace('_', ' ') }} ({{ f[2] | num(2) }}x avg){% if not loop.last %}, {% endif %}{% endfor %}{% endif %}
+
+{% endif %}
+{% endfor %}
+{% endif %}
+{% endif %}
+
+## Course Characteristics by Segment
+
+{% if results.user_segmentation.course_characteristics %}
+{% set chars = results.user_segmentation.course_characteristics %}
+
+**Table 3:** Course Characteristics by User Segment
+
+| Characteristic | One-Time | Occasional | Regular | Active | Power User |
+|----------------|----------|------------|---------|--------|------------|
+| Mean Words | {% for s in ['one_time', 'occasional', 'regular', 'active', 'power_user'] %}{% if chars[s] %}{{ chars[s].get('mean_words', 0) | num(0) }}{% else %}—{% endif %}{% if not loop.last %} | {% endif %}{% endfor %} |
+| Mean Pages | {% for s in ['one_time', 'occasional', 'regular', 'active', 'power_user'] %}{% if chars[s] %}{{ chars[s].get('mean_pages', 0) | num(1) }}{% else %}—{% endif %}{% if not loop.last %} | {% endif %}{% endfor %} |
+| Mean Features | {% for s in ['one_time', 'occasional', 'regular', 'active', 'power_user'] %}{% if chars[s] %}{{ chars[s].get('mean_features', 0) | num(1) }}{% else %}—{% endif %}{% if not loop.last %} | {% endif %}{% endfor %} |
+
+**Interpretation:**
+- **Power users** create shorter, modular courses with high feature density—suggesting template-based, systematic production
+- **Occasional authors** create longer, comprehensive courses—suggesting individual effort without reusable components
+- This pattern suggests different tooling needs: automation for power users, simplification for occasional users
+
+{% endif %}
+
+## Development Priorities
+
+{% if results.user_segmentation.development_recommendations %}
+
+Based on segment analysis, we derive the following priorities:
+
+{% for rec in results.user_segmentation.development_recommendations %}
+### {{ loop.index }}. {{ rec.title }} [{{ rec.priority | upper }}]
+
+**Target Segment:** {{ rec.target | replace('_', ' ') | title }}
+
+**Rationale:** {{ rec.rationale }}
+
+**Recommended Actions:**
+{% for suggestion in rec.suggestions %}
+- {{ suggestion }}
+{% endfor %}
+
+{% endfor %}
+{% endif %}
+
+## Feature Usage Clusters
+
+{% if results.user_segmentation.feature_clusters %}
+{% set fc = results.user_segmentation.feature_clusters %}
+
+Beyond productivity-based segmentation, we identified **{{ fc.unique_profiles }}** distinct feature usage profiles:
+
+**Table 4:** Top Feature Usage Clusters
+
+| Cluster | Courses | Share | Key Features |
+|---------|---------|-------|--------------|
+{% for cluster in fc.top_clusters[:5] %}
+| {{ cluster.name }} | {{ cluster.course_count | large }} | {{ cluster.share | pct }} | {% if cluster.active_features %}{{ cluster.active_features[:3] | join(', ') }}{% else %}Minimal{% endif %} |
+{% endfor %}
+
+The top 10 profiles account for **{{ fc.concentration | pct }}** of all courses, indicating that authors follow established patterns rather than creating unique combinations.
+
+{% endif %}

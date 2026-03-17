@@ -1,0 +1,56 @@
+# Introduction
+
+Open Educational Resources (OER) have transformed the landscape of digital education by enabling free access to learning materials worldwide. Within this ecosystem, tools that support the creation and distribution of interactive educational content play a crucial role. This paper examines LiaScript, an open-source Markdown-based authoring system, and characterizes its ecosystem through a comprehensive analysis of GitHub-hosted courses.
+
+## Background and Motivation
+
+**LiaScript** is an open-source authoring system for interactive educational courses that extends Markdown syntax with features for quizzes, surveys, code execution, text-to-speech, animations, and multimedia integration. Unlike traditional OER platforms that require specialized technical infrastructure or proprietary content management systems, LiaScript courses are plain-text files that can be authored in any text editor and hosted on static web servers or GitHub Pages. The LiaScript interpreter (available at liascript.github.io) renders these Markdown files into interactive web-based courses without requiring backend infrastructure. This "write once, run anywhere" philosophy aligns with the decentralized nature of open educational content and enables educators to leverage GitHub's version control and collaboration features.
+
+Despite growing interest in LiaScript, the ecosystem remains largely uncharacterized. Technical progress is based on personal feedback, issues mentioned by the community, or questions in LiaScript discussion platforms on GitHub. Questions about adoption patterns, sustainability, community practices, and actual openness (through licensing) remain unanswered. Understanding these dynamics is crucial for:
+
+- **Educators and Institutions:** To assess whether LiaScript meets their needs and how it compares to other OER tools
+- **LiaScript-Developers:** To understand usage patterns and guide future development priorities
+- **Policy Makers:** To evaluate the effectiveness of GitHub-based OER approaches
+
+However, systematic empirical data about the LiaScript ecosystem is lacking. While individual success stories exist, we do not know the overall adoption patterns, how courses are maintained over time, whether collaboration actually occurs, or how openly the content is licensed. This lack of empirical understanding raises several critical questions: Is LiaScript adoption growing or stagnating? Are courses actively maintained or abandoned after initial creation? Does GitHub's collaborative infrastructure translate into actual collaborative authoring practices? And crucially, do LiaScript courses adhere to open licensing principles, or does technical openness (public repositories) mask legal restrictions that limit reuse?
+
+These questions matter because they determine whether LiaScript represents a sustainable model for open education or merely another tool that will fade without community support. Answering them requires moving beyond anecdotal evidence to systematic analysis of the entire ecosystem. To fill this gap, we conduct the first comprehensive characterization of the LiaScript ecosystem by mining all publicly available GitHub repositories.
+
+## Research Questions
+
+This study addresses five core research questions:
+
+**RQ1: Adoption and Scope** — *How large and diverse is the LiaScript ecosystem?*
+
+Understanding ecosystem scope requires examining multiple dimensions: the overall size of the corpus (courses, repositories, contributors), the thematic distribution across academic disciplines, the geographic and linguistic reach, and the concentration of authorship among power users versus occasional contributors. We also investigate which education levels—from primary school to higher education and professional training—are primarily addressed.
+
+**RQ2: Content Characteristics** — *What interactive features are used in LiaScript courses?*
+
+LiaScript extends Markdown with interactive features such as quizzes, executable code, text-to-speech, and multimedia embedding. We analyze typical course lengths, the adoption rates of these interactive features, the prevalence of template usage for code reuse, how feature complexity varies across disciplines, and the extent to which accessibility features like text-to-speech are utilized.
+
+**RQ3: Collaboration Patterns** — *How are LiaScript courses collaboratively created?*
+
+GitHub provides infrastructure for collaborative development, but does this translate into collaborative course authoring? We examine the distribution of single-author versus multi-author courses, whether collaboration correlates with course complexity, and what the co-authorship network reveals about community structure and institutional clusters.
+
+**RQ4: Temporal Patterns and Lifecycle** — *How do LiaScript courses evolve over time?*
+
+The sustainability of OER depends on how content is created and maintained over time. We trace the adoption timeline from LiaScript's inception, analyze the age distribution of the corpus, identify lifecycle patterns (continuous maintenance versus "create-and-forget"), and assess the current maintenance status of courses.
+
+**RQ5: Licensing and Openness** — *Do LiaScript courses adhere to open licensing principles?*
+
+Technical openness (public repositories) does not guarantee legal openness (permissive licensing). We analyze the distribution of license types, the proportion of courses that comply with OER licensing standards (Creative Commons, permissive open source), how licensing practices vary across disciplines, and whether open licensing correlates with community engagement metrics such as stars and forks.
+
+## Contribution
+
+To our knowledge, this is the first large-scale, data-driven analysis of a decentralized OER authoring ecosystem. While previous studies have examined individual OER repositories or platform statistics, no prior work has systematically mined and characterized the complete landscape of courses created with a specific OER authoring tool.
+
+Our approach leverages GitHub's public API and repository metadata to provide:
+1. **Empirical insights** into adoption patterns, collaboration dynamics, and licensing practices at ecosystem scale
+2. **Lifecycle characterization** that reveals distinctive patterns in educational content development
+3. **Methodological contribution** establishing a replicable framework for analyzing GitHub-based educational tools
+
+This methodology not only characterizes LiaScript specifically but also establishes a replicable framework for analyzing other GitHub-based educational tools and OER platforms.
+
+## Paper Structure
+
+The remainder of this paper is organized as follows: Section 3 reviews related work on OER analytics and GitHub-based education research. Section 4 describes our data collection and analysis methodology. Section 5 presents our findings organized by research question. Section 6 discusses implications, limitations, and future work. Section 7 concludes with key takeaways for the OER community.

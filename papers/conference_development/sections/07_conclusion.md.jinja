@@ -1,0 +1,31 @@
+# Conclusion
+
+This paper demonstrates how usage data can inform platform development priorities for OER systems. By segmenting {{ results.descriptive_stats.author_concentration.total_unique_authors | default('298') }} LiaScript authors based on productivity, we identified distinct user groups with different needs:
+
+**Key Findings:**
+
+1. **Power-law distribution:** {{ results.user_segmentation.author_segmentation.categories.power_user.author_share | default(0.09) | pct }} of authors create {{ results.user_segmentation.author_segmentation.categories.power_user.course_share | default(0.66) | pct }} of content
+
+2. **Segment-specific preferences:** Power users leverage templates and automation; occasional authors create longer standalone courses
+
+3. **Clear development priorities:**
+   - [HIGH] Advanced tooling for power users
+   - [MEDIUM] Simplified onboarding for newcomers
+   - [MEDIUM] Expanded template ecosystem
+
+4. **Critical licensing gap:** Only {{ results.license_analysis.oer_compliance.oer_compliance_rate | default(0.17) | pct }} OER-compliant—addressable through tooling
+
+**Recommendations for LiaScript Developers:**
+
+| Priority | Action | Target Segment |
+|----------|--------|----------------|
+| HIGH | Batch management, CI/CD integration | Power users |
+| MEDIUM | Quick-start templates, onboarding wizard | New authors |
+| MEDIUM | Template registry, domain packs | Regular authors |
+| MEDIUM | License selection prompts | All authors |
+
+**Broader Contribution:**
+
+Our methodology—productivity-based segmentation combined with feature preference analysis—is applicable to other OER platforms. The approach requires only commonly available data (contribution counts, feature usage) and produces actionable recommendations.
+
+As OER ecosystems grow, evidence-based development becomes increasingly important. This paper provides a template for moving from intuition-driven to data-driven platform development.

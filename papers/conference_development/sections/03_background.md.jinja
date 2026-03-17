@@ -1,0 +1,39 @@
+# Background: LiaScript and the Dataset
+
+## LiaScript Overview
+
+LiaScript is an open-source authoring system that extends Markdown with interactive educational features:
+
+- **Quizzes and Surveys:** Multiple-choice, fill-in-the-blank, matrix questions
+- **Code Execution:** Executable code blocks with multiple language support
+- **Text-to-Speech:** Built-in narration with customizable voices
+- **Multimedia:** Video, audio, and animation integration
+- **Templates:** Reusable components via `import` statements
+- **Version Control:** Native Git/GitHub integration
+
+Unlike centralized OER platforms, LiaScript courses are plain-text Markdown files hosted on GitHub or any static web server. The LiaScript interpreter (liascript.github.io) renders these files into interactive web courses without backend infrastructure.
+
+## Dataset
+
+Our analysis is based on a comprehensive mining of GitHub repositories:
+
+| Metric | Value |
+|--------|-------|
+| Validated LiaScript courses | {{ results.descriptive_stats.corpus.total_courses | default('2,751') | large }} |
+| Repositories | {{ results.descriptive_stats.corpus.total_repositories | default('680') | large }} |
+| Unique authors (declared) | {{ results.descriptive_stats.author_concentration.total_unique_authors | default('298') | large }} |
+| GitHub repository owners | {{ results.descriptive_stats.corpus.total_authors | default('402') | large }} |
+| Time period | 2018–2025 |
+| Languages detected | {{ results.descriptive_stats.language_diversity.unique_languages | default('20') }} |
+
+**Data Collection Pipeline:**
+1. GitHub API search for Markdown files with LiaScript indicators
+2. Heuristic filtering (75,260 candidates)
+3. AI-based validation using llama3.3:70b (2,751 validated courses)
+4. Metadata extraction (author, language, features, timestamps)
+
+## Ecosystem Growth
+
+![Cumulative development of LiaScript courses and users (2018-2025)](../figures/fig_cumulative_growth.png){width=80%}
+
+The LiaScript ecosystem has experienced exponential growth, with 64% of all courses created in 2025 alone. This recent surge makes understanding user needs particularly urgent—development decisions made now will shape the experience for a rapidly growing user base.

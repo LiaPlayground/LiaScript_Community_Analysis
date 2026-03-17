@@ -1,0 +1,312 @@
+# Methodology
+
+## Data Collection
+
+Our data collection process consisted of three phases: (1) GitHub repository discovery through systematic search queries, (2) indicator-based pre-selection using LiaScript-specific heuristics, and (3) AI-based validation to filter false positives. This multi-stage approach balances broad coverage (high recall) with precision.
+
+### Phase 1: GitHub Repository Discovery
+
+We conducted a systematic search of GitHub using the GitHub API (v3), combining repository-level and code-level searches with quality-ranked queries.
+
+<figure>
+```mermaid
+flowchart TB
+    Start([GitHub Repository Search]) --> Phase1[Phase 1: Repository Discovery]
+
+    Phase1 --> RepoSearch[Repository-Level Search<br/>- Topics liascript<br/>- Description mentions<br/>- README mentions<br/>- Path patterns]
+    Phase1 --> CodeSearch[Code-Level Search<br/>- LiaScript.github.io links<br/>- Course badges<br/>- .eval blocks<br/>- narrator: fields<br/>- LiaTemplates usage]
+
+    RepoSearch --> Merge[Deduplication & Filtering<br/>680 repositories]
+    CodeSearch --> Merge
+
+    Merge --> Phase2[Phase 2: Indicator-Based Pre-Selection]
+
+    Phase2 --> Extract[Extract Markdown Files<br/>75,260 .md files]
+    Extract --> Strong[Strong Indicators<br/>Auto-validated]
+    Extract --> Weak[Weak Indicators Only<br/>Forward to AI]
+    Extract --> None[No Indicators<br/>Excluded]
+
+    Strong --> Phase3[Phase 3: AI-Based Validation]
+    Weak --> Phase3
+
+    Phase3 --> LLM[LLM Classification<br/>llama3.3:70b<br/>Temperature = 0]
+
+    LLM --> Valid[Genuine LiaScript Course<br/>TRUE]
+    LLM --> Invalid[False Positive<br/>Documentation, Tutorials<br/>FALSE]
+
+    Valid --> Meta[Metadata Extraction<br/>2,751 validated courses]
+    Invalid --> Reject[Rejected]
+
+    Meta --> GitMeta[Git Repository<br/>Commits, Contributors, Timestamps]
+    Meta --> Content[General File Content<br/>Language, Word Count, Hash]
+    Meta --> LiaMeta[LiaScript Header<br/>Title, Author, Version, Imports]
+    Meta --> Features[LiaScript Syntax Features<br/>Quizzes, Video, Code, TTS]
+    Meta --> AIMeta[AI Metadata Generation<br/>Summary, Keywords, DDC]
+
+    GitMeta --> Final[(Final Dataset<br/>8 Linked Tables)]
+    Content --> Final
+    LiaMeta --> Final
+    Features --> Final
+    AIMeta --> Final
+
+    style Phase1 fill:#e1f5ff
+    style Phase2 fill:#fff4e1
+    style Phase3 fill:#ffe1f5
+    style Final fill:#e1ffe1
+```
+<figcaption>Figure: Data collection and metadata extraction pipeline with three-phase approach from GitHub repository discovery through indicator-based pre-selection and AI validation to comprehensive metadata extraction from five sources.</figcaption>
+</figure>
+
+#### Repository Searches
+
+All searches were filtered by `fork:false` and `archived:false` to ensure data quality and avoid duplication. Forks were excluded because they typically represent copies of existing repositories rather than original course development, which would inflate our course count and distort adoption metrics. While analyzing the development history of forks could provide insights into collaborative adaptation and remixing practices, we leave this investigation to future work.
+
+Archived repositories were also excluded, as we assume they were marked as archived due to quality issues, incompleteness, or abandonment, making them unsuitable for analyzing successful course development practices.
+
+We employed multiple search strategies to maximize repository discovery:
+
+**Repository-Level Patterns:**
+
+- `"liascript" in:topic` – Repository tagged with "liascript" topic
+- `"liascript-course" in:topic` – Repository tagged with "liascript-course" topic[^topic_search]
+- `"liascript" in:description` – Repository description mentions LiaScript
+- `"liascript" in:readme` – README file mentions LiaScript
+- `"liascript" in:path,file` – Filename or path contains "liascript"
+
+[^topic_search]: This separate search was necessary because GitHub's topic search is not inclusive—repositories tagged only with "liascript-course" are not automatically found by the "liascript" search. Empirical testing revealed 11 repositories (e.g., [AndreaInfUFSM/elc117-2022b](https://github.com/AndreaInfUFSM/elc117-2022b)) that would have been missed without this additional query.
+
+These broad search strategies intentionally prioritize **recall over precision**, accepting high false-positive rates at the repository level. True validation occurs later through file-level indicator detection (Phase 2) and AI-based content analysis (Phase 3).
+
+#### Code Searches
+
+In addition to repository-level searches, we searched for files containing LiaScript-specific syntax patterns:
+
+**LiaScript-Specific Syntax Patterns:**
+
+- `"LiaScript.github.io/course"` – Deployed LiaScript courses with a corresponding link to liascript "interpreter"
+- `"https://raw.githubusercontent.com/LiaScript/LiaScript/master/badges/course.svg"` – LiaScript course badge used for starting interactive mode
+- `".eval" "LiaScript" filename:.md` – Code execution blocks
+- `"<!--" "narrator:" filename:.md` – LiaScript specific metadata header with narrator field
+- `"https://github.com/LiaTemplates/"` – Usage of LiaScript templates as part of the import
+- `"liascript" filename:.md` – General mention in Markdown files
+
+For queries exceeding GitHub's 1000-result limit, we applied temporal partitioning (year-by-year searches 2017-2025) and file size stratification (`size:0..1000`, `size:1001..5000`, etc.).
+
+#### Deduplication and Filtering
+
+At the end of repository and code serarch we generated two lists containing potential LiaScript reporsitories that have to merged. Repositories appearing in multiple searches were deduplicated by repository name and owner.
+
+To analyze genuine community adoption, we excluded repositories from LiaScript core developers and official project accounts: `LiaScript`, `TUBAF-IfI-LiaScript`, `LiaPlayground`, `SebastianZu[10/11] B_AggregateFeatures/B02_aggregate_Geocoding.ipynb
+      Geocoding der Orte
+      Ausführung läuft...    FEHLER: Input Notebook:  /home/sz/Desktop/Python/Automobile1909/notebooks/B_AggregateFeatures/B02_aggregate_Geocoding.ipynb
+Output Notebook: /home/sz/Desktop/Python/Automobile1909/notebooks/B_AggregateFeatures/B02_aggregate_Geocoding.ipynb
+Working directory: /home/sz/Desktop/Python/Automobile1909/notebooks/B_AggregateFeatures
+
+Executing:   0%|          | 0/27 [00:00<?, ?cell/s]Executing notebook with kernel: python3
+
+Executing:   4%|▎         | 1/27 [00:00<00:23,  1.10cell/s]
+Executing:   7%|▋         |
+      ❌ Fehlgeschlagen (7.1s)
+
+    Pipeline abgebrochen wegen Fehler.g`, `andre-dietrich`, `LiaBooks`, `LiaTemplates`, `TUBAF-IUZ-LiaScript`, `markjjacob`, `HueblerPatricia`
+
+This exclusion filters development, testing, and demonstration repositories, retaining only external user-created courses. Our final dataset comprises **{{ results.descriptive_stats.corpus.total_repositories | default('680') | large }} external repositories**.
+
+### Phase 2: Indicator-Based Pre-Selection
+
+From identified repositories, we extracted all Markdown files (`.md` extension) and classified them using 10 LiaScript-specific indicators, categorized by strength.
+
+##### Indicator Definitions
+
+Files with any of these indicators were automatically validated as genuine LiaScript documents:
+
+**Table 2:** Strong LiaScript Indicators
+
+| Indicator                    | Description                       | Rationale                              |
+| ---------------------------- | --------------------------------- | -------------------------------------- |
+| `liaIndi_liaTemplates_used`  | Uses LiaScript template system    | Unique to LiaScript ecosystem          |
+| `liaIndi_lia_button`         | Contains LiaScript course badge   | Intentional course marking             |
+| `liaIndi_lia_in_filename`    | Filename contains "liascript"     | Explicit naming convention             |
+| `liaIndi_lia_in_h1`          | Main heading contains "liascript" | Prominent self-identification          |
+| `liaIndi_import_statement`   | Contains `import:` statement      | LiaScript module system                |
+| `liaIndi_narrator_statement` | Contains `narrator:` field        | LiaScript text-to-speech configuration |
+| `liaIndi_video_syntax`       | Uses `!?[...]()` video syntax     | LiaScript-specific video embedding     |
+
+Files with **only** weak indicators were forwarded to AI validation due to high false-positive rates:
+
+**Table 3:** Weak LiaScript Indicators
+
+| Indicator                      | Description                             | Ambiguity                              |
+| ------------------------------ | --------------------------------------- | -------------------------------------- |
+| `liaIndi_liascript_in_content` | "liascript" appears anywhere in content | Could be blog post **about** LiaScript |
+| `liaIndi_comment_in_beginning` | Starts with `<!--` HTML comment         | Common in many Markdown documents      |
+| `liaIndi_version_statement`    | Contains `version:` field               | Not LiaScript-specific                 |
+
+Files with no indicators were excluded without further processing. This phase identified **75,260 Markdown files** with at least one LiaScript indicator.
+
+#### Results 
+
+The following table shows the frequency distribution of indicators across all detected files, revealing why AI validation was essential:
+
+**Table 4:** Indicator Frequency Distribution (N = 75,260)
+
+| Indicator              | Description                           | Strength    | Files | %    |
+| ---------------------- | ------------------------------------- | ----------- | ----- | ---- |
+| `comment_in_beginning` | HTML comment at file start (metadata) | Weak        | 7,271 | 9.7% |
+| `version_statement`    | `version:` statement                  | Weak        | 2,448 | 3.3% |
+| `liascript_in_content` | "liascript" mentioned in content      | Weak        | 1,704 | 2.3% |
+| `import_statement`     | `import:` (Template system)           | Very Strong | 1,526 | 2.0% |
+| `narrator_statement`   | `narrator:` (Text-to-Speech)          | Strong      | 1,260 | 1.7% |
+| `liaTemplates_used`    | LiaScript templates used              | Strong      | 502   | 0.7% |
+| `video_syntax`         | `!?[` (Video embedding)               | Very Strong | 281   | 0.4% |
+| `lia_button`           | LiaScript badge present               | Strong      | 257   | 0.3% |
+| `lia_in_h1`            | "liascript" in main heading           | Moderate    | 121   | 0.2% |
+| `Lia_in_filename`      | "liascript" in filename               | Weak        | 106   | 0.1% |
+
+The analysis revealed a significant imbalance in indicator distribution: weak indicators such as `comment_in_beginning` (9.7%) dominate the dataset but are highly generic and appear frequently in non-LiaScript Markdown files, while strong indicators like `import_statement` (2.0%) and LiaScript's video syntax (0.4%) remain rare. This prevalence of weak indicators created a high false-positive risk, making AI-based validation necessary to distinguish genuine LiaScript courses from documents that merely mention LiaScript.
+
+### Phase 3: AI-Based Validation
+
+To distinguish genuine LiaScript courses from documents merely mentioning LiaScript (tutorials about LiaScript, blog posts, documentation), we implemented an LLM-based validation stage.
+
+#### Model Configuration
+
+The validation process employed the llama3.3:70b [^llama3.3] model running on a local Ollama instance with temperature set to 0 to ensure deterministic classification. For the AI-based metadata extraction, an Nvidia DGX-2 system was available, equipped with 16 Tesla V100 GPUs (32GB HBM2 each) providing 512GB total GPU memory and 2 petaFLOPS of processing power, interconnected via NVSwitch technology enabling 2.4 TB/s bisection bandwidth. Each file was analyzed based on its first 8,000 characters, performing a binary classification task to determine whether the content represents a genuine LiaScript course (TRUE) or not (FALSE), with a timeout of 120 seconds per file to prevent processing bottlenecks.
+
+[^llama3.3]:Model reference https://ollama.com/library/llama3.3
+
+#### Validation Prompt Design
+
+The LLM was instructed to classify files by distinguishing genuine LiaScript course materials—characterized by specific metadata headers (e.g., narrator:, import:, version:), distinctive syntax elements (`@eval`, `[[ ]] quizzes`, `<script>@input</script>`, `!?[]()`), interactive structural layouts, and template imports—from false positives such as tutorials about using LiaScript, blog posts, documentation, README files, or general Markdown documents that merely mention "LiaScript". For edge cases where "LiaScript" appeared in filenames or `H1` headings, the LLM was tasked with determining whether the document was a tutorial about LiaScript (to be rejected) or an actual course created with LiaScript (to be accepted).
+
+The actual prompt is available in project repository [^validateLiaScript]
+
+[^validateLiaScript]:Project repository [`validateLiaScript.py`](https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation/blob/c47b51ef974b98b14c168fadeef59ed55d9d8143/cl-pipeline/stages/liascript/validateLiaScript.py#L74)
+
+#### AI Rejection Analysis
+
+To verify the AI validation's effectiveness, we manually inspected rejected files. The AI successfully distinguished between genuine LiaScript courses and non-course content that merely mentioned LiaScript.
+
+**Examples of correctly rejected content:**
+
+- **Tool documentation** ([`education_modules`](https://github.com/UNIZG-FERIT/education_modules)): Quality assurance guides and development checklists describing **how to create** LiaScript courses—not actual course content. Despite containing LiaScript-specific indicators, the AI correctly identified these as meta-documentation rather than teaching materials.
+- **Vendor documentation** ([`ditap-curriculum-update`](https://github.com/DITAP/ditap-curriculum-update)): Implementation guides discussing LiaScript as a platform choice in project planning documents. The AI correctly rejected these technical decision documents that reference LiaScript without being actual courses.
+
+These examples demonstrate that the AI validation effectively filtered false positives even when LiaScript-specific syntax or terminology appeared in the content.
+
+### Metadata Extraction
+
+For each validated LiaScript course, we extracted metadata from five complementary sources: Git repository information, general file content analysis, LiaScript header fields, LiaScript syntax features, and AI-generated metadata. Table 5 provides a comprehensive overview of all extracted fields organized by category.
+
+#### Git Repository
+
+We leveraged the Git version control system to extract collaboration and temporal metadata. Using the repository's commit history, we identified all contributors (`git:contributors_list`), counted unique authors (`git:author_count`), and tracked development activity through commit counts (`git:commit_count`). Temporal data includes the first and last commit timestamps, enabling analysis of course development timelines and maintenance patterns. Repository-level metrics such as stars, forks, and watchers provide indicators of community engagement, while license information documents the legal terms under which courses are shared.
+
+#### General File Content
+
+Beyond LiaScript-specific parsing, we performed general content analysis on each Markdown file. This includes automated language detection using the `langdetect` library, which identifies the primary language (`pipe:most_prob_language`) with an associated confidence score (`pipe:language_probability`). We also computed basic content metrics: word count (`pipe:content_words`), estimated page count (`pipe:content_pages`), and a content hash (`pipe:content_hash`) for duplicate detection. The full extracted text enables downstream natural language processing tasks.
+
+#### LiaScript Header
+
+LiaScript courses begin with a YAML-style metadata header enclosed in HTML comments. We parsed this header to extract standard fields including `title`, `author`, `email`, `version`, `language`, `narrator` (for text-to-speech configuration), `mode`, and `comment` (course description). Additionally, we captured import statements (`import:`) that reference external LiaScript templates, as well as custom styling through `link:` (CSS) and `script:` (JavaScript) declarations. License information may also be specified via `content_license` and `content_license_url` fields.
+
+Beyond these standard fields, our extraction revealed **specialized metadata tags** developed by individual authors or institutions for structured course collections. These fields demonstrate LiaScript's design for educational content organization:
+
+**Module Metadata** (for course collections):
+
+- Module ID (`lia:module_id`) – Unique module identifier
+- Module type (`lia:module_type`) – Category (tutorial, exercise, reference)
+- Estimated time (`lia:estimated_time_in_minutes`) – Expected completion time
+- Good first module (`lia:good_first_module`) – Beginner-friendly indicator
+- Collection (`lia:collection`) – Course series membership
+- Sequence name (`lia:sequence_name`) – Position within learning path
+
+**Coding Metadata** (for programming courses):
+
+- Coding required (`lia:coding_required`) – Whether programming is necessary
+- Coding level (`lia:coding_level`) – Difficulty (beginner, intermediate, advanced)
+- Coding language (`lia:coding_language`) – Programming language used
+
+**Descriptive Fields:**
+
+- Version description (`lia:current_version_description`) – Version-specific notes
+- Long description (`lia:long_description`) – Extended course description
+- Docs version (`lia:docs_version`) – Documentation version
+- Edit link (`lia:edit`) – Editing reference
+
+These specialized fields enable:
+
+- **Curricular organization**: Modules can be assembled into structured learning paths
+- **Learning time planning**: Estimated completion times support course scheduling
+- **Difficulty differentiation**: Marking entry-level and programming-intensive modules
+- **Domain-specific adaptation**: Enhanced support for coding courses
+
+However, adoption remains limited: only ~3% of courses use `module_id` (114/2,523) and ~2% use `coding_required` (108/2,523). This pattern suggests these tags were developed by specific communities for their institutional course systems, such as the [Arcus Education Modules project](https://github.com/arcus/education_modules), which uses these fields extensively for their structured medical education curriculum.
+
+#### LiaScript Syntax Features
+
+Beyond metadata, we extracted LiaScript-specific syntax features from course content using regex-based pattern matching. This analysis reveals which interactive and multimedia capabilities authors actually utilize in their courses.
+
+**Table 6:** LiaScript Feature Categories and Detection Patterns
+
+| Category | Feature | Detection Pattern | Description |
+| -------- | ------- | ----------------- | ----------- |
+| **Interactive Elements** | Quizzes | `[[ ]]`, `[( )]`, `[[X]]` patterns | Self-assessment questions |
+| | Text quizzes | `[[___]]` pattern | Free-text input fields |
+| | Multiple choice | `[[X]]`, `[[ ]]` combinations | Multi-select questions |
+| | Single choice | `[(X)]`, `[( )]` combinations | Single-select questions |
+| | Quiz hints | `[[?]]` pattern | Contextual help for quizzes |
+| **Multimedia** | Video | `!?[...]()` syntax | LiaScript video embedding |
+| | Audio | `?[...]()` syntax | Audio file embedding |
+| | Images | `![...]()` with analysis | Image references |
+| **Technical Content** | Math formulas | `$...$`, `$$...$$` patterns | LaTeX mathematical notation |
+| | Code blocks | Fenced code with language | Syntax-highlighted code |
+| | Script tags | `<script>` elements | Executable JavaScript |
+| | Animations | `{{ '{{}}' }}` fragment syntax | Step-by-step reveals |
+| **External Resources** | Template imports | `import:` statements | LiaScript template usage |
+| | External scripts | Script URL references | Third-party JavaScript |
+| | External CSS | `link:` statements | Custom stylesheets |
+| **Visualization** | Tables | `|` delimited content | Markdown tables |
+| | LiaViz tables | Data visualization tables | Interactive chart tables |
+| | Mermaid/TikZ | Diagram syntax | Technical diagrams |
+| **Accessibility** | TTS comments | `--{{ '{{}}' }}--` pattern | Narrator speech annotations |
+| | Narrator config | `narrator:` field | Text-to-speech voice |
+
+The feature extraction process analyzed {{ results.descriptive_stats.corpus.total_courses | default('2,751') }} validated courses, identifying 22 distinct feature types. Results are stored in `LiaScript_features.p` with per-document feature vectors and `LiaScript_feature_statistics.p` with aggregate statistics.
+
+#### AI Metadata Generation
+
+To enrich courses lacking explicit metadata, we employed LLM-based extraction and generation. Using the same llama3.3:70b model configuration as for validation, we generated four types of AI metadata: (1) `ai:title` extracts or infers a course title when the header field is missing, (2) `ai:author` identifies author information from content when not explicitly declared, (3) `ai:summary` produces a concise course description, and (4) `ai:dewey` assigns Dewey Decimal Classification codes for subject categorization. Additionally, we performed keyword extraction (`ai:keywords_ext`) from existing content and keyword generation (`ai:keywords_gen`) to enhance discoverability. These AI-generated fields complement rather than replace author-provided metadata, enabling consistent analysis across courses with varying levels of documentation.
+
+## Dataset Description
+
+The application of the described methodology resulted in a comprehensive dataset of LiaScript courses. Our final dataset comprises eight interlinked tables:
+
+| Dataset                    | Rows                                              | Primary Key          | Description                    |
+| -------------------------- | ------------------------------------------------- | -------------------- | ------------------------------ |
+| `LiaScript_repositories.p` | 680                                               | `repo_url`           | Repository metadata            |
+| `LiaScript_files.p`        | 75,260                                            | `pipe:ID`            | All detected files + licenses  |
+| `LiaScript_commits.p`      | {{ results.descriptive_stats.corpus.total_courses | default('2,751') }}  | `pipe:ID`            | Validated courses + collaboration |
+| `LiaScript_metadata.p`     | 2,539                                             | `pipe:ID`            | LiaScript header metadata      |
+| `LiaScript_content.p`      | 2,749                                             | `pipe:ID`            | Full text + language detection |
+| `LiaScript_ai_meta.p`      | {{ results.descriptive_stats.corpus.total_courses | default('~2,751') }} | `pipe:ID`            | AI-generated metadata |
+| `LiaScript_features.p`     | {{ results.descriptive_stats.corpus.total_courses | default('2,751') }}  | `pipe:ID`            | Feature vectors (22 features)  |
+| `LiaScript_feature_statistics.p` | 1                                           | -                    | Aggregate feature statistics   |
+
+All datasets link via the unique identifier `pipe:ID` (SHA256 hash of download URL, first 16 characters). An overview of the data set content is given in Appendix A.
+
+The complete dataset, totaling approximately **XXX MB** in compressed format, is available for download as a ZIP archive in the project repository.
+
+## Implementation
+
+The datasets presented in this study were generated using the **Data_aggregation** pipeline, a modular framework originally developed for extracting and analyzing Open Educational Resources (OER) from the Saxon OPAL learning management system. The pipeline has since been extended to support multiple content sources, including local PDF documents and LiaScript courses from GitHub repositories. For this study, the pipeline implements the three-phase methodology described above (repository discovery, indicator-based pre-selection, and AI-based validation) and handles metadata extraction, Git history analysis, and AI-powered content classification.
+
+The pipeline is fully configurable through YAML configuration files, allowing researchers to customize data sources, processing stages, validation criteria, and output formats without modifying the source code. The complete configuration used for this study, including all search parameters, indicator definitions, AI validation prompts, and metadata extraction settings, is documented in the [`full.yaml`](https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation/blob/main/cl-pipeline/run/pipelines/liascript/config/full.yaml) configuration file.
+
+The data collection and analysis for this study was conducted in December 2025. The entire process, including data aggregation, preprocessing, and AI-based analysis, required approximately 4 days of processing time. Reproducibility of the study is ensured through the publicly available repository, comprehensive installation instructions, and detailed configuration guidelines.
+
+The complete pipeline source code, including all stage implementations, configuration files, and documentation, is publicly available at [Github](https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation).
+
+## Ethical Considerations
+
+All analyzed repositories are publicly accessible on GitHub, ensuring transparency and reproducibility of our research. While repository owners and contributors remain identifiable through their public repositories, we do not individually name them without explicit consent. Our analysis focuses exclusively on repository metadata and does not include user profiles or private information. Furthermore, we strictly respect repository licenses in all aspects of data usage and reporting.

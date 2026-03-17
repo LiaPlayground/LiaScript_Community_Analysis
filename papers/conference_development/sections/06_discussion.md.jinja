@@ -1,0 +1,66 @@
+# Discussion
+
+## Implications for LiaScript Development
+
+Our segment analysis reveals clear development priorities with different target audiences:
+
+### 1. Empower Power Users (High Priority)
+
+{% if results.user_segmentation.author_segmentation %}
+Power users ({{ results.user_segmentation.author_segmentation.categories.power_user.author_share | pct }} of authors) create {{ results.user_segmentation.author_segmentation.categories.power_user.course_share | pct }} of all courses. Their productivity drives ecosystem growth.
+{% endif %}
+
+**Recommended Features:**
+- **Batch course management:** Tools to update, publish, and manage multiple courses
+- **CI/CD integration:** Automated workflows for course publishing and validation
+- **Advanced template inheritance:** Nested templates, parameterization, composition
+- **Course analytics dashboard:** Visibility into course usage and engagement
+
+### 2. Lower Entry Barriers (Medium Priority)
+
+One-time and occasional authors represent the largest group but contribute minimally. Many may abandon LiaScript due to initial friction.
+
+**Recommended Features:**
+- **Quick-start templates:** Pre-configured templates for common use cases (lecture notes, exercises, tutorials)
+- **Guided onboarding:** Interactive wizard in the LiaScript editor
+- **Template gallery:** Searchable repository organized by discipline and complexity
+- **Simplified preview:** Faster feedback loop for new authors
+
+### 3. Expand Template Ecosystem (Medium Priority)
+
+Template imports are heavily used by active authors, indicating demand for reusable components.
+
+**Recommended Features:**
+- **Template registry:** Centralized, searchable template repository
+- **Template versioning:** Semantic versioning with update notifications
+- **Domain-specific packs:** Pre-built template bundles (STEM, humanities, languages)
+- **Template documentation:** Standardized README format with usage examples
+
+### 4. Address the Licensing Gap
+
+Only {{ results.license_analysis.oer_compliance.oer_compliance_rate | default(0.17) | pct }} of courses use OER-compliant licenses—a critical barrier to reuse.
+
+**Recommended Features:**
+- **License selection in templates:** Default templates prompt for license choice
+- **License badges:** Visual indicators in rendered courses
+- **OER compliance checker:** Automated validation against OER standards
+
+## Broader Applicability
+
+Our methodology is applicable to other OER platforms facing similar challenges:
+
+1. **Productivity-based segmentation** requires only contribution counts—widely available data
+2. **Feature analysis** can be adapted to any platform with trackable features
+3. **Priority derivation** follows a replicable logic: high-volume segments warrant automation, low-volume segments need simplification
+
+### Limitations
+
+- **Correlation, not causation:** We cannot prove that implementing recommendations will improve outcomes
+- **Quantitative only:** Qualitative interviews would reveal motivations behind observed patterns
+- **Single platform:** Generalization to other platforms requires validation
+
+## Future Work
+
+1. **Longitudinal tracking:** Do one-time authors become regular contributors? What interventions help?
+2. **A/B testing:** Implement recommendations and measure impact on author retention
+3. **Comparative analysis:** Apply methodology to other OER platforms (Jupyter, OpenStax)

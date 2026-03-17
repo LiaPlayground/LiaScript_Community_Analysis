@@ -1,0 +1,50 @@
+# Methodology
+
+## User Segmentation Approach
+
+We segment LiaScript authors based on **productivity** (number of courses created), which is:
+- **Observable:** Directly measurable from repository data
+- **Meaningful:** Reflects engagement level and usage patterns
+- **Actionable:** Enables targeted development recommendations
+
+### Segment Definitions
+
+| Segment | Definition | Rationale |
+|---------|------------|-----------|
+| One-Time Author | 1 course | Testers, students, one-off users |
+| Occasional Author | 2–5 courses | Educators with limited LiaScript use |
+| Regular Author | 6–20 courses | Active educators building a course portfolio |
+| Active Author | 21–100 courses | Heavy users, potentially course developers |
+| Power User | >100 courses | Institutional projects, automated generation |
+
+### Feature Usage Analysis
+
+For each segment, we analyze:
+
+1. **Feature adoption rates:** Percentage of courses using each LiaScript feature
+2. **Feature preferences:** Features used significantly more/less than average
+3. **Course characteristics:** Length, complexity, update frequency
+
+### Development Priority Derivation
+
+Recommendations are derived by:
+
+1. **Identifying segment-specific needs** from feature patterns
+2. **Weighting by impact:** Prioritizing changes that benefit high-volume segments
+3. **Considering ecosystem health:** Balancing power user needs with newcomer accessibility
+
+## Data Sources
+
+| Source | Description |
+|--------|-------------|
+| `contributors_list` | Git commit authors per course |
+| `liaIndi_*` columns | Binary feature indicators (12 features) |
+| `pipe:content_words` | Course length in words |
+| `first_commit`, `last_commit` | Temporal activity data |
+| `repo_license_spdx` | License information |
+
+## Limitations
+
+- **Productivity ≠ Expertise:** High output may indicate automation, not skill
+- **Observable behavior only:** We cannot infer motivations or satisfaction
+- **GitHub-only:** Authors on other platforms are not captured

@@ -1,0 +1,70 @@
+# Explore the Data
+
+Dive deeper into the LiaScript ecosystem data.
+
+## Summary of Key Findings
+
+| Finding | Value |
+|---------|-------|
+| Total courses analyzed | {{ stats.total_courses }} |
+| Explosive growth in 2025 | {{ stats.growth_2025_percent }}% |
+| Dominant language | German ({{ stats.german_percent }}%) |
+| Single-author courses | {{ stats.single_author_percent }}% |
+| Template usage | {{ stats.template_usage_percent }}% |
+| OER-compliant licensing | {{ stats.oer_compliant_percent }}% |
+| One-shot courses | {{ stats.oneshot_percent }}% |
+
+---
+
+## Data Availability
+
+The complete dataset is available for research:
+
+- **Courses:** {{ stats.total_courses }} validated LiaScript documents
+- **Format:** Pickle files (Python)
+- **Size:** ~{{ stats.dataset_size_mb }} MB compressed
+
+**Repository:** [GitHub - LiaScript Paper](https://github.com/TUBAF-IFI-ConnectedLecturer/LiaScript_Paper)
+
+---
+
+## Methodology
+
+Our three-phase approach:
+
+```text
+Phase 1: Repository Discovery
+├── GitHub API searches
+├── Repository-level patterns
+└── Code-level patterns
+          ↓
+Phase 2: Indicator-Based Pre-Selection
+├── 10 LiaScript indicators
+├── Strong vs. weak classification
+└── 75,260 candidates identified
+          ↓
+Phase 3: AI-Based Validation
+├── llama3.3:70b model
+├── Binary classification
+└── {{ stats.total_courses }} validated courses
+```
+
+---
+
+## Thank You!
+
+{% raw %}    {{1}}{% endraw %}
+This course was created using the same technology it studies—demonstrating LiaScript's capabilities for interactive educational content.
+
+{% raw %}    {{2}}{% endraw %}
+**Learn more:**
+- [LiaScript Website](https://liascript.github.io)
+- [LiaScript Documentation](https://liascript.github.io/course/?https://raw.githubusercontent.com/liaScript/docs/master/README.md)
+- [Research Paper](link-to-paper)
+
+{% raw %}    {{3}}{% endraw %}
+> **Created by:** Sebastian Zug, André Dietrich, Ines Aubel
+>
+> TU Bergakademie Freiberg, Germany
+
+

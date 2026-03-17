@@ -1,0 +1,532 @@
+# Results
+
+This section presents the results of our empirical study on the LiaScript ecosystem, structured around our five primary research questions (RQs). Each subsection corresponds to a specific RQ and its associated sub-questions, providing detailed analyses and findings derived from our comprehensive dataset of LiaScript courses.
+
+## RQ1: Adoption and Scope
+
+*How large and diverse is the LiaScript ecosystem?*
+
+### RQ1.1: Ecosystem Scope
+
+*What is the overall size of the LiaScript corpus in terms of courses, repositories, and contributors?*
+
+This section presents the findings from our comprehensive analysis of {{ results.descriptive_stats.corpus.total_courses | default(2751) | large }} validated LiaScript courses, organized by research question.
+
+First of all, we would like to highlight the overall growth of the LiaScript ecosystem over time. Figure 1 presents the cumulative development of the LiaScript ecosystem from 2018 to 2025, showing both the number of courses and the number of contributors (committers) over time.
+
+![Cumulative development of LiaScript courses and users (2018-2025)](../figures/fig_cumulative_growth.png){width=80%}
+
+The data reveals exponential growth patterns for both metrics. Starting from a small base in 2018, the ecosystem has grown to encompass over 2,500 courses created by approximately 300 contributors by the end of 2025. Notably, the growth accelerated significantly in 2025, with 64% of all investigated courses created in that year alone—representing a 288% increase compared to 2024.
+
+### RQ1.2: Thematic Distribution
+
+*What is the thematic distribution across academic disciplines?*
+
+{% if results.descriptive_stats.ddc_distribution %}
+The Dewey Decimal Classification (DDC) is a widely used library classification system that organizes knowledge into ten main classes, each identified by a three-digit number. Using AI-assisted classification (LLM-based), we categorized courses into DDC top-level categories to provide an overview of dominant disciplines:
+
+{% set ddc_names = {
+  '000': 'Computer Science, Information & General Works',
+  '100': 'Philosophy & Psychology',
+  '200': 'Religion',
+  '300': 'Social Sciences',
+  '400': 'Language',
+  '500': 'Science',
+  '600': 'Technology',
+  '700': 'Arts & Recreation',
+  '800': 'Literature',
+  '900': 'History & Geography'
+} %}
+| DDC Category | Courses | Percentage |
+|--------------|---------|------------|
+{% for ddc, count in (results.descriptive_stats.ddc_distribution.items() | sort(attribute='1', reverse=True))[:10] %}
+| {{ ddc }} - {{ ddc_names.get(ddc, 'Unknown') }} | {{ count | large }} | {{ (count / results.descriptive_stats.ddc_coverage.courses_with_ddc) | pct }} |
+{% endfor %}
+
+The AI classifier assigned up to three DDC categories per course with confidence scores. Analysis of classification consistency reveals that 65.4% of courses received all classifications within the same top-level category, while 34.6% span multiple categories—reflecting either interdisciplinary content or classification uncertainty. The average confidence score for primary classifications was 0.85, decreasing to 0.66 for secondary and 0.54 for tertiary assignments.
+
+**Limitations:** This classification should be interpreted as a high-level thematic overview rather than precise subject categorization. The AI-based approach has inherent limitations: (1) confidence scores follow discrete steps rather than continuous values, suggesting simplified LLM output patterns; (2) only the primary classification is shown in the table above, potentially underrepresenting interdisciplinary courses; (3) no manual validation of classifications was performed; and (4) short or ambiguous course content may lead to unreliable categorizations. The dominance of Science (500) and Computer Science (000) categories aligns with LiaScript's technical origins but may also reflect classifier bias toward STEM terminology.
+
+{% if results.descriptive_stats.ddc_coverage %}
+*Note: DDC classification was performed on validated LiaScript courses only. {{ results.descriptive_stats.ddc_coverage.courses_with_ddc | large }} courses were successfully classified.*
+{% endif %}
+{% endif %}
+
+### RQ1.3: Geographic and Linguistic Distribution
+
+*What is the geographic and linguistic reach of the ecosystem?*
+
+{% if results.descriptive_stats.language_diversity %}
+The corpus exhibits strong linguistic diversity with **{{ results.descriptive_stats.language_diversity.unique_languages }} different languages** detected across {{ results.descriptive_stats.corpus.total_courses | default(2751) | large }} courses. German dominates with 47.7% of courses, followed by English (33.6%) and Portuguese (6.3%). This distribution reflects both LiaScript's origins at German universities and its growing international adoption.
+{% endif %}
+
+![Relationship between number of authors and courses per language](../figures/fig_language_scatterplot.png){width=85%}
+
+Figure X visualizes the relationship between author count and course output across languages. The scatter plot reveals distinct community patterns: Welsh (cy) and Dutch (nl) show large bubble sizes indicating high productivity per author (38 and 33 courses from single contributors, respectively), while Italian (it) and Estonian (et) display smaller bubbles representing distributed communities with lower per-author output. German and English dominate both dimensions, positioned in the upper right quadrant. The diagonal reference line represents the corpus average of approximately 9.2 courses per author.
+
+**Multilingual Authors:** A notable finding is that **57 authors (19.1%)** contribute content in multiple languages. The most prolific multilingual contributor works across 9 languages, while German-English bilingual authors form the largest group (29 authors). Other common language pairs include English-Estonian (10 authors), Catalan-English (7), English-French (7), and Catalan-German (7). This multilingual activity suggests that educators adapt their materials for different audiences or institutional contexts.
+
+**Translated and Localized Content:** We identified **73 repositories** containing courses in two or more languages, indicating deliberate translation or localization efforts. Notable examples include:
+
+- The "Aufgabensammlung" (MINT-the-GAP) repository with content in 9 languages
+- Several German university projects offering parallel German and English versions
+- Institutional training materials with French, English, and German variants
+
+These translation patterns highlight LiaScript's potential for creating multilingual Open Educational Resources, though the relatively small number of translated repositories (2.7% of all courses) suggests that systematic localization remains an underutilized practice.
+
+**Geographic Implications:** While we cannot determine authors' physical locations, the language distribution suggests strong adoption in German-speaking countries (Germany, Austria, Switzerland), followed by anglophone regions and Lusophone countries (particularly Brazil, based on repository naming patterns). The presence of Estonian, Welsh, and Catalan content indicates adoption by smaller language communities, potentially for language preservation or local educational initiatives.
+
+### RQ1.4: Author Concentration
+
+*How concentrated is authorship among contributors?*
+
+**Note on Author Identification:** We distinguish between two author definitions: (1) **declared authors** extracted from LiaScript metadata headers (`lia:author` field), and (2) **repository owners** identified via GitHub usernames (`repo_user`). Our dataset contains {{ results.descriptive_stats.corpus.total_authors | large }} unique repository owners, but only **{{ results.descriptive_stats.author_concentration.total_unique_authors | large }} declared authors** in the course metadata. This discrepancy arises because not all repository owners declare authorship in their courses, and some courses are hosted in shared repositories (e.g., institutional accounts).
+
+{% if results.descriptive_stats.author_concentration %}
+{% set ac = results.descriptive_stats.author_concentration %}
+Among the {{ ac.total_unique_authors | large }} unique declared authors identified across {{ ac.total_courses_with_authors | large }} courses with author attribution, the median contribution is just {{ ac.median_courses_per_author | num(0) }} course (mean: {{ ac.mean_courses_per_author | num(1) }}), while the most prolific author created {{ ac.max_courses_per_author | large }} courses. The top 5 authors alone account for {{ ac.top5_share | pct }} of all courses, and the top 10% of authors ({{ (ac.total_unique_authors * 0.10) | int }} individuals) contribute {{ ac.top10pct_share | pct }} of the entire corpus.
+
+Hence, the LiaScript ecosystem shows a **highly concentrated authorship pattern** with a Gini coefficient of **{{ ac.gini_coefficient | num(2) }}** (where 0 represents perfect equality and 1 represents maximum concentration).
+
+**Author Categories:**
+
+We categorize authors based on their contribution levels to differentiate between testers, occasional users, and power users:
+
+| Category | Courses | Authors | % of Authors | % of Courses |
+|----------|---------|---------|--------------|--------------|
+| Tester (1 course) | 1 | {{ ac.author_categories.tester | large }} | {{ ac.author_category_rates.tester_rate | pct }} | {{ ac.course_contribution_rates.tester_course_rate | pct }} |
+| Occasional (2-5 courses) | 2-5 | {{ ac.author_categories.occasional | large }} | {{ ac.author_category_rates.occasional_rate | pct }} | {{ ac.course_contribution_rates.occasional_course_rate | pct }} |
+| Regular (6-20 courses) | 6-20 | {{ ac.author_categories.regular | large }} | {{ ac.author_category_rates.regular_rate | pct }} | {{ ac.course_contribution_rates.regular_course_rate | pct }} |
+| Active (21-50 courses) | 21-50 | {{ ac.author_categories.active | large }} | {{ ac.author_category_rates.active_rate | pct }} | {{ ac.course_contribution_rates.active_course_rate | pct }} |
+| Power User (>50 courses) | >50 | {{ ac.author_categories.power_user | large }} | {{ ac.author_category_rates.power_user_rate | pct }} | {{ ac.course_contribution_rates.power_user_course_rate | pct }} |
+
+**Key Finding:** The distribution follows a classic power-law pattern: while **{{ ac.author_category_rates.tester_rate | pct }}** of authors are testers with only a single course, the **{{ ac.author_categories.power_user }}** power users ({{ ac.author_category_rates.power_user_rate | pct }} of authors) contribute **{{ ac.course_contribution_rates.power_user_course_rate | pct }}** of all courses.
+
+{% if results.descriptive_stats.top_authors %}
+**Top Contributors:**
+
+| Rank | Author | Courses | Share |
+|------|--------|---------|-------|
+{% for author, count in (results.descriptive_stats.top_authors.items() | list)[:5] %}
+| {{ loop.index }} | {{ author }} | {{ count | large }} | {{ (count / ac.total_courses_with_authors) | pct }} |
+{% endfor %}
+{% endif %}
+{% endif %}
+
+### RQ1.5: Education Levels and Target Audiences
+
+*Which education levels are primarily addressed?*
+
+{% if results.descriptive_stats.education_levels %}
+{% set edu_total = results.descriptive_stats.education_level_coverage.courses_with_education_level %}
+AI-based classification reveals that LiaScript courses predominantly target **higher education** and **secondary education**:
+
+| Education Level | Courses | Percentage | Example |
+|-----------------|---------|------------|---------|
+| Hochschulbildung | {{ results.descriptive_stats.education_levels.get('Hochschulbildung', 0) | large }} | {{ (results.descriptive_stats.education_levels.get('Hochschulbildung', 0) / edu_total) | pct }} | [Einführung in Git und GitHub](https://github.com/dscroft/wm9QF_programming_for_artificial_intelligence_labs/blob/main/git_cli_vs_gui/git_cli_vs_gui.md) |
+| Sekundarstufe I | {{ results.descriptive_stats.education_levels.get('Sekundarstufe I', 0) | large }} | {{ (results.descriptive_stats.education_levels.get('Sekundarstufe I', 0) / edu_total) | pct }} | [Wahrscheinlichkeitsrechnung](https://github.com/MINT-the-GAP/Aufgabensammlung/blob/main/06_Stochastik/01_Grundlagen/Aufgabe_0030.md) |
+| Sekundarstufe II | {{ results.descriptive_stats.education_levels.get('Sekundarstufe II', 0) | large }} | {{ (results.descriptive_stats.education_levels.get('Sekundarstufe II', 0) / edu_total) | pct }} | [Eigenschaften von Funktionen](https://github.com/MINT-the-GAP/Aufgabensammlung/blob/main/05_Differentiation_und_Integration/03_Funktionseigenschaften/Aufgabe_0001.md) |
+| Berufsbildung | {{ results.descriptive_stats.education_levels.get('Berufsbildung', 0) | large }} | {{ (results.descriptive_stats.education_levels.get('Berufsbildung', 0) / edu_total) | pct }} | [Grundkurs SHK-Anlagenmechaniker](https://github.com/Ifi-DiAgnostiK-Project/LiaScript-Courses/blob/main/courses/GIH1.md) |
+| Primarstufe | {{ results.descriptive_stats.education_levels.get('Primarstufe', 0) | large }} | {{ (results.descriptive_stats.education_levels.get('Primarstufe', 0) / edu_total) | pct }} | [Vokabeln der Grundrechenarten](https://github.com/MINT-the-GAP/Aufgabensammlung/blob/main/01_Algebraische_Grundlagen/01_Grundrechenarten/Aufgabe_0033.md) |
+| Weiterbildung | {{ results.descriptive_stats.education_levels.get('Weiterbildung', 0) | large }} | {{ (results.descriptive_stats.education_levels.get('Weiterbildung', 0) / edu_total) | pct }} | [GitHub Controls und Zusammenarbeit](https://github.com/OVGU-VET-TechEd/ASSET_AI_Learning_Nuggets/blob/main/GitHub%20Learning%20Nuggets/GitHub-SCORM%20Nugget%202-V1.md) |
+| Nicht spezifisch | {{ results.descriptive_stats.education_levels.get('Nicht spezifisch', 0) | large }} | {{ (results.descriptive_stats.education_levels.get('Nicht spezifisch', 0) / edu_total) | pct }} | — |
+
+**Interpretation:** The dominance of higher education ({{ results.descriptive_stats.education_levels.get('Hochschulbildung', 0) | large }} courses, {{ (results.descriptive_stats.education_levels.get('Hochschulbildung', 0) / edu_total) | pct }}) reflects LiaScript's origins in university teaching, while the significant presence of secondary education content ({{ (results.descriptive_stats.education_levels.get('Sekundarstufe I', 0) + results.descriptive_stats.education_levels.get('Sekundarstufe II', 0)) | large }} courses, {{ ((results.descriptive_stats.education_levels.get('Sekundarstufe I', 0) + results.descriptive_stats.education_levels.get('Sekundarstufe II', 0)) / edu_total) | pct }}) indicates growing adoption in schools—largely driven by the MINT-the-GAP project, which contributes a substantial collection of mathematics exercises for secondary education.
+
+**Limitations:** The AI-based classification should be interpreted with caution. The distinction between education levels—particularly between Sekundarstufe I and II—is often ambiguous, as course content may be suitable for multiple levels. Furthermore, the classifier tends to infer education levels from linguistic complexity and topic rather than explicit metadata, which may lead to misclassifications for interdisciplinary or adaptable materials. No manual validation of the classifications was performed.
+
+*Note: Education level classification was performed using AI-based analysis on {{ edu_total | large }} validated courses.*
+{% endif %}
+
+---
+
+## RQ2: Content Characteristics
+
+*What interactive features are used in LiaScript courses?*
+
+### RQ2.1: Course Length and Structure
+
+*What are typical course lengths and structures?*
+
+{% if results.descriptive_stats.content_length %}
+![Course Length Distribution (word count)](../figures/fig_course_length.png){width=90%}
+
+The corpus shows substantial variation in course length, measured by word count:
+
+| Metric | Value |
+|--------|-------|
+| Median | {{ results.descriptive_stats.content_length.median_words | num(0) }} words |
+| Mean | {{ results.descriptive_stats.content_length.mean_words | num(0) }} words |
+| Std Dev | {{ results.descriptive_stats.content_length.std_words | num(0) }} words |
+| Q25 | {{ results.descriptive_stats.content_length.q25 | num(0) }} words |
+| Q75 | {{ results.descriptive_stats.content_length.q75 | num(0) }} words |
+| Maximum | {{ results.descriptive_stats.content_length.max_words | large }} words |
+
+The large difference between mean and median indicates a **right-skewed distribution**: most courses are relatively short (median ~{{ results.descriptive_stats.content_length.median_words | num(0) }} words), while a few comprehensive courses contain tens of thousands of words.
+
+{% if results.feature_analysis.length_vs_features %}
+**Course Length and Feature Adoption:**
+
+![Course Length vs. Feature Count Correlation](../figures/fig_length_vs_features.png){width=90%}
+
+We examined whether longer courses utilize more LiaScript features. The analysis reveals a {% if results.feature_analysis.length_vs_features.is_significant %}statistically significant{% else %}non-significant{% endif %} correlation between course length and feature count:
+
+- **Spearman ρ:** {{ results.feature_analysis.length_vs_features.correlation | num(3) }}
+- **p-value:** {{ results.feature_analysis.length_vs_features.p_value | num(4) }}
+- **n:** {{ results.feature_analysis.length_vs_features.n_samples | large }}
+
+Grouping courses by length terciles shows a clear pattern:
+
+| Category | Median Features |
+|----------|-----------------|
+| Short courses | {{ results.feature_analysis.length_vs_features.short_median_features | num(1) }} |
+| Medium courses | {{ results.feature_analysis.length_vs_features.medium_median_features | num(1) }} |
+| Long courses | {{ results.feature_analysis.length_vs_features.long_median_features | num(1) }} |
+
+**Interpretation:** {% if results.feature_analysis.length_vs_features.correlation > 0.1 %}Longer courses tend to incorporate more interactive LiaScript features, suggesting that authors of comprehensive materials invest more effort in leveraging the platform's capabilities.{% else %}The weak correlation suggests that feature adoption is largely independent of course length—short courses can be highly interactive, while long courses may rely primarily on text.{% endif %}
+{% endif %}
+{% endif %}
+
+### RQ2.2: Interactive Feature Adoption
+
+*Which interactive features are most commonly adopted?*
+
+{% if results.feature_analysis.feature_usage %}
+Our analysis of {{ results.feature_analysis.feature_usage | length }} distinct LiaScript features reveals high adoption of interactive elements:
+
+**Table X:** Feature Adoption Rates
+
+| Feature | Courses | Adoption Rate |
+|---------|---------|---------------|
+{% for feature, data in (results.feature_analysis.feature_usage.items() | sort(attribute='1.rate', reverse=True))[:12] %}
+| {{ feature | replace('_', ' ') | title }} | {{ data.count | large }} | {{ data.rate | pct }} |
+{% endfor %}
+
+**Key Findings:**
+- **Template imports** enable code reuse ({{ results.feature_analysis.feature_usage.get('import_statement', {}).get('rate', 0.02) | pct }})
+- **Text-to-Speech** supports accessibility ({{ results.feature_analysis.feature_usage.get('narrator_statement', {}).get('rate', 0.017) | pct }})
+- **Video content** enriches learning materials ({{ results.feature_analysis.feature_usage.get('video_syntax', {}).get('rate', 0.004) | pct }})
+- **Version control** indicates maintained courses ({{ results.feature_analysis.feature_usage.get('version_statement', {}).get('rate', 0.033) | pct }})
+{% endif %}
+
+### RQ2.3: Template and Extension Usage
+
+*How prevalent is template usage for code reuse?*
+
+{% if results.feature_analysis.template_usage %}
+**{{ results.feature_analysis.template_usage.courses_using_templates | large }} courses ({{ results.feature_analysis.template_usage.template_usage_rate | pct }})** use the LiaScript template system to import reusable components.
+
+A key aspect of LiaScript's extensibility is its template system, allowing authors to import reusable functionality. We extracted all `import:` statements and analyzed template usage patterns across the corpus, identifying **79 unique templates** in active use.
+
+**Table X:** Most Frequently Used LiaScript Templates (Top 10)
+
+| Rank | Template | Usage | Description |
+| ---- | -------- | ----- | ----------- |
+| 1 | Tikz-Jax | {{ "%.1f" % ((1100/2751)*100) }}% | LaTeX/TikZ diagram rendering |
+| 2 | Algebrite | {{ "%.1f" % ((376/2751)*100) }}% | Computer algebra system |
+| 3 | GGBScript | {{ "%.1f" % ((234/2751)*100) }}% | GeoGebra integration |
+| 4 | Arcus Macros | {{ "%.1f" % ((100/2751)*100) }}% | Medical education macros |
+| 5 | ABCjs | {{ "%.1f" % ((66/2751)*100) }}% | Music notation rendering |
+| 6 | CodeRunner | {{ "%.1f" % ((54/2751)*100) }}% | Remote code execution |
+| 7 | DragAndDrop | {{ "%.1f" % ((43/2751)*100) }}% | Interactive drag-and-drop |
+| 8 | Mermaid | {{ "%.1f" % ((42/2751)*100) }}% | Diagram generation |
+| 9 | Pyodide | {{ "%.1f" % ((39/2751)*100) }}% | Python in browser |
+| 10 | KekuleJS | {{ "%.1f" % ((28/2751)*100) }}% | Chemistry visualization |
+
+Template usage reveals discipline-specific patterns: mathematics and natural sciences favor Tikz-Jax (40%) and Algebrite (14%), while programming courses utilize CodeRunner (2%) and Pyodide (1.4%) for executable code. The Arcus medical education project contributes specialized macros used across their curriculum modules.
+
+**Key Finding:** TikZ-Jax (LaTeX graphics) and Algebrite (computer algebra) dominate template usage, reflecting the strong presence of STEM content in the corpus.
+{% endif %}
+
+### RQ2.4: Feature Complexity by Discipline
+
+*How does feature complexity vary across disciplines?*
+
+{% if results.feature_analysis.feature_diversity %}
+**Feature Diversity Metrics:**
+- Mean features per course: **{{ results.feature_analysis.feature_diversity.mean_features_per_course | num(1) }}**
+- Median features per course: **{{ results.feature_analysis.feature_diversity.median_features_per_course | num(0) }}**
+- Maximum features in single course: **{{ results.feature_analysis.feature_diversity.max_features }}**
+- Courses with no advanced features: **{{ results.feature_analysis.feature_diversity.courses_with_no_features }}** ({{ (results.feature_analysis.feature_diversity.courses_with_no_features / results.descriptive_stats.corpus.total_courses) | pct }})
+
+**Figure X:** Feature Usage Heatmap by Discipline
+
+![Feature Heatmap](../figures/fig_feature_heatmap.png){width=90%}
+{% endif %}
+
+{% if results.feature_analysis.features_by_discipline %}
+Feature adoption varies significantly across disciplines, with computer science and mathematics courses showing the highest feature diversity.
+{% endif %}
+
+### RQ2.5: Accessibility Features
+
+*To what extent are accessibility features utilized?*
+
+{% if results.feature_analysis.tts_usage %}
+LiaScript's built-in text-to-speech (TTS) capability provides accessibility support:
+
+| Accessibility Feature | Courses | Adoption Rate |
+|-----------------------|---------|---------------|
+| Narrator configured | {{ results.feature_analysis.tts_usage.courses_using_tts | large }} | {{ results.feature_analysis.tts_usage.tts_usage_rate | pct }} |
+{% if results.feature_analysis.feature_usage.tts_comments %}
+| TTS comments | {{ results.feature_analysis.feature_usage.tts_comments.count | large }} | {{ results.feature_analysis.feature_usage.tts_comments.percentage | pct }} |
+{% endif %}
+
+**Finding:** Nearly half of all courses configure text-to-speech narration, indicating awareness of accessibility needs among LiaScript authors.
+{% endif %}
+
+---
+
+## RQ3: Collaboration Patterns
+
+*How are LiaScript courses collaboratively created?*
+
+### RQ3.1: Single vs. Multi-Author Distribution
+
+*What is the distribution of single-author versus multi-author courses?*
+
+{% if results.collaboration_analysis.authorship_distribution %}
+**Figure X:** Authorship Distribution
+
+![Authorship Distribution](../figures/fig_authorship.png){width=70%}
+
+| Authorship Type | Courses | Percentage |
+|-----------------|---------|------------|
+| Single-author | {{ results.collaboration_analysis.authorship_distribution.single_author | large }} | {{ results.collaboration_analysis.authorship_distribution.single_author_rate | pct }} |
+| Multi-author (2+) | {{ results.collaboration_analysis.authorship_distribution.multi_author | large }} | {{ results.collaboration_analysis.authorship_distribution.multi_author_rate | pct }} |
+
+- **Mean authors per course:** {{ results.collaboration_analysis.authorship_distribution.mean_authors | num(2) }}
+- **Maximum authors:** {{ results.collaboration_analysis.authorship_distribution.max_authors }}
+
+**Key Finding:** The overwhelming dominance of single-author courses ({{ results.collaboration_analysis.authorship_distribution.single_author_rate | pct }}) suggests that LiaScript course development is primarily an individual activity, despite GitHub's collaborative infrastructure.
+{% endif %}
+
+### RQ3.2: Collaboration and Complexity
+
+*What co-authorship patterns and networks exist?*
+
+{% if results.collaboration_analysis.collaboration_vs_length %}
+We examined whether collaborative authorship correlates with course complexity:
+
+**Correlation Analysis (author count vs. course length):**
+- **Spearman ρ:** {{ results.collaboration_analysis.collaboration_vs_length.correlation | num(3) }}
+- **p-value:** {{ results.collaboration_analysis.collaboration_vs_length.p_value | num(4) }}
+- **Significance:** {% if results.collaboration_analysis.collaboration_vs_length.is_significant %}Yes (p < 0.05){% else %}No (p ≥ 0.05){% endif %}
+
+{% if results.collaboration_analysis.length_by_authorship %}
+**Median Course Length by Authorship:**
+
+| Authorship Type | Median Length (words) |
+|-----------------|----------------------|
+| Single-author | {{ results.collaboration_analysis.length_by_authorship.single_author_median | num(0) }} |
+| Multi-author | {{ results.collaboration_analysis.length_by_authorship.multi_author_median | num(0) }} |
+{% endif %}
+{% endif %}
+
+---
+
+## RQ4: Temporal Patterns and Lifecycle
+
+*How do LiaScript courses evolve over time?*
+
+### RQ4.1: Adoption Timeline
+
+*What is the adoption timeline from LiaScript's inception?*
+
+{% if results.temporal_analysis.adoption_timeline %}
+| Year | New Courses | Cumulative |
+|------|-------------|------------|
+{% for year, count in results.temporal_analysis.adoption_timeline | dictsort %}
+| {{ year }} | {{ count | large }} | {% set ns = namespace(sum=0) %}{% for y, c in results.temporal_analysis.adoption_timeline | dictsort %}{% if y <= year %}{% set ns.sum = ns.sum + c %}{% endif %}{% endfor %}{{ ns.sum | large }} |
+{% endfor %}
+
+**Key Finding:** The data reveals **explosive growth in 2024-2025**, with the majority of courses created in the past two years. This represents a dramatic acceleration after steady but modest growth from 2018-2023.
+{% endif %}
+
+### RQ4.2: Corpus Age Distribution
+
+*What is the age distribution of the corpus?*
+
+{% if results.temporal_analysis.age_distribution %}
+**Figure X:** Age Distribution of LiaScript Courses
+
+![Age Distribution](../figures/fig_age_distribution.png){width=80%}
+
+The corpus is remarkably young:
+- **Median age:** {{ results.temporal_analysis.age_distribution.median_years | num(1) }} years
+- **< 1 year old:** {{ results.temporal_analysis.age_distribution.less_than_1_year_pct | pct }}
+- **< 6 months old:** {{ results.temporal_analysis.age_distribution.less_than_6_months_pct | pct }}
+- **Oldest course:** {{ results.temporal_analysis.age_distribution.max_years | num(1) }} years
+
+This young age profile reflects both LiaScript's recent adoption surge and the nature of educational content creation.
+{% endif %}
+
+### RQ4.3: Lifecycle Patterns
+
+*What lifecycle patterns exist (continuous maintenance vs. create-and-forget)?*
+
+{% if results.temporal_analysis.lifecycle_metrics %}
+**Figure X:** Course Lifecycle Patterns
+
+![Lifecycle Pattern](../figures/fig_lifecycle_pattern.png){width=80%}
+
+**Critical Finding: "Create and Forget" Pattern**
+
+| Metric | Value |
+|--------|-------|
+| Median lifespan | {{ (results.temporal_analysis.lifecycle_metrics.median_years * 12) | num(1) }} months |
+| One-shot courses (≤7 days) | {{ results.temporal_analysis.lifecycle_metrics.one_shot_pct | pct }} |
+| Courses active < 1 month | {{ results.temporal_analysis.lifecycle_metrics.less_than_1_month_pct | pct }} |
+
+**Interpretation:** LiaScript courses behave as **static publications** rather than living documents. The dominant pattern is "create → polish → publish → freeze," aligning with the OER philosophy of "create once, share forever."
+{% endif %}
+
+### RQ4.4: Maintenance Status
+
+*What is the current maintenance status of courses?*
+
+{% if results.temporal_analysis.activity_status %}
+**Current Activity Status:**
+
+| Status | Courses | Percentage |
+|--------|---------|------------|
+| Recently active (< 6 months) | {{ results.temporal_analysis.activity_status.recently_active | large }} | {{ results.temporal_analysis.activity_status.active_rate | pct }} |
+{% if results.temporal_analysis.activity_status.stale is defined %}
+| Stale (6-24 months) | {{ results.temporal_analysis.activity_status.stale | large }} | {{ results.temporal_analysis.activity_status.stale_rate | pct }} |
+{% endif %}
+{% if results.temporal_analysis.activity_status.abandoned is defined %}
+| Abandoned (> 24 months) | {{ results.temporal_analysis.activity_status.abandoned | large }} | {{ results.temporal_analysis.activity_status.abandoned_rate | pct }} |
+{% endif %}
+
+*Note: The high "recently active" rate primarily reflects the young age of the corpus, not ongoing maintenance.*
+{% endif %}
+
+### RQ4.5: Community Recognition and Longevity
+
+*How do update patterns relate to course characteristics?*
+
+{% if results.temporal_analysis.stars_analysis %}
+We examined whether long-lived, actively maintained courses receive more community recognition in the form of GitHub stars.
+
+**Correlation Analysis:**
+
+| Metric | Spearman ρ | p-value | Significant |
+|--------|------------|---------|-------------|
+{% if results.temporal_analysis.stars_analysis.stars_vs_lifespan %}
+| Stars vs. Lifespan | {{ results.temporal_analysis.stars_analysis.stars_vs_lifespan.correlation | num(3) }} | {{ results.temporal_analysis.stars_analysis.stars_vs_lifespan.p_value | num(4) }} | {% if results.temporal_analysis.stars_analysis.stars_vs_lifespan.is_significant %}Yes{% else %}No{% endif %} |
+{% endif %}
+{% if results.temporal_analysis.stars_analysis.stars_vs_commits %}
+| Stars vs. Commit Count | {{ results.temporal_analysis.stars_analysis.stars_vs_commits.correlation | num(3) }} | {{ results.temporal_analysis.stars_analysis.stars_vs_commits.p_value | num(4) }} | {% if results.temporal_analysis.stars_analysis.stars_vs_commits.is_significant %}Yes{% else %}No{% endif %} |
+{% endif %}
+
+{% if results.temporal_analysis.stars_analysis.stars_by_activity_status %}
+**Stars by Activity Status:**
+
+| Status | Median Stars | Mean Stars | n |
+|--------|--------------|------------|---|
+{% if results.temporal_analysis.stars_analysis.stars_by_activity_status.active %}
+| Active (< 6 months) | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.active.median | num(1) }} | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.active.mean | num(1) }} | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.active.n | large }} |
+{% endif %}
+{% if results.temporal_analysis.stars_analysis.stars_by_activity_status.stale %}
+| Stale (6-24 months) | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.stale.median | num(1) }} | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.stale.mean | num(1) }} | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.stale.n | large }} |
+{% endif %}
+{% if results.temporal_analysis.stars_analysis.stars_by_activity_status.abandoned %}
+| Abandoned (> 24 months) | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.abandoned.median | num(1) }} | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.abandoned.mean | num(1) }} | {{ results.temporal_analysis.stars_analysis.stars_by_activity_status.abandoned.n | large }} |
+{% endif %}
+{% endif %}
+
+**Interpretation:** {% if results.temporal_analysis.stars_analysis.stars_vs_lifespan.is_significant and results.temporal_analysis.stars_analysis.stars_vs_lifespan.correlation > 0 %}Longer-lived courses tend to accumulate more stars, suggesting that sustained maintenance correlates with community visibility and recognition.{% elif results.temporal_analysis.stars_analysis.stars_vs_lifespan.is_significant and results.temporal_analysis.stars_analysis.stars_vs_lifespan.correlation < 0 %}Interestingly, newer courses receive more stars, possibly reflecting increased visibility of recent content or changes in community engagement patterns.{% else %}Course lifespan shows no significant correlation with star count, suggesting that community recognition is driven by factors other than longevity—such as content quality, discoverability, or author network effects.{% endif %}
+
+*Note: GitHub stars are counted at the repository level, not per course. Repositories containing multiple courses may have inflated star counts.*
+{% else %}
+*Data for stars analysis not available.*
+{% endif %}
+
+---
+
+## RQ5: Licensing and Openness
+
+*Do LiaScript courses adhere to open licensing principles?*
+
+### RQ5.1: License Distribution
+
+*What is the distribution of license types in the corpus?*
+
+{% if results.license_analysis.license_distribution %}
+**Figure X:** License Category Distribution
+
+![License Distribution](../figures/fig_license_treemap.png){width=80%}
+
+| License Category | Courses | Percentage |
+|------------------|---------|------------|
+{% for category, count in results.license_analysis.license_distribution.items() | sort(attribute='1', reverse=True) %}
+| {{ category }} | {{ count | large }} | {{ (count / results.descriptive_stats.corpus.total_courses) | pct }} |
+{% endfor %}
+{% endif %}
+
+### RQ5.2: OER Compliance
+
+*What proportion of courses comply with OER licensing standards?*
+
+{% if results.license_analysis.oer_compliance %}
+**Critical Finding:** Only **{{ results.license_analysis.oer_compliance.oer_compliance_rate | pct }}** of courses use licenses that fully comply with OER standards.
+
+| License Type | Rate |
+|--------------|------|
+| Creative Commons (CC-BY, CC-BY-SA, CC0) | {{ results.license_analysis.oer_compliance.creative_commons_rate | pct }} |
+| Permissive Open Source (MIT, Apache, BSD) | {{ results.license_analysis.oer_compliance.permissive_opensource_rate | pct }} |
+| Unclear/Missing License | {{ (1 - results.license_analysis.oer_compliance.oer_compliance_rate) | pct }} |
+
+**Implication:** The high rate of missing or unclear licenses represents a significant barrier to OER reuse and remixing.
+{% endif %}
+
+### RQ5.3: Licensing by Discipline
+
+*How do licensing practices vary across disciplines?*
+
+{% if results.license_analysis.discipline_independence_test %}
+**Figure X:** Licensing Practices by Discipline
+
+![License by Discipline](../figures/fig_license_by_discipline.png){width=90%}
+
+**Statistical Test (χ² test for independence):**
+- **χ² statistic:** {{ results.license_analysis.discipline_independence_test.chi2_statistic | num(2) }}
+- **p-value:** {{ results.license_analysis.discipline_independence_test.p_value | num(4) }}
+- **Result:** {% if results.license_analysis.discipline_independence_test.is_significant %}Licensing practices **differ significantly** across disciplines (p < 0.05){% else %}No significant disciplinary differences detected{% endif %}
+{% endif %}
+
+### RQ5.4: Open Licensing and Engagement
+
+*Does open licensing correlate with community engagement?*
+
+{% if results.license_analysis.license_impact %}
+We examined whether open licensing correlates with community engagement:
+
+**Table X:** License Impact on Engagement Metrics
+
+| Metric | OER-Licensed | Non-OER | Test Result |
+|--------|--------------|---------|-------------|
+{% if results.license_analysis.license_impact.stars %}
+| Stars (median) | {{ results.license_analysis.license_impact.stars.oer_median | num(1) }} | {{ results.license_analysis.license_impact.stars.non_oer_median | num(1) }} | {% if results.license_analysis.license_impact.stars.is_significant %}p = {{ results.license_analysis.license_impact.stars.p_value | num(3) }} *{% else %}n.s.{% endif %} |
+{% endif %}
+{% if results.license_analysis.license_impact.forks %}
+| Forks (median) | {{ results.license_analysis.license_impact.forks.oer_median | num(1) }} | {{ results.license_analysis.license_impact.forks.non_oer_median | num(1) }} | {% if results.license_analysis.license_impact.forks.is_significant %}p = {{ results.license_analysis.license_impact.forks.p_value | num(3) }} *{% else %}n.s.{% endif %} |
+{% endif %}
+{% if results.license_analysis.license_impact.collaboration %}
+| Collaborators (median) | {{ results.license_analysis.license_impact.collaboration.oer_median | num(1) }} | {{ results.license_analysis.license_impact.collaboration.non_oer_median | num(1) }} | {% if results.license_analysis.license_impact.collaboration.is_significant %}p = {{ results.license_analysis.license_impact.collaboration.p_value | num(3) }} *{% else %}n.s.{% endif %} |
+{% endif %}
+
+*\* Statistically significant (p < 0.05)*
+{% endif %}
+
+---
+
+## Summary of Key Findings
+
+| RQ | Key Finding |
+|----|-------------|
+| **RQ1** | {{ results.descriptive_stats.corpus.total_courses | default('2,751') | large }} validated courses from {{ results.descriptive_stats.author_concentration.total_unique_authors | default('234') }} authors; strong German/English dominance; highly concentrated authorship (top 5 = {{ results.descriptive_stats.author_concentration.top5_share | pct }}); primarily targeting higher education |
+| **RQ2** | High feature adoption with template usage in {{ results.feature_analysis.template_usage.template_usage_rate | pct }} of courses; TTS in {{ results.feature_analysis.tts_usage.tts_usage_rate | pct }}; strong discipline-specific patterns |
+| **RQ3** | {{ results.collaboration_analysis.authorship_distribution.single_author_rate | pct }} single-author courses; collaboration rare despite GitHub infrastructure; isolated institutional clusters |
+| **RQ4** | Explosive growth in 2024-2025; "create-and-forget" lifecycle; {{ results.temporal_analysis.lifecycle_metrics.one_shot_pct | pct }} one-shot courses; median lifespan < 1 month |
+| **RQ5** | Only {{ results.license_analysis.oer_compliance.oer_compliance_rate | pct }} OER-compliant licensing; majority have unclear/missing licenses; significant barrier to reuse |

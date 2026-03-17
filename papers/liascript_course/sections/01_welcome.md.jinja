@@ -1,0 +1,50 @@
+<!--
+author:   Sebastian Zug, André Dietrich, Ines Aubel
+email:    sebastian.zug@informatik.tu-freiberg.de
+version:  1.0.0
+language: en
+narrator: US English Female
+
+comment:  An interactive, data-driven overview of the LiaScript ecosystem based on empirical analysis of GitHub-hosted courses.
+
+link:     https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.css
+script:   https://cdn.jsdelivr.net/chartist.js/latest/chartist.min.js
+
+import:   https://raw.githubusercontent.com/liaTemplates/AVR8js/main/README.md
+-->
+
+# The LiaScript Ecosystem: A Data-Driven Overview
+
+> This interactive course presents key findings from our empirical analysis of **{{ stats.total_courses }} LiaScript courses** across **{{ stats.total_repositories }} GitHub repositories**, created by **{{ stats.total_authors }} authors**.
+
+---
+
+**What you'll learn:**
+
+1. 📊 How big is the LiaScript ecosystem?
+2. 🌍 Which languages and disciplines use LiaScript?
+3. ⚡ What features do authors actually use?
+4. 📅 How do courses evolve over time?
+5. 📜 Are LiaScript materials truly "open"?
+
+---
+
+**About this course:**
+
+This course is itself a LiaScript document—demonstrating the technology while presenting research findings about it. All statistics are automatically generated from our dataset covering the period **2018–{{ stats.current_year }}**.
+
+{% raw %}    {{1}}{% endraw %}
+> 💡 **Meta-moment:** You're experiencing LiaScript right now while learning about the LiaScript ecosystem!
+
+---
+
+**Data Collection:**
+
+We systematically mined GitHub repositories using:
+
+- Repository-level and code-level searches
+- Heuristic indicator detection ({{ stats.total_candidates | default('75,260') }} candidates)
+- AI-based validation (llama3.3:70b)
+
+The result: A validated dataset of genuine LiaScript courses.
+

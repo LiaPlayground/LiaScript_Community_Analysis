@@ -1,0 +1,116 @@
+# Discussion
+
+Our comprehensive analysis of {{ results.descriptive_stats.corpus.total_courses | default('2,751') }} LiaScript courses reveals important insights about decentralized OER ecosystems. We discuss the implications of our key findings and their broader significance.
+
+## The "Create and Forget" OER Model
+
+Our temporal analysis reveals a striking pattern: **65% of courses have a lifespan < 1 month**, with **57% being "one-shot" creations**. This differs fundamentally from:
+
+- **Wikipedia:** Continuously updated collaborative documents
+- **Open source software:** Ongoing maintenance and feature development
+- **Traditional textbooks:** Periodic major revisions
+
+**Interpretation:** LiaScript courses behave like **academic publications** rather than living software projects. This is not necessarily problematic—it aligns with the OER philosophy of "create once, share forever." Educational content, unlike software, may not require frequent updates once it reaches a stable state.
+
+**Implications:**
+- Sustainability metrics should be adjusted for OER (stability ≠ abandonment)
+- Course discovery and quality indicators need different approaches than software
+- Long-term preservation strategies are crucial
+
+## Explosive Growth in 2025: What Happened?
+
+The **288% growth in 2025** represents a dramatic shift from seven years of steady expansion. This growth is reflected in the ecosystem's scale, now comprising **{{ results.descriptive_stats.corpus.total_authors | default('402') }} GitHub users** contributing across **{{ results.descriptive_stats.corpus.total_repositories | default('680') }} repositories**. Possible explanations for this explosive growth:
+
+1. **Institutional adoption:** A university or school system deployed LiaScript at scale
+2. **COVID-19 aftermath:** Delayed digitalization initiatives maturing
+3. **Community initiative:** Successful marketing, workshop, or conference presentation
+4. **Technical improvement:** A feature or integration that lowered barriers
+
+**Research needed:** Qualitative follow-up to identify the drivers behind this growth spike.
+
+## The Licensing Paradox
+
+Only {% if results.license_analysis.oer_compliance %}{{ results.license_analysis.oer_compliance.oer_compliance_rate | pct }}{% else %}a small fraction{% endif %} of courses use OER-compliant licenses, despite being publicly hosted on GitHub.
+
+**Problem:** Without explicit open licenses, materials are technically "all rights reserved" under copyright law, preventing the 5R activities (Retain, Reuse, Revise, Remix, Redistribute) that define OER.
+
+**Why this matters:**
+- Educators cannot legally reuse "public" materials without explicit permission
+- The potential of GitHub-based OER is severely limited
+- Contrast with open source software, where licensing is standard practice
+
+**Recommendations:**
+- Default templates should include license selection
+- Community awareness campaigns on licensing importance
+- GitHub should prompt for educational content licensing
+
+## Author Concentration: Power Users Drive the Ecosystem
+
+The LiaScript ecosystem exhibits a highly concentrated authorship pattern with a Gini coefficient of {{ results.descriptive_stats.author_concentration.gini_coefficient | default(0.79) | num(2) }}. The top 5 authors account for {{ results.descriptive_stats.author_concentration.top5_share | default(0.55) | pct }} of all courses.
+
+**Implications:**
+- Power users are critical to ecosystem health—their departure would significantly impact content availability
+- Supporting power users (through advanced tooling, documentation, community engagement) benefits the entire ecosystem
+- This pattern mirrors other content creation platforms (Wikipedia, open source)
+
+## Methodological Contributions
+
+Our hybrid approach (heuristic detection + AI validation) achieved **89% coverage** of validated courses with temporal data. This demonstrates:
+
+1. **Scalability:** AI-based validation (llama3.3:70b) enabled processing 75,000+ files
+2. **Precision:** From 75,260 heuristic matches to 2,751 validated courses (96% false positive reduction)
+3. **Reproducibility:** All detection criteria and prompts are documented
+
+**Implications for future research:** This methodology can be adapted for other Markdown-based educational formats.
+
+## Limitations
+
+### Sample Bias
+- Only GitHub-hosted courses are included
+- Private repositories are excluded
+- Self-hosted LiaScript courses on other platforms are not captured
+
+### Temporal Coverage
+- 2025 data incomplete (study conducted in December 2025)
+- Historical data limited by repository deletion and migration
+
+### Causality
+- We observe correlations (e.g., collaboration ↔ complexity) but cannot establish causation
+- Qualitative research needed to understand motivations
+
+### AI Validation
+- llama3.3:70b validation, while rigorous, may have systematic biases
+- Human validation of a subset would strengthen confidence
+
+## Comparison to Other OER Platforms
+
+How does LiaScript compare to other OER ecosystems?
+
+| Platform | Hosting | Lifecycle | Licensing | Collaboration |
+|----------|---------|-----------|-----------|---------------|
+| **LiaScript** | Decentralized (GitHub) | Static (1-shot) | Low compliance | Mostly single-author |
+| **Khan Academy** | Centralized | Continuous | Clear (CC) | Team-based |
+| **OER Commons** | Centralized | Mixed | High compliance | Platform-managed |
+| **Jupyter Notebooks** | Varied | Active (for data science) | Mixed | Community-driven |
+
+**LiaScript's niche:** Decentralized, lightweight, Markdown-native OER for educators who value version control and simplicity over infrastructure.
+
+## Future Research Directions
+
+Based on our findings, we identify several promising research directions:
+
+1. **Qualitative analysis:** Interview course authors to understand motivations, workflows, and licensing decisions
+
+2. **Comparative studies:** How does LiaScript usage differ across countries, institutions, and disciplines?
+
+3. **Longitudinal tracking:** Will 2025's explosive growth continue? Follow-up study in 2027-2028
+
+4. **Impact assessment:** Do LiaScript courses actually get used? (GitHub stars/forks are weak proxies)
+
+5. **Feature utilization:** Which LiaScript features correlate with course success and reuse?
+
+6. **Template network analysis:** How do template dependencies create an ecosystem?
+
+---
+
+Our findings paint a picture of LiaScript as a **successful but evolving OER ecosystem** with exponential recent growth, a distinctive "publication" lifecycle model, and significant opportunities for improvement in licensing practices.

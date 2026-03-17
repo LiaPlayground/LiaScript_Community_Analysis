@@ -1,0 +1,55 @@
+# Languages and Disciplines
+
+LiaScript has been adopted internationally across diverse subject areas.
+
+## Language Distribution
+
+The corpus includes **{{ stats.languages_count }} different languages**:
+
+| Language | Courses | Percentage |
+|----------|---------|------------|
+{% for lang in top_languages %}
+| {{ lang.name }} | {{ lang.count }} | {{ lang.percent }}% |
+{% endfor %}
+
+![Language Distribution](figures/fig_language_scatterplot.png)
+
+---
+
+## Multilingual Authors
+
+{% raw %}    {{1}}{% endraw %}
+A notable finding: **{{ stats.multilingual_authors }} authors ({{ stats.multilingual_percent }}%)** contribute content in multiple languages!
+
+{% raw %}    {{2}}{% endraw %}
+The most prolific multilingual contributor works across **{{ stats.max_languages_per_author }} languages**.
+
+---
+
+## Discipline Distribution (DDC)
+
+Using AI-based classification, we categorized courses by Dewey Decimal Classification:
+
+| DDC Category | Courses | Percentage |
+|--------------|---------|------------|
+{% for ddc in ddc_distribution %}
+| {{ ddc.category }} | {{ ddc.count }} | {{ ddc.percent }}% |
+{% endfor %}
+
+{% raw %}    {{4}}{% endraw %}
+**Interpretation:** The dominance of Science and Computer Science reflects LiaScript's technical origins—but adoption is spreading to social sciences, arts, and humanities.
+
+---
+
+## Education Levels
+
+LiaScript courses target various education levels:
+
+| Level | Courses | Percentage |
+|-------|---------|------------|
+{% for level in education_levels %}
+| {{ level.name }} | {{ level.count }} | {{ level.percent }}% |
+{% endfor %}
+
+> Higher education dominates, but significant secondary education content exists—largely from the MINT-the-GAP project.
+

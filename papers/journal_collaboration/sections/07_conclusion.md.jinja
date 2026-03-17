@@ -1,0 +1,133 @@
+# Conclusion
+
+This study provides the first comprehensive, data-driven characterization of the LiaScript ecosystem on GitHub. By analyzing {{ results.descriptive_stats.corpus.total_courses | default('2,751') }} validated courses through a hybrid methodology combining heuristic detection and AI-based validation, we have uncovered important patterns in how educators create, share, and maintain interactive OER in decentralized environments.
+
+## Key Takeaways
+
+**1. Explosive Recent Growth**
+LiaScript has experienced dramatic adoption, with **288% growth in 2025** alone. This suggests successful positioning as a lightweight, Markdown-based alternative to heavyweight LMS and authoring tools.
+
+**2. "Create and Forget" Lifecycle is Normal for OER**
+The finding that **65% of courses stabilize within one month** challenges assumptions from software development. For educational content, stability may indicate quality and completion rather than abandonment.
+
+**3. The Licensing Gap is Critical**
+With only {% if results.license_analysis.oer_compliance %}{{ results.license_analysis.oer_compliance.oer_compliance_rate | pct }}{% else %}a small fraction{% endif %} using OER-compliant licenses, most "open" materials are legally restricted. This is the most urgent issue facing the ecosystem.
+
+**4. Single-Author Dominance**
+{% if results.collaboration_analysis.authorship_distribution %}{{ results.collaboration_analysis.authorship_distribution.single_author_rate | pct }}{% else %}The majority{% endif %} of courses are developed by individual educators, suggesting LiaScript successfully serves solo course creators rather than requiring institutional infrastructure.
+
+## Recommendations
+
+### For Course Authors
+- **Add explicit licenses:** Choose CC-BY or CC-BY-SA for maximum reusability
+- **Document maintenance plans:** Signal whether courses are stable vs. actively maintained
+- **Use templates effectively:** Leverage community templates rather than reinventing
+
+### For the LiaScript Community
+- **Promote licensing awareness:** Integrate license selection into starter templates
+- **Improve discovery:** Better mechanisms for finding high-quality, reusable courses
+- **Sustainability support:** Tools for signaling course status (active, stable, archived)
+
+### For Researchers
+- **Rethink OER metrics:** Update frequency may not indicate quality for educational content
+- **Investigate growth drivers:** What caused the 2025 spike? Can it be replicated?
+- **Study reuse patterns:** Are "stable" courses actually being reused effectively?
+
+### For Platform Designers
+- **Lower licensing barriers:** Default to open licenses with easy opt-in
+- **Support educational workflows:** Version control, branching, and remixing
+- **Balance simplicity and features:** LiaScript's success lies in its lightweight approach
+
+## Broader Implications
+
+Our findings have implications beyond LiaScript:
+
+**For OER Research:** Decentralized, version-controlled OER ecosystems require different analytical frameworks than centralized platforms. The "create and forget" pattern may be widespread but invisible in traditional OER analytics.
+
+**For Open Source Education:** GitHub can successfully host educational content, but community norms around licensing need strengthening.
+
+**For Institutional OER Initiatives:** Not all OER needs centralized infrastructure. Lightweight, Markdown-based approaches can empower individual educators.
+
+## Closing Thoughts
+
+LiaScript represents an important experiment in decentralized, Markdown-native OER. Its explosive recent growth and distinctive lifecycle patterns suggest it fills a real need for educators seeking simplicity and version control without sacrificing interactivity.
+
+However, the licensing gap threatens to undermine the ecosystem's openness. Without addressing this, LiaScript risks becoming a collection of "publicly visible but legally restricted" materials—open in appearance but closed in practice.
+
+The next few years will be critical. Will the 2025 growth trend continue? Will licensing practices improve? Will the community develop sustainable patterns for course discovery and quality signaling?
+
+We hope this study provides a foundation for understanding these dynamics and a baseline for longitudinal research tracking the evolution of this promising OER ecosystem.
+
+**Data and Code Availability:** All analysis code, processed datasets, and supplementary materials are available at [repository URL].
+
+**Acknowledgments:** [To be added]
+
+# Appendix
+
+```{=latex}
+\begin{landscape}
+```
+
+**Table 5:** Metadata Extraction Sources and Methods
+
+| Category                        | Git Repository                              | LiaScript Header                                 | General File Content                               | AI Metadata Generation                 | LiaScript Syntax                |
+| ------------------------------- | ------------------------------------------- | ------------------------------------------------ | -------------------------------------------------- | -------------------------------------- | ---------------------------------------- |
+| **Author Information**         | Contributors list (`git:contributors_list`) | Author names (`lia:author`)                      |                                                    | Author (`ai:author`)                   |                                          |
+|                                 | Author count (`git:author_count`)           | Author emails (`lia:email`)                      |                                                    |                                        |                                          |
+| **Collaboration Metrics**       | Commit count (`git:commit_count`)           |                                                  |                                                    |                                        |                                          |
+| **Temporal Data**               | First commit (`git:first_commit`)           |                                                  |                                                    |                                        |                                          |
+|                                 | Last commit (`git:last_commit`)             |                                                  |                                                    |                                        |                                          |
+|                                 | Commit history                              |                                                  |                                                    |                                        |                                          |
+| **License**                  | License configuration                       | Content license (`lia:content_license`)          |                                                    |                                        |                                          |
+|                                 |                                             | License URL (`lia:content_license_url`)          |                                                    |                                        |                                          |
+| **Repository Metrics**          | Stars                                       |                                                  |                                                    |                                        |                                          |
+|                                 | Forks                                       |                                                  |                                                    |                                        |                                          |
+|                                 | Watchers                                    |                                                  |                                                    |                                        |                                          |
+|                                 | Is fork                                     |                                                  |                                                    |                                        |                                          |
+| **General Information**        | Repository name                             | Title (`lia:title`)                              |                                                    | Title (`ai:title`)                     |                                          |
+|                                 | User name                                   |                                                  |                                                    |                                        |                                          |
+|                                 | Filename                                    |                                                  |                                                    |                                        |                                          |
+|                                 | Repository created/updated                  |                                                  |                                                    |                                        |                                          |
+| **Content & Version**           |                                             | Version (`lia:version`)                          |                                                    |                                        |                                          |
+|                                 |                                             | Mode (`lia:mode`)                                |                                                    |                                        |                                          |
+|                                 |                                             | Translation (`lia:translation`)                  |                                                    |                                        |                                          |
+|                                 |                                             | Attribute (`lia:attribute`)                      |                                                    |                                        |                                          |
+|                                 |                                             | Date (`lia:date`)                                |                                                    |                                        |                                          |
+|                                 |                                             | Comment/Description (`lia:comment`)              |                                                    |                                        |                                          |
+| **Language**                    |                                             | Language (`lia:language`)                        | Detected language (`pipe:most_prob_language`)      |                                        |                                          |
+|                                 |                                             | Narrator (`lia:narrator`)                        | Language probability (`pipe:language_probability`) |                                        | TTS comments detected                    |
+| **Visual Elements**             |                                             | Icon (`lia:icon`)                                |                                                    |                                        | Images (`feat:images`)                   |
+|                                 |                                             | Logo (`lia:logo`)                                |                                                    |                                        |                                          |
+| **External Resources**          |                                             | Template imports (`lia:import`)                  |                                                    |                                        | Templates used (`feat:external_scripts`) |
+|                                 |                                             | External CSS (`lia:link`)                        |                                                    |                                        | CSS imports (`feat:external_css`)        |
+|                                 |                                             | External JS (`lia:script`)                       |                                                    |                                        | Script tags (`feat:script_tags`)         |
+| **Categorization & Keywords**  |                                             | Tags (`lia:tags`)                                |                                                    | Keywords extracted (`ai:keywords_ext`) |                                          |
+|                                 |                                             |                                                  |                                                    | Keywords generated (`ai:keywords_gen`) |                                          |
+| **Text Extraction**             |                                             |                                                  | Full text                                          |                                        |                                          |
+|                                 |                                             |                                                  | File type (`pipe:file_type`)                       |                                        |                                          |
+| **Content Metrics**             |                                             |                                                  | Word count (`pipe:content_words`)                  |                                        |                                          |
+|                                 |                                             |                                                  | Page estimation (`pipe:content_pages`)             |                                        |                                          |
+|                                 |                                             |                                                  | Content hash (`pipe:content_hash`)                 |                                        |                                          |
+| **Semantic Analysis**           |                                             |                                                  |                                                    | Summary (`ai:summary`)                 |                                          |
+| **Classification**              |                                             |                                                  |                                                    | DDC codes (`ai:dewey`)                 |                                          |
+| **Module Metadata**             |                                             | Module ID (`lia:module_id`)                      |                                                    |                                        |                                          |
+|                                 |                                             | Module type (`lia:module_type`)                  |                                                    |                                        |                                          |
+|                                 |                                             | Estimated time (`lia:estimated_time_in_minutes`) |                                                    |                                        |                                          |
+| **Coding Metadata**             |                                             | Coding required (`lia:coding_required`)          |                                                    |                                        | Code blocks (`feat:code_blocks`)         |
+|                                 |                                             | Coding level (`lia:coding_level`)                |                                                    |                                        |                                          |
+|                                 |                                             | Coding language (`lia:coding_language`)          |                                                    |                                        |                                          |
+| **Interactive Elements**        |                                             |                                                  |                                                    |                                        | Quizzes (`feat:quiz`)                    |
+|                                 |                                             |                                                  |                                                    |                                        | Text quizzes (`feat:text_quiz`)          |
+|                                 |                                             |                                                  |                                                    |                                        | Multiple choice (`feat:multiple_choice`) |
+|                                 |                                             |                                                  |                                                    |                                        | Single choice (`feat:single_choice`)     |
+|                                 |                                             |                                                  |                                                    |                                        | Quiz hints (`feat:quiz_hints`)           |
+| **Multimedia**                  |                                             |                                                  |                                                    |                                        | Video (`feat:video`)                     |
+|                                 |                                             |                                                  |                                                    |                                        | Audio (`feat:audio`)                     |
+| **Technical Content**           |                                             |                                                  |                                                    |                                        | Math formulas (`feat:math`)              |
+|                                 |                                             |                                                  |                                                    |                                        | Animations (`feat:animation_fragments`)  |
+|                                 |                                             |                                                  |                                                    |                                        | Tables (`feat:tables`)                   |
+|                                 |                                             |                                                  |                                                    |                                        | LiaViz tables (`feat:lia_viz_tables`)    |
+
+```{=latex}
+\end{landscape}
+```

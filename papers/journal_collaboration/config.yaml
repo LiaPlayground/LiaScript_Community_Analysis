@@ -1,0 +1,96 @@
+# Journal Paper: Collaboration and Reuse in LiaScript
+# Focus on collaborative authoring patterns and content reuse/remixing
+
+paper:
+  id: journal_collaboration
+  title: "Collaboration and Reuse in Decentralized OER: Patterns from the LiaScript Ecosystem"
+  short_title: "Collaboration & Reuse in LiaScript"
+
+  authors:
+    - name: "Sebastian Zug"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "sebastian.zug@informatik.tu-freiberg.de"
+      orcid: "0000-0002-1022-8888"  # TODO: Replace with actual ORCID
+    - name: "André Dietrich"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "andre.dietrich@informatik.tu-freiberg.de"
+      orcid: "0000-0001-8894-1110"  # TODO: Replace with actual ORCID
+    - name: "Ines Aubel"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "ines.aubel@chemie.tu-freiberg.de"
+      orcid: "0000-0000-0000-0000"  # TODO: Replace with actual ORCID
+
+  metadata:
+    keywords:
+      - Open Educational Resources
+      - LiaScript
+      - Collaborative Authoring
+      - Content Reuse
+      - Template Systems
+      - GitHub Forks
+      - OER Remixing
+    bibliography: shared/literatur.bib
+    venue: "Journal of Open Educational Resources"  # TODO: Confirm venue
+    type: "journal"
+    language: en
+
+  output:
+    format:
+      - markdown
+      - latex
+      - pdf
+    template: koma-article
+    include_toc: true
+    toc_depth: 2
+    output_dir: "papers/journal_collaboration/build"
+
+  # Research questions for this paper (focused on collaboration & reuse)
+  research_questions:
+    - id: RQ1
+      question: "How are LiaScript courses collaboratively created?"
+      sub_questions:
+        - "What is the distribution of single-author vs. multi-author courses?"
+        - "What co-authorship patterns and networks exist?"
+        - "Do institutional clusters of collaborating authors emerge?"
+    - id: RQ2
+      question: "How are LiaScript courses and templates reused?"
+      sub_questions:
+        - "How prevalent is forking and adaptation of existing courses?"
+        - "What template import networks exist?"
+        - "Which templates serve as ecosystem building blocks?"
+    - id: RQ3
+      question: "What factors facilitate collaboration and reuse?"
+      sub_questions:
+        - "Does open licensing correlate with reuse?"
+        - "Do certain disciplines show more collaboration?"
+        - "What course characteristics predict reuse?"
+
+  # Analyses needed for this paper
+  analyses:
+    - collaboration_analysis
+    - network_analysis
+    - fork_analysis        # May need to implement
+    - template_network     # May need to implement
+    - license_analysis
+    - feature_analysis
+
+  sections:
+    - 01_abstract
+    - 02_introduction
+    - 03_related_work
+    - 04_methodology
+    - 05_results
+    - 06_discussion
+    - 07_conclusion
+    - 08_references
+
+  figures:
+    output_dir: "papers/journal_collaboration/build/figures"
+    include:
+      - fig_authorship
+      - fig_collaboration_network
+      - fig_coauthorship_matrix
+      - fig_template_network
+      - fig_fork_analysis
+      - fig_license_by_collaboration
+      - fig_reuse_factors

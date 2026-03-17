@@ -1,0 +1,21 @@
+The markup language LiaScript implements a decentralized approach where learning content can be distributed and used without server infrastructure. While this provides significant benefits for users, it creates challenges for understanding how LiaScript authors actually use the platform. Systematic empirical data about the ecosystem is lacking.
+
+We systematically identified and analyzed **{{ results.descriptive_stats.corpus.total_courses | default('2,751') }} LiaScript-based learning materials** from **{{ results.descriptive_stats.corpus.total_repositories | default('680') }} repositories**, covering the period from 2018 to 2025. These were extracted from approximately 72,000 potential candidates using a multi-stage pipeline combining heuristic feature detection and AI-based validation (llama3.3:70b). We examined adoption patterns, content characteristics, collaboration practices, temporal dynamics, and licensing behaviors.
+
+**Key findings:**
+
+1. **Significant Growth:** LiaScript shows exponential adoption, with 288% growth in 2025 after seven years of steady expansion (2018-2024). 64% of all investigated courses were created in 2025 alone. The ecosystem comprises {{ results.descriptive_stats.author_concentration.total_unique_authors | default('299') }} declared authors across {{ results.descriptive_stats.corpus.total_authors | default('402') }} GitHub repositories.
+
+2. **International Adoption:** LiaScript has been adopted across {% if results.descriptive_stats.language_diversity %}{{ results.descriptive_stats.language_diversity.unique_languages }}{% else %}multiple{% endif %} languages, with {% if results.descriptive_stats.language_diversity %}{{ results.descriptive_stats.language_diversity.dominant_language }}{% else %}German{% endif %} as the dominant language (47.7%), followed by English (33.6%).
+
+3. **"Create and Forget" Lifecycle:** 65% of courses have a lifespan < 1 month, with 57% being "one-shot" creations (≤7 days). Courses behave as **static publications** rather than living documents, aligning with the "create once, share forever" OER philosophy.
+
+4. **Feature Adoption:** Template systems are used in {% if results.feature_analysis.template_usage %}{{ results.feature_analysis.template_usage.template_usage_rate | pct }}{% else %}a significant portion{% endif %} of courses, with TikZ-Jax (LaTeX graphics) and Algebrite (computer algebra) dominating. Text-to-speech is configured in {% if results.feature_analysis.tts_usage %}{{ results.feature_analysis.tts_usage.tts_usage_rate | pct }}{% else %}many{% endif %} of courses.
+
+5. **Collaboration Patterns:** {% if results.collaboration_analysis.authorship_distribution %}{{ results.collaboration_analysis.authorship_distribution.single_author_rate | pct }}{% else %}The majority{% endif %} of courses are developed by single authors, despite GitHub's collaborative infrastructure.
+
+6. **Licensing Gap:** Only {% if results.license_analysis.oer_compliance %}{{ results.license_analysis.oer_compliance.oer_compliance_rate | pct }}{% else %}a small fraction{% endif %} of materials use OER-compliant licenses, representing a significant barrier to true openness despite public GitHub availability.
+
+Our findings contribute the first comprehensive empirical characterization of a decentralized OER ecosystem, reveal distinctive lifecycle patterns that differ from software development, and identify critical gaps in licensing practices.
+
+**Keywords:** {{ paper.metadata.keywords | join(', ') | default('Open Educational Resources, LiaScript, GitHub, Interactive Learning, Learning Analytics') }}

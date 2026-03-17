@@ -1,0 +1,85 @@
+# LiaScript Course: State of the LiaScript Ecosystem
+# Auto-generated overview of the LiaScript ecosystem as an interactive course
+
+extends: shared/config.yaml
+
+paper:
+  id: liascript_course
+  title: "The LiaScript Ecosystem: A Data-Driven Overview"
+  short_title: "LiaScript Ecosystem Overview"
+
+  authors:
+    - name: "Sebastian Zug"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "sebastian.zug@informatik.tu-freiberg.de"
+    - name: "André Dietrich"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "andre.dietrich@informatik.tu-freiberg.de"
+    - name: "Ines Aubel"
+      affiliation: "TU Bergakademie Freiberg, Germany"
+      email: "ines.aubel@chemie.tu-freiberg.de"
+
+  metadata:
+    keywords:
+      - Open Educational Resources
+      - LiaScript
+      - Ecosystem Analysis
+      - GitHub
+      - OER Statistics
+    language: en
+    type: "liascript_course"
+    description: |
+      An interactive overview of the LiaScript ecosystem based on empirical data
+      from 2,751 courses across 413 GitHub repositories.
+
+  output:
+    format:
+      - markdown  # LiaScript course is Markdown
+    output_dir: "papers/liascript_course/build"
+
+  # Content sections for the LiaScript course
+  sections:
+    - 01_welcome
+    - 02_ecosystem_size
+    - 03_languages_disciplines
+    - 04_features_usage
+    - 05_lifecycle_patterns
+    - 06_licensing
+    - 07_explore_data
+
+  # Data-driven content generation
+  data_sections:
+    ecosystem_overview:
+      - total_courses
+      - total_repositories
+      - total_authors
+      - growth_timeline
+
+    geographic_linguistic:
+      - language_distribution
+      - discipline_distribution
+      - multilingual_authors
+
+    feature_analysis:
+      - feature_adoption_rates
+      - template_usage
+      - accessibility_features
+
+    temporal_patterns:
+      - age_distribution
+      - lifecycle_patterns
+      - maintenance_status
+
+    licensing:
+      - license_distribution
+      - oer_compliance_rate
+
+  figures:
+    output_dir: "papers/liascript_course/build/figures"
+    include:
+      - fig_cumulative_growth
+      - fig_language_scatterplot
+      - fig_feature_heatmap
+      - fig_age_distribution
+      - fig_lifecycle_pattern
+      - fig_license_treemap

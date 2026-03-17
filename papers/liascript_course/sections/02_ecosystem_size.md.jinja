@@ -1,0 +1,47 @@
+# How Big is the LiaScript Ecosystem?
+
+The LiaScript ecosystem has grown significantly since its inception in 2018.
+
+## Key Numbers
+
+| Metric | Value |
+|--------|-------|
+| Total Courses | **{{ stats.total_courses }}** |
+| GitHub Repositories | **{{ stats.total_repositories }}** |
+| Unique Authors | **{{ stats.total_authors }}** |
+| Languages Detected | **{{ stats.languages_count }}** |
+
+---
+
+## Growth Over Time
+
+![Cumulative Growth](figures/fig_cumulative_growth.png)
+
+The ecosystem experienced **{{ stats.growth_2025_percent }}% growth in 2025** alone, with {{ stats.courses_2025_percent }}% of all courses created in that year.
+
+{% raw %}    {{1}}{% endraw %}
+**What drove this growth?**
+
+{% raw %}    {{2}}{% endraw %}
+Possible factors include:
+- Institutional adoption at scale
+- Post-COVID digitalization initiatives
+- Community workshops and presentations
+- Technical improvements lowering barriers
+
+---
+
+## Author Distribution
+
+The ecosystem shows a **power-law distribution** in authorship:
+
+| Category | Authors | % of Authors | % of Courses |
+|----------|---------|--------------|--------------|
+{% for segment in author_segments %}
+| {{ segment.name }} | {{ segment.authors }} | {{ segment.author_percent }}% | {{ segment.course_percent }}% |
+{% endfor %}
+
+> **Key finding:** The top 5 authors create over 50% of all courses!
+
+**Gini coefficient:** {{ stats.gini_coefficient }} (high concentration)
+
