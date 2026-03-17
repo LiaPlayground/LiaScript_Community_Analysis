@@ -1,0 +1,215 @@
+# Shared Configuration for all LiaScript Paper Projects
+# Common data paths, analysis parameters, and settings
+
+# Data sources
+data:
+  base_path: "/media/sz/Data/Connected_Lecturers/liascript_march_2026"
+  raw_folder: "raw"
+  processed_folder: "processed"
+  cache_processed: true
+
+  datasets:
+    repositories: "LiaScript_repositories.p"
+    files: "LiaScript_files.p"
+    files_validated: "LiaScript_files_validated.p"
+    commits: "LiaScript_commits.p"
+    metadata: "LiaScript_metadata.p"
+    content: "LiaScript_content.p"
+    ai_meta: "LiaScript_ai_meta.p"
+    features: "LiaScript_features.p"
+    feature_statistics: "LiaScript_feature_statistics.p"
+
+# Analysis parameters (shared across all papers)
+analyses:
+  parameters:
+    # General filters
+    min_course_length: 100  # minimum word count
+    recent_activity_months: 6
+
+    # Network analysis
+    network_min_degree: 2
+    network_layout: "spring"  # spring, kamada_kawai, circular
+
+    # Topic clustering
+    n_topics: 10
+    min_keyword_frequency: 5
+
+    # License categories
+    oer_licenses:
+      - CC0-1.0
+      - CC-BY-4.0
+      - CC-BY-SA-4.0
+    permissive_licenses:
+      - MIT
+      - Apache-2.0
+      - BSD-3-Clause
+      - BSD-2-Clause
+      - Unlicense
+    copyleft_licenses:
+      - GPL-3.0
+      - GPL-2.0
+      - AGPL-3.0
+
+# Figure styling - Central configuration for consistent appearance
+figures:
+  # Output settings
+  output:
+    dpi: 300
+    format: png  # png, svg, pdf
+    facecolor: white
+    transparent: false
+
+  # Default figure dimensions
+  dimensions:
+    single: [10, 6]        # Standard single figure
+    wide: [14, 6]          # Wide figure (e.g., side-by-side)
+    square: [8, 8]         # Square figure
+    tall: [10, 10]         # Tall figure (e.g., networks)
+
+  # Typography
+  fonts:
+    family: "DejaVu Sans"
+    sizes:
+      title: 14
+      subtitle: 12
+      axis_label: 12
+      tick_label: 10
+      legend: 10
+      annotation: 9
+      stats_box: 10
+    weights:
+      title: bold
+      axis_label: bold
+      annotation: normal
+
+  # Color palette - consistent across all papers
+  colors:
+    # Primary palette for main elements
+    primary: "#2E86AB"      # Deep blue
+    secondary: "#A23B72"    # Magenta/Purple
+    tertiary: "#F18F01"     # Orange
+    quaternary: "#C73E1D"   # Red
+    quinary: "#3B1F2B"      # Dark purple
+
+    # Semantic colors
+    success: "#2ECC71"      # Green - positive/active
+    warning: "#F39C12"      # Yellow/Orange - caution/stale
+    danger: "#E74C3C"       # Red - negative/abandoned
+    info: "#3498DB"         # Blue - informational
+
+    # Sequential palette for ordered data
+    sequential:
+      - "#2E86AB"
+      - "#3498DB"
+      - "#5DADE2"
+      - "#85C1E9"
+      - "#AED6F1"
+
+    # Diverging palette for comparison
+    diverging:
+      negative: "#E74C3C"
+      neutral: "#BDC3C7"
+      positive: "#2ECC71"
+
+    # Categorical palette (colorblind-friendly)
+    categorical:
+      - "#2E86AB"  # Blue
+      - "#A23B72"  # Magenta
+      - "#F18F01"  # Orange
+      - "#C73E1D"  # Red
+      - "#3B1F2B"  # Dark purple
+      - "#2ECC71"  # Green
+      - "#9B59B6"  # Purple
+      - "#1ABC9C"  # Teal
+
+    # License-specific colors (semantic)
+    licenses:
+      creative_commons: "#2ECC71"   # Green - OER ideal
+      permissive: "#3498DB"         # Blue
+      copyleft: "#9B59B6"           # Purple
+      unclear: "#E74C3C"            # Red - warning
+
+    # Activity status colors
+    activity:
+      active: "#2ECC71"      # Green
+      stale: "#F39C12"       # Yellow/Orange
+      abandoned: "#E74C3C"   # Red
+
+  # Seaborn/Matplotlib style settings
+  style:
+    seaborn_style: "whitegrid"
+    grid_alpha: 0.3
+    grid_linestyle: "--"
+    grid_linewidth: 0.8
+
+  # Line and marker settings
+  lines:
+    linewidth: 2
+    marker_size: 8
+    marker_edge_color: white
+    marker_edge_width: 1.5
+    alpha: 0.7
+
+  # Bar chart settings
+  bars:
+    edge_color: black
+    edge_linewidth: 0.5
+    alpha: 0.8
+
+  # Scatter plot settings
+  scatter:
+    size: 30
+    alpha: 0.6
+    edge_color: white
+    edge_linewidth: 0.3
+
+  # Text box settings (for annotations/statistics)
+  textbox:
+    boxstyle: round
+    facecolor: wheat
+    alpha: 0.9
+    edgecolor: gray
+    padding: 0.5
+
+  # Legend settings
+  legend:
+    framealpha: 0.95
+    loc: best
+    fontsize: 10
+
+  # Colorbar settings
+  colorbar:
+    shrink: 0.8
+    pad: 0.02
+
+# Statistical testing parameters
+statistics:
+  significance_level: 0.05
+  correlation_method: "spearman"  # spearman, pearson
+  multiple_testing_correction: "bonferroni"  # bonferroni, fdr_bh
+  effect_size_thresholds:
+    small: 0.2
+    medium: 0.5
+    large: 0.8
+
+# Reproducibility settings
+reproducibility:
+  random_seed: 42
+  cache_results: true
+  save_intermediate: true
+  log_level: "INFO"
+
+# Shared author information
+authors:
+  - name: "Sebastian Zug"
+    affiliation: "TU Bergakademie Freiberg, Germany"
+    email: "sebastian.zug@informatik.tu-freiberg.de"
+    orcid: "0000-0002-1022-8888"  # TODO: Verify ORCID
+  - name: "André Dietrich"
+    affiliation: "TU Bergakademie Freiberg, Germany"
+    email: "andre.dietrich@informatik.tu-freiberg.de"
+    orcid: "0000-0001-8894-1110"  # TODO: Verify ORCID
+  - name: "Ines Aubel"
+    affiliation: "TU Bergakademie Freiberg, Germany"
+    email: "ines.aubel@chemie.tu-freiberg.de"
+    orcid: "0000-0000-0000-0000"  # TODO: Add ORCID
