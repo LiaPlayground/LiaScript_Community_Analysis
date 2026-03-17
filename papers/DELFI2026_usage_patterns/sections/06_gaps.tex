@@ -1,0 +1,46 @@
+% ~400 words
+% Key: name the gaps, then give 3 explanations (documentation / mental model / workflow barrier)
+
+Table~\ref{tab:gaps} summarises the most pronounced adoption gaps ---
+features that were deliberately designed into LiaScript but are used
+in fewer than \SI{5}{\percent} of courses.
+
+\begin{table}[ht]
+  \centering
+  \caption{Underutilised LiaScript features (adoption $< \SI{5}{\percent}$)}
+  \label{tab:gaps}
+  \begin{tabular}{llrp{4.2cm}}
+    \toprule
+    \textbf{Feature} & \textbf{Category} & \textbf{Adoption} & \textbf{Design intent} \\
+    \midrule
+    Effects            & Presentation  & \SI{0.0}{\percent}  & Timed content appearance \\
+    TTS blocks         & Presentation  & \SI{0.1}{\percent}  & Fine-grained audio control \\
+    Code projects      & Embedding     & \SI{0.4}{\percent}  & Multi-file code environments \\
+    Animated CSS       & Presentation  & \SI{0.7}{\percent}  & Visual step-by-step reveals \\
+    Surveys            & Interaction   & \SI{2.7}{\percent}  & Learner feedback collection \\
+    Exec.\ code        & Embedding     & \SI{3.1}{\percent}  & Executable code environments \\
+    Task lists         & Interaction   & \SI{4.7}{\percent}  & Self-directed checklists \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+We identify three classes of explanation for adoption gaps:
+
+\paragraph{Documentation deficit.}
+Some features are syntactically non-obvious and lack prominent examples.
+TTS blocks, animated CSS, and effects fall into this category:
+the basic narrator comment (\texttt{<!-- voice: ... -->}) is well documented,
+but the richer block-level TTS and animation system requires authors to
+understand a secondary syntax layer.
+Better worked examples and interactive tutorials would likely raise adoption.
+
+\paragraph{Genuine workflow barrier.}
+Code projects (multi-file environments) and some embedding features require
+authors to configure external services or understand JavaScript interop.
+For educators without a technical background this represents a real barrier
+that documentation alone cannot resolve.
+Tool-level improvements --- wizards, visual editors, or pre-configured
+project templates --- are needed.
+
+The distribution across these two classes directly informs the
+development priorities discussed in Section~\ref{sec:implications}.

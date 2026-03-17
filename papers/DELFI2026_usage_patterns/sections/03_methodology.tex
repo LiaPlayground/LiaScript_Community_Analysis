@@ -1,0 +1,165 @@
+% ~600 words
+
+\subsection{Data Collection Pipeline}
+
+The dataset was constructed through a nine-stage pipeline
+(Table~\ref{tab:pipeline}), implemented in the open-source
+\emph{ConnectedLecturer} project.\footnote{\url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation}}
+Starting from GitHub's Search API, we identified \num{1076} repositories
+containing potential LiaScript content.
+A tree-level aggregation step extracted \num{57096} Markdown files,
+of which \num{3317} (\SI{5.8}{\percent}) were validated as LiaScript courses
+using a combination of rule-based filters and an LLM classifier
+(Llama~3.3 70B).
+For each course, the pipeline collected commit history (\num{19366} commits),
+parsed header metadata (\SI{99.4}{\percent} success rate),
+extracted \num{44} binary feature flags, and performed AI-based enrichment
+(titles, keywords, educational level) for \SI{94.6}{\percent} of courses.
+The final consolidated dataset comprises \num{3317} courses with
+166~columns each (collected 2026-03-13).
+
+\begin{table}[ht]
+  \centering
+  \caption{Data collection pipeline stages}
+  \label{tab:pipeline}
+  \begin{tabular}{llr}
+    \toprule
+    \textbf{Phase} & \textbf{Method} & \textbf{$n$} \\
+    \midrule
+    Repository search    & GitHub Search API           & \num{1076} repos \\
+    File extraction      & Tree API + heuristics       & \num{57096} files \\
+    Validation           & Rules + LLM                 & \num{3317} courses (\SI{5.8}{\percent}) \\
+    Commit analysis      & Commits API                 & \num{19366} commits \\
+    Header metadata      & Regex parsing               & \num{3297} courses (\SI{99.4}{\percent}) \\
+    Feature detection    & 44 regex patterns            & $\num{3317} \times 44$ \\
+    AI enrichment        & RAG + Llama 3.3 70B         & \num{3138} courses (\SI{94.6}{\percent}) \\
+    User profiles        & GitHub Users API             & 445 profiles \\
+    Consolidation        & Inner join                   & $\num{3317} \times 166$ \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Our primary unit of analysis is the individual \emph{course file}
+(one validated \texttt{.md} file = one course).
+For grouping purposes courses are segmented by their \emph{repository
+context} (Section~\ref{sec:three_groups}).
+
+\subsection{Feature Taxonomy}
+\label{sec:taxonomy}
+
+For each course file the pipeline extracts \num{44} binary feature flags
+via syntactic pattern matching on the Markdown source.\footnote{All regex patterns and their mapping to feature labels are documented at \url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation/blob/main/cl-pipeline/run/pipelines/liascript/docs/LiaScript_Features_Patterns.md}}
+We organise these features into four didactically motivated categories
+(Table~\ref{tab:taxonomy}).
+
+\begin{table}[ht]
+  \centering
+  \caption{LiaScript feature taxonomy (4 categories, 44 tracked features)}
+  \label{tab:taxonomy}
+  \begin{tabular}{p{2.8cm}p{3.2cm}p{5.2cm}}
+    \toprule
+    \textbf{Category} & \textbf{Design intent} & \textbf{Representative features} \\
+    \midrule
+    \textcolor{catPresentation}{\textbf{Presentation}} &
+      Self-paced, accessible delivery &
+      Narrator (TTS), animations, effects, galleries \\[4pt]
+    \textcolor{catInteraction}{\textbf{Interaction}} &
+      Active learning \& formative feedback &
+      Single/multiple choice, text input, matrix quiz, surveys \\[4pt]
+    \textcolor{catReuse}{\textbf{Reuse}} &
+      Scalable authoring via shared components &
+      Imports, custom macros, official templates \\[4pt]
+    \textcolor{catEmbedding}{\textbf{Embedding}} &
+      Hands-on executable environments &
+      Executable code, WebApps, external scripts, ASCII diagrams \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+Each category addresses a different pedagogical barrier.
+\emph{Presentation} features target accessibility (screen-reader-friendly TTS,
+animated step-by-step reveals).
+\emph{Interaction} features enable formative self-assessment without a learning
+management system.
+\emph{Reuse} features support the Don't-Repeat-Yourself principle at course level,
+allowing shared building blocks across a curriculum.
+\emph{Embedding} features close the gap between explanation and practice by
+running code, simulations, or visualisations directly in the browser.
+
+\subsection{Three-Group Segmentation}
+\label{sec:three_groups}
+
+Each course resides in a GitHub repository owned by an individual or
+organisation account.
+The \num{3317} courses were contributed by \num{307} unique committers
+working across \num{205} repository accounts (\num{167}~individual,
+\num{37}~organisational, 1~unclassified).
+Organisation accounts act as hosting containers; the actual authors are
+identified through the Git commit history (\texttt{contributors\_list}).
+
+To prevent distortions from authors with fundamentally different
+relationships to LiaScript, we segment courses into three groups based
+on the \emph{repository context}:
+\begin{description}
+  \item[Internal] (462~courses, 7~repository accounts, 58~committers):
+    Repositories owned by the core development team and their
+    organisational accounts
+    (SebastianZug, andre-dietrich, LiaPlayground, LiaScript, LiaBooks,
+    LiaTemplates, TUBAF-IfI-LiaScript).
+    These include templates, demonstrations, and the developers' own
+    teaching materials.
+  \item[MINT-the-GAP] (1\,147~courses, 1~organisation account, 3~committers):
+    A single prolific school-focused initiative producing structured
+    STEM courses.
+    With nearly a third of all courses, this account would dominate any
+    community-level analysis if not separated.
+  \item[Community] (1\,708~courses, 197~repository accounts, 269~committers):
+    All remaining courses, representing independent adoption by
+    educators without direct involvement in LiaScript development.
+    The group spans a wide range of engagement:
+    82~accounts have produced exactly one course --- including
+    test repositories, workshop materials, and one-off teaching
+    projects --- while 8~accounts each contribute 56--146~courses.
+    Despite this spread, no single account dominates
+    (the largest accounts for \SI{8.5}{\percent}),
+    and feature adoption rates show no systematic divergence between
+    prolific and occasional contributors.
+    Excluding all single-course accounts shifts adoption rates by
+    less than one percentage point, confirming that the group is not
+    distorted by test or tutorial content.
+\end{description}
+
+\noindent
+Because grouping follows the repository context, the same committer
+may appear in multiple groups.
+In particular, 21~committers --- including the two core developers ---
+contribute to both Internal and Community repositories.
+Their work in Community repositories is counted as Community,
+reflecting the collaborative context rather than the contributor's
+identity.
+For \num{306} courses (\SI{9.2}{\percent}) no commit history was
+available; these are assigned solely based on their repository account.
+
+\subsection{Complementary User Survey}
+\label{sec:survey}
+
+To triangulate the corpus findings, we conducted a structured needs
+assessment with seven active LiaScript authors from different institutions
+(March~2026).
+Participants prioritised feature requests and usability issues on a
+five-point scale.
+The resulting 60~items are analysed qualitatively in
+Section~\ref{sec:implications}.
+
+\subsection{Limitations}
+
+The corpus is restricted to \emph{public} GitHub repositories.
+Courses hosted on other platforms, behind authentication, or in private
+repositories are not captured.
+Feature detection via pattern matching may miss features used through
+indirect mechanisms (e.g.\ macros that generate quizzes programmatically).
+The three-group segmentation assigns courses by repository context,
+so the 21~committers active in multiple groups are counted in each
+group separately rather than as a single entity.
+The AI enrichment step (titles, keywords, DDC classification) was not
+used in the present analysis but is available for future work.

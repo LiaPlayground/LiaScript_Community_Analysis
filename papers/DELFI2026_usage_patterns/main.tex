@@ -1,0 +1,75 @@
+% !TeX encoding = UTF-8
+% !BIB program = biber
+% DELFI 2026 – Designed but Not Used? A Feature Adoption Analysis of LiaScript Courses
+%
+% Build (im build/ Verzeichnis):
+%   pdflatex main && biber main && pdflatex main && pdflatex main
+
+\documentclass[biblatex]{lni}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{siunitx}
+\sisetup{group-separator={.}, group-minimum-digits=4}
+\usepackage{xcolor}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+
+%% Farben für Feature-Kategorien
+\definecolor{catPresentation}{HTML}{4393c3}
+\definecolor{catInteraction}{HTML}{d6604d}
+\definecolor{catReuse}{HTML}{4dac26}
+\definecolor{catEmbedding}{HTML}{998ec3}
+
+\addbibresource{../shared/literatur.bib}
+
+\begin{document}
+
+\title[LiaScript Feature Adoption]{Designed but Not Used? A Feature Adoption Analysis of LiaScript Courses}
+
+\author[1]{Sebastian Zug}{sebastian.zug@informatik.tu-freiberg.de}{0000-0001-9949-6963}
+\author[1]{André Dietrich}{andre.dietrich@informatik.tu-freiberg.de}{0000-0001-8894-1110}
+\author[2]{Ines Aubel}{ines.aubel@chemie.tu-freiberg.de}{0000-0002-7589-9634}
+\author[1]{Volker Göhler}{volker.goehler@informatik.tu-freiberg.de}{0000-0003-1901-1335}
+
+\affil[1]{TU Bergakademie Freiberg\\Institut für Informatik\\09599 Freiberg\\Germany}
+\affil[2]{TU Bergakademie Freiberg\\Institut für Technische Chemie\\09599 Freiberg\\Germany}
+
+\maketitle
+
+\begin{abstract}
+\input{sections/00_abstract}
+\end{abstract}
+
+\begin{keywords}
+Open Educational Resources \and LiaScript \and Feature Adoption \and
+OER Authoring \and Client-side Learning
+\end{keywords}
+
+\section{Introduction}
+\label{sec:introduction}
+\input{sections/01_introduction}
+
+\section{Related Work}
+\label{sec:background}
+\input{sections/02b_relatedwork}
+
+\section{Dataset and Methodology}
+\label{sec:methodology}
+\input{sections/03_methodology}
+
+\section{Feature Adoption in the Wild}
+\label{sec:adoption}
+\input{sections/04_adoption}
+
+\section{Development Implications}
+\label{sec:implications}
+\input{sections/07_implications}
+
+\section{Conclusion}
+\label{sec:conclusion}
+\input{sections/08_conclusion}
+
+\printbibliography
+
+\end{document}

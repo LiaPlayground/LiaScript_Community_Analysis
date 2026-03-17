@@ -1,0 +1,45 @@
+% ~250 words
+
+This paper presented the first systematic empirical analysis of feature
+adoption in the LiaScript ecosystem.
+Exploiting the GitHub corpus as the only observable proxy for a
+tool with no server-side telemetry, we analysed \num{3317} courses
+from \num{307} committers using a four-category feature taxonomy.
+
+The central finding is a pronounced adoption gradient.
+Presentation features --- particularly narrator/TTS and structural
+animations --- are widely used, as is the macro and import system for
+reuse.
+Interactive affordances show selective adoption, while advanced embedding
+features remain nearly invisible in practice despite being core
+components of the LiaScript design.
+
+This gradient mirrors a well-documented pattern in software engineering:
+industry reports consistently find that roughly \SI{80}{\percent} of
+features in software products are rarely or never used~\cite{pendo2019}.
+Our three-group comparison adds nuance to this observation by showing
+that different author communities exploit \emph{different} feature
+subsets --- MINT-the-GAP's standardised configuration achieves
+near-universal adoption of reuse and math features but leaves
+presentation capabilities unexplored, while Community authors follow a natural
+adoption ladder that plateaus well below the full feature space.
+The HCI principle of \emph{progressive disclosure}~\cite{Nielsen2006}
+--- revealing complexity only as users need it --- maps directly onto
+this ladder and should guide future documentation design.
+Notably, prolific authors show the same feature profile as occasional
+contributors, indicating that experience alone does not drive
+exploration --- a finding that underscores the need for \emph{active}
+onboarding rather than relying on organic discovery.
+
+These findings translate into three actionable priorities:
+progressive documentation following the adoption ladder,
+reduced embedding complexity through better tooling,
+and shared configurations that expose rather than hide optional features.
+AI-assisted course generation, identified as the top priority in a
+complementary user survey, may address all three barriers simultaneously.
+
+A companion study will shift the lens from feature adoption to course
+\emph{lifecycle}: how courses evolve over time, how collaboration
+manifests through commits and forks, and whether GitHub engagement
+metrics (stars, forks) serve as valid indicators of educational impact
+in a system that, by design, leaves no usage trace.

@@ -1,0 +1,152 @@
+% ~750 words
+% Five subsections: target audience, gap analysis, adoption ladder, survey, monitoring
+
+The adoption data raises a fundamental strategic question:
+should development effort target the many occasional authors who
+plateau at narrator and quizzes, or the few prolific authors who
+might exploit the full feature space?
+The corpus provides a clear empirical answer.
+Of the 197~Community accounts, 82 have produced exactly one course and
+81 have produced two to ten.
+Yet the eight most prolific accounts (56--146~courses each) exhibit
+essentially the same feature profile as occasional contributors
+(Section~\ref{sec:three_groups}).
+Production volume does not drive feature exploration.
+This means that investing exclusively in power-user features
+(e.g.\ code projects, adaptive learning paths) addresses a small
+audience without broadening the overall feature uptake.
+Conversely, the MINT-the-GAP model demonstrates that
+\emph{infrastructure-level} choices --- a standardised configuration
+that pre-selects shared libraries and exercise formats --- can lift
+adoption of specific features for an entire author community at once.
+The implication is that the most effective improvements operate
+at the boundary between casual and intermediate use, lowering the
+step from the current adoption plateau to the next rung of the
+feature ladder.
+
+The adoption gradient itself can be explained through three gap classes.
+
+\subsection{Three Adoption Gap Classes}
+\label{sec:gap_classes}
+
+\paragraph{Documentation deficit.}
+Some features are syntactically non-obvious and lack progressive
+examples.
+Consider the contrast between narrator and effects:
+activating text-to-speech requires a single header line
+(\texttt{<!--~narrator:~German~Female~-->}), whereas timed content
+appearance demands a numeric fragment notation
+(\texttt{\{\{1\}\}}, \texttt{\{\{2-3\}\}}) combined with block
+delimiters (\texttt{--\{\{1\}\}--}) for accompanying audio ---
+a secondary syntax layer documented primarily through a single,
+comprehensive reference rather than graduated tutorials.
+The strong adoption of narrator (\SI{84}{\percent} in the Community)
+and basic macros (\SI{54}{\percent}) shows that authors \emph{do}
+progress beyond plain Markdown when the entry cost is low.
+The three-group comparison reinforces this interpretation: Community
+authors show significantly lower adoption of animation and script
+features than Internal authors, although the underlying syntax is
+identical --- suggesting that existing documentation does not
+sufficiently bridge the gap.
+A survey participant independently confirmed this barrier:
+\emph{``Kompaktere, auszugsweise Dokumentation für Einsteiger''}
+(priority~4/5), while another requested
+\emph{``Einführung verschiedener Rollen [im Editor], die
+unterschiedliche Anzahl von Feature-Buttons gezeigt bekommen
+(Novice, Power User)''} (priority~4/5).
+
+\paragraph{Workflow barrier.}
+Code projects and executable code require authors to configure external
+services (CodeRunner templates via \texttt{import:}) and understand the
+interaction between named code blocks (\texttt{+}/\texttt{-} visibility
+prefixes, filename annotations).
+For educators without a technical background this represents a barrier
+that documentation alone cannot resolve.
+The survey confirms this concretely:
+\emph{``Bildausgaben beim Coderunner sind umständlich, das
+Terminalfenster muss erst vergrößert werden''} (priority~3/5),
+and \emph{``Devserver produziert anderen Code als die Live Version''}
+(priority~5/5), indicating that even experienced authors encounter
+friction in the embedding workflow.
+Priorities include a visual \emph{template picker} that inserts
+pre-configured embedding blocks, improved error messages when external
+templates fail, and a default code execution sandbox requiring no
+configuration.
+
+\paragraph{Configuration lock-in.}
+The MINT-the-GAP profile demonstrates that a standardised configuration
+--- importing the same libraries (TikZ, Algebrite) across all exercise
+files --- can drive near-universal adoption of specific features
+(math~\SI{95}{\percent}, imports~\SI{98}{\percent}), but simultaneously
+leaves features outside this scope unexplored
+(narrator~\SI{9}{\percent}, animations~\SI{0.6}{\percent}).
+This pattern represents a design tension: standardised configurations
+lower the entry barrier for a predefined feature set but discourage
+exploration beyond it.
+The survey reveals related friction:
+\emph{``Kompatibilität zu Standard-MD herstellen~[\ldots] Es gibt
+eine größere Liste von Situationen wo sich LiaScript-MD nicht wie
+echtes MD verhält''} (priority~4/5) points to frustration when
+LiaScript-specific syntax diverges from author expectations.
+Future shared configurations should expose optional extension points
+so that standardised workflows do not inadvertently narrow the
+feature space.
+
+\paragraph{Convergent adoption floors.}
+Several features remain below \SI{5}{\percent} in \emph{all} three
+groups, including among the core developers themselves
+(animated CSS~\SI{2.4}{\percent}, code
+projects~\SI{1.3}{\percent}, effects~\SI{0}{\percent}).
+Unlike the documentation deficit, where Internal adoption proves that
+the feature \emph{can} succeed, these convergent floors suggest that the
+features' current design may not match real authoring needs.
+They warrant a critical review of whether the feature concepts
+themselves require rethinking rather than better documentation.
+
+\subsection{The Adoption Ladder}
+\label{sec:ladder}
+
+Community adoption rates suggest a natural progression path:
+narrator and links ($>$\,\SI{80}{\percent}) $\to$
+macros and tables ($\approx$\,\SI{50}{\percent}) $\to$
+quizzes and animations ($\approx$\,\SI{25}{\percent}) $\to$
+embedding features ($<$\,\SI{10}{\percent}).
+The power-user analysis in Section~\ref{sec:three_groups} shows that
+prolific Community authors (\num{8}~accounts with 56--146~courses each)
+exhibit essentially the same feature profile as occasional contributors,
+indicating that production volume alone does not drive feature
+exploration.
+Onboarding documentation should therefore follow this ladder explicitly,
+guiding authors from high-adoption to low-adoption features in a
+structured sequence rather than presenting all capabilities as
+equally accessible.
+
+\subsection{Qualitative Triangulation}
+\label{sec:triangulation}
+
+Beyond the individual quotes cited above, the survey reveals a
+cross-cutting theme: four of the 60~items request
+\emph{AI-assisted course generation}, making it the most prominent
+cluster.
+One participant described an
+\emph{``Agentensystem zur Kurserstellung mit Human-in-the-middle
+[\ldots] Die AI stellt Rückfragen und erstellt dann einen Kurs,
+dieser wird von einem AI-Linter gegengecheckt''} (priority~2/5).
+Combined with the configuration lock-in finding, this suggests that
+AI-based generation could fulfil the same adoption-enabling role as
+standardised configurations --- lowering the entry cost for complex
+features --- while avoiding the narrowing effect of fixed setups.
+Two further items request a \emph{syntax checker or linter}
+(\emph{``LiaScript Linter''}, priority~2/5;
+\emph{``Bessere Fehlermeldungen bei Syntaxfehlern''}, priority~3/5),
+reinforcing that real-time authoring feedback is perceived as
+insufficient across experience levels.
+
+\subsection{Monitoring Future Adoption}
+
+Because LiaScript's architecture precludes runtime telemetry,
+repeating the GitHub corpus analysis at regular intervals
+is the only mechanism available for tracking whether these improvements
+translate into changed authoring behaviour.
+We recommend treating the corpus snapshot as an annual instrument,
+analogous to a developer survey in the open-source context.
