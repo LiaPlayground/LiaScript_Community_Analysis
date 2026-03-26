@@ -1,8 +1,29 @@
-# LiaScript Paper Pipeline
+# LiaScript Community Analysis
 
-Automated pipeline for analyzing LiaScript courses on GitHub and generating research papers.
+Research papers and analyses exploring the LiaScript open-source ecosystem — covering adoption patterns, collaboration networks, feature usage, and community structure.
 
-## 🚀 Quick Start
+## Subprojects
+
+| Subproject | Type | Focus |
+|---|---|---|
+| [`DELFI2026_usage_patterns`](papers/DELFI2026_usage_patterns/) | Conference paper | Feature adoption analysis — which LiaScript features are actually used by course creators? |
+| [`journal_collaboration`](papers/journal_collaboration/) | Journal paper | Collaboration and content reuse patterns in decentralized OER |
+| [`conference_development`](papers/conference_development/) | Conference paper | User segmentation and implications for platform development |
+| [`contributor_graph`](papers/contributor_graph/) | Network analysis | Contributor-repository network — are courses isolated or connected through "super users"? |
+| [`liascript_course`](papers/liascript_course/) | Interactive course | Data-driven overview of the LiaScript ecosystem |
+| [`author_map`](papers/author_map/) | Visualization | Geographic distribution of LiaScript committers (interactive map) |
+
+Shared resources (bibliography, figures, config) are in [`papers/shared/`](papers/shared/).
+
+## Data
+
+The dataset (~3.5 GB) is not included in this repository. It contains crawled LiaScript course data from GitHub (March 2026, 3,672 validated courses).
+
+Download: https://ificloud.xsitepool.tu-freiberg.de/index.php/f/23071124
+
+The data path is configured in [`papers/shared/config.yaml`](papers/shared/config.yaml).
+
+## Quick Start
 
 ### Prerequisites Check
 
