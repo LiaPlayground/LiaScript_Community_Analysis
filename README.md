@@ -19,7 +19,7 @@ Shared resources (bibliography, figures, config) are in [`papers/shared/`](paper
 
 The dataset (~3.5 GB) is not included in this repository. It contains crawled LiaScript course data from GitHub (March 2026, 3,672 validated courses).
 
-Download: https://ificloud.xsitepool.tu-freiberg.de/index.php/f/23071124
+Download: https://ificloud.xsitepool.tu-freiberg.de/index.php/s/52zRDccb5AP6JFL
 
 The data path is configured in [`papers/shared/config.yaml`](papers/shared/config.yaml).
 
