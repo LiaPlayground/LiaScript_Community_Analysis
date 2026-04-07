@@ -3,43 +3,54 @@
 This paper presented the first systematic empirical analysis of feature
 adoption in the LiaScript ecosystem.
 Exploiting the GitHub corpus as the only observable proxy for a
-tool with no server-side telemetry, we analysed \num{3317} courses
-from \num{307} committers using a four-category feature taxonomy.
+tool with no server-side telemetry, we analysed \num{2973} courses
+from \num{314} committers using a four-category feature taxonomy
+and a four-group segmentation that distinguishes Internal developers,
+the MINT-the-GAP school initiative, and two community segments ---
+higher-education (Comm-Uni) and school-level courses (Comm-School) ---
+identified via AI-based education-level classification.
 
-The central finding is a pronounced adoption gradient.
-Presentation features --- particularly narrator/TTS and structural
-animations --- are widely used, as is the macro and import system for
-reuse.
-Interactive affordances show selective adoption, while advanced embedding
-features remain nearly invisible in practice despite being core
-components of the LiaScript design.
+The central finding is that \SI{89}{\percent} of the designed feature
+space is adopted in measurable numbers --- contrary to the common
+\SI{80}{\percent}-unused pattern reported for software
+products~\cite{pendo2019}.
+The challenge is not that features go unused, but that each author
+community explores only its own subset.
+The four-group comparison reveals structurally different adoption
+ladders for university and school educators, and shows that authoring
+infrastructure shapes adoption as strongly as pedagogical
+needs~(cf.\ MINT-the-GAP vs.\ Comm-School).
 
-This gradient mirrors a well-documented pattern in software engineering:
-industry reports consistently find that roughly \SI{80}{\percent} of
-features in software products are rarely or never used~\cite{pendo2019}.
-Our three-group comparison adds nuance to this observation by showing
-that different author communities exploit \emph{different} feature
-subsets --- MINT-the-GAP's standardised configuration achieves
-near-universal adoption of reuse and math features but leaves
-presentation capabilities unexplored, while Community authors follow a natural
-adoption ladder that plateaus well below the full feature space.
-The HCI principle of \emph{progressive disclosure}~\cite{Nielsen2006}
---- revealing complexity only as users need it --- maps directly onto
-this ladder and should guide future documentation design.
-Notably, prolific authors show the same feature profile as occasional
-contributors, indicating that experience alone does not drive
-exploration --- a finding that underscores the need for \emph{active}
-onboarding rather than relying on organic discovery.
+These findings translate into concrete priorities:
+\begin{itemize}
+  \item \textbf{Role-specific onboarding.}
+    A single tutorial path cannot serve both audiences.
+    Comm-Uni authors plateau between code/macros ($\approx$\,\SI{50}{\percent})
+    and animations/imports ($\approx$\,\SI{30}{\percent}) ---
+    targeted animation tutorials would have the highest leverage.
+    Comm-School authors underuse narrator (\SI{61}{\percent}) despite
+    high multimedia adoption; demonstrating TTS integration in
+    multimedia-rich workflows could close this gap.
+  \item \textbf{Reduced embedding complexity.}
+    Executable code and code projects remain below \SI{5}{\percent}
+    across all groups.
+    A default code sandbox requiring no configuration and a visual
+    template picker would lower the entry barrier for non-technical
+    authors.
+  \item \textbf{Open shared configurations.}
+    The MINT-the-GAP model proves that standardised setups lift adoption,
+    but at the cost of feature-space narrowing.
+    Future configurations should expose optional extension points
+    (e.g.\ narrator, animations) so that template-driven workflows
+    do not inadvertently limit exploration.
+\end{itemize}
 
-These findings translate into three actionable priorities:
-progressive documentation following the adoption ladder,
-reduced embedding complexity through better tooling,
-and shared configurations that expose rather than hide optional features.
-AI-assisted course generation, identified as the top priority in a
-complementary user survey, may address all three barriers simultaneously.
-
+Because LiaScript's architecture precludes runtime telemetry,
+repeating the GitHub corpus analysis at regular intervals is the only
+mechanism for tracking whether these improvements translate into changed
+authoring behaviour.
 A companion study will shift the lens from feature adoption to course
 \emph{lifecycle}: how courses evolve over time, how collaboration
 manifests through commits and forks, and whether GitHub engagement
-metrics (stars, forks) serve as valid indicators of educational impact
+metrics serve as valid indicators of educational impact
 in a system that, by design, leaves no usage trace.

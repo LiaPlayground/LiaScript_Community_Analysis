@@ -2,249 +2,119 @@
 
 \subsection{Data Collection Pipeline}
 
-The dataset was constructed through a nine-stage pipeline
-(\Cref{tab:data_pipeline} and \Cref{fig:data_pipeline_pub}), implemented in the open-source
-\emph{ConnectedLecturer} project.\footnote{\url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation}}
-Starting from GitHub's Search API, we identified \num{1076} repositories
-containing potential LiaScript content.
-A tree-level aggregation step extracted \num{57096} Markdown files,
-of which \num{3317} (\SI{5.8}{\percent}) were validated as LiaScript courses
-using a combination of rule-based filters and an LLM classifier
-(Llama~3.3 70B).
-For each course, the pipeline collected commit history (\num{19366} commits),
-parsed header metadata (\SI{99.4}{\percent} success rate),
-extracted \num{44} binary feature flags, and performed AI-based enrichment
-(titles, keywords, educational level) for \SI{94.6}{\percent} of courses.
-The final consolidated dataset comprises \num{3317} courses with
-166~columns each (collected 2026-03-13).
-
-%\begin{table}[ht]
-%  \centering
-%  \caption{Data collection pipeline stages}
-%  \label{tab:pipeline}
-%  \begin{tabular}{llr}
-%    \toprule
-%    \textbf{Phase} & \textbf{Method} & \textbf{$n$} \\
-%    \midrule
-%    Repository search    & GitHub Search API           & \num{1076} repos \\
-%    File extraction      & Tree API + heuristics       & \num{57096} files \\
-%    Validation           & Rules + LLM                 & \num{3317} courses (\SI{5.8}{\percent}) \\
-%    Commit analysis      & Commits API                 & \num{19366} commits \\
-%    Header metadata      & Regex parsing               & \num{3297} courses (\SI{99.4}{\percent}) \\
-%    Feature detection    & 44 regex patterns            & $\num{3317} \times 44$ \\
-%    AI enrichment        & RAG + Llama 3.3 70B         & \num{3138} courses (\SI{94.6}{\percent}) \\
-%    User profiles        & GitHub Users API             & 445 profiles \\
-%    Consolidation        & Inner join                   & $\num{3317} \times 166$ \\
-%    \bottomrule
-%  \end{tabular}
-%\end{table}
-
-\begin{table}[t]
-\centering
-\caption{Nine-stage data construction pipeline for the ConnectedLecturer dataset.}
-\label{tab:data_pipeline}
-\begin{tabular}{p{2.2cm} p{3.2cm} p{2.6cm} p{2.8cm}}
-\toprule
-\textbf{Phase} & \textbf{Method} & \textbf{Output} & \textbf{Coverage} \\
-\midrule
-Repository search 
-& GitHub Search API 
-& 1{,}076 repositories 
-& -- \\
-
-File extraction 
-& Tree API + heuristics 
-& 57{,}096 Markdown files 
-& -- \\
-
-Validation 
-& Rule-based filters + LLM classifier 
-& 3{,}317 LiaScript courses 
-& 5.8\% of files \\
-
-Commit analysis 
-& Commits API 
-& 19{,}366 commits 
-& -- \\
-
-Header metadata 
-& Regex parsing 
-& Metadata for 3{,}297 courses 
-& 99.4\% of courses \\
-
-Feature detection 
-& 44 regex patterns 
-& 44 features for 3{,}317 courses 
-& 100\% \\
-
-AI enrichment 
-& RAG + Llama 3.3 70B 
-& Enrichment for 3{,}138 courses 
-& 94.6\% of courses \\
-
-User profiles 
-& GitHub Users API 
-& 445 profiles 
-& -- \\
-
-Consolidation 
-& Course-centered join 
-& Final dataset: 3{,}317 courses $\times$ 166 columns 
-& -- \\
-\bottomrule
-\end{tabular}
-\end{table}
-
 \begin{figure}[htbp]
 \centering
+\resizebox{\columnwidth}{!}{%
 \begin{tikzpicture}[
     font=\small,
-    node distance=8mm and 12mm,
-    >={Stealth[length=3mm,width=2mm]},
+    node distance=5mm and 5mm,
+    >={Stealth[length=2.5mm,width=1.8mm]},
     base/.style={
         rectangle,
-        rounded corners=2.2mm,
+        rounded corners=1.8mm,
         draw,
-        line width=0.8pt,
-        align=center,
-        minimum height=1.35cm,
-        text width=4.0cm,
-        inner sep=4pt
-    },
-    search/.style={
-        base,
-        draw=blue!55!black,
-        fill=blue!8
-    },
-    validate/.style={
-        base,
-        draw=orange!70!black,
-        fill=orange!12
-    },
-    enrich/.style={
-        base,
-        draw=teal!60!black,
-        fill=teal!10
-    },
-    aux/.style={
-        base,
-        draw=purple!55!black,
-        fill=purple!9
-    },
-    finalbox/.style={
-        base,
-        draw=black,
-        fill=gray!12,
-        text width=5.1cm,
-        minimum height=1.5cm
-    },
-    flow/.style={
-        ->,
-        line width=1.0pt,
-        draw=black!75
-    },
-    groupbox/.style={
-        rounded corners=2.5mm,
-        draw=black!45,
-        dashed,
         line width=0.7pt,
-        inner sep=7pt
+        align=center,
+        minimum height=1.1cm,
+        text width=2.6cm,
+        inner sep=3pt,
+        font=\footnotesize
     },
-    grouplabel/.style={
-        font=\footnotesize\bfseries,
-        fill=white,
-        inner sep=2pt
-    }
+    search/.style={base, draw=blue!55!black, fill=blue!8},
+    validate/.style={base, draw=orange!70!black, fill=orange!12},
+    enrich/.style={base, draw=teal!60!black, fill=teal!10},
+    aibox/.style={base, draw=violet!60!black, fill=violet!8},
+    finalbox/.style={base, draw=black, fill=gray!12},
+    flow/.style={->, line width=0.8pt, draw=black!75},
+    split/.style={fill=black, circle, inner sep=1.2pt},
+    groupbox/.style={rounded corners=2mm, draw=black!45, dashed,
+        line width=0.6pt, inner sep=5pt},
+    grouplabel/.style={font=\scriptsize\bfseries, fill=white, inner sep=1.5pt}
 ]
 
-% --- Main linear path --------------------------------------------------------
+% --- Vertical start, then horizontal flow ------------------------------------
 
-\node[search] (search) {Repository search\\
-GitHub Search API\\[1mm]
-\textbf{1,076 repositories}};
+\node[search] (search) {Repository search\\GitHub Search API\\[0.5mm]
+\textbf{1,076 repos}};
 
-\node[search, below=of search] (files) {File extraction\\
-Tree API + heuristics\\[1mm]
-\textbf{57,096 Markdown files}};
+\node[search, below=of search] (files) {File extraction\\Tree API + heuristics\\[0.5mm]
+\textbf{57,096 files}};
 
-\node[validate, below=15mm of files] (valid) {Validation\\
-Rules + LLM\\[1mm]
-\textbf{3,317 LiaScript courses}\\
-\emph{(5.8\% of files)}};
+\node[validate, right=of files] (valid) {Validation\\Rules + LLM\\[0.5mm]
+\textbf{3,317 courses}\\
+\emph{\scriptsize(5.8\,\% of files)}};
 
-% --- Parallel branches -------------------------------------------------------
+% --- Split into three parallel branches ---------------------------------------
 
-\node[enrich, below left=37mm and -18mm of valid] (commits) {Commit analysis\\
-Commits API\\[1mm]
-\textbf{19,366 commits}};
+\coordinate[right=1mm of valid] (split);
 
-\node[enrich, below=14mm of valid] (header) {Header metadata\\
-Regex parsing\\[1mm]
-metadata for \textbf{3,297 courses}\\
-\emph{(99.4\% coverage)}};
+\node[enrich, above right=2mm and 6mm of valid] (header) {Header metadata\\ parsing\\[0.5mm]
+\textbf{3,297 courses}\\
+\emph{\scriptsize(99.4\,\% coverage)}};
 
-\node[enrich, below right=37mm and -18mm of valid] (features) {Feature detection\\
-44 regex patterns\\[1mm]
-\textbf{44 features} for\\
-\textbf{3,317 courses}};
+\node[enrich, right=6mm of valid] (features) {Feature detection\\44 regex patterns\\[0.5mm]
+\textbf{44 features}};
 
-\node[enrich, above right= 6mm and -18mm of features] (ai) {AI enrichment\\
-RAG + Llama 3.3 70B\\[1mm]
-enrichment for \textbf{3,138 courses}\\
-\emph{(94.6\% coverage)}};
+\node[aibox, below right=2mm and 6mm of valid] (aiclass) {AI classification\\LLM (llama3.3:70b)\\[0.5mm]
+\textbf{Education level}\\
+\emph{\scriptsize(6 categories)}};
 
-\node[aux, above left= 8mm and -18mm of commits] (users) {User profiles\\
-GitHub Users API\\[1mm]
-\textbf{445 profiles}};
+% --- Merge -------------------------------------------------------------------
 
-% --- Final node --------------------------------------------------------------
-
-\node[finalbox, below=40mm of header] (final) {Course-centered consolidation\\
-validated courses combined with derived metadata\\[1mm]
-\textbf{Final dataset: 3,317 courses $\times$ 166 columns}};
+\node[finalbox, right=38mm of split] (final) {Consolidation\\Analysis\\[0.5mm]
+\textbf{2,973 courses}};
 
 % --- Arrows ------------------------------------------------------------------
 
 \draw[flow] (search) -- (files);
 \draw[flow] (files) -- (valid);
 
-\draw[flow] (valid.190) -| (commits);
-\draw[flow] (valid) -- (header);
-\draw[flow] (valid.350) -| (features);
-\draw[flow] (valid.east) -| (ai.north);
-\draw[flow] (valid.west) -| (users.north);
+\draw[flow] (valid.east) -- ++(3mm,0) |- (header.west);
+\draw[flow] (valid.east) -- ++(3mm,0) -- (features.west);
+\draw[flow] (valid.east) -- ++(3mm,0) |- (aiclass.west);
 
-\draw[flow] (users.south) |- (final.west);
-\draw[flow] (commits.south) -- (final.150);
-\draw[flow] (header) -- (final);
-\draw[flow] (features.south) -- (final.30);
-\draw[flow] (ai.south) |- (final.east);
+\coordinate (merge) at ([xshift=-8mm]final.west);
+\draw[flow] (header.east) -- ++(3mm,0) |- (merge);
+\draw[flow] (features.east) -- (merge);
+\draw[flow] (aiclass.east) -- ++(3mm,0) |- (merge);
+\draw[flow] (merge) -- (final.west);
 
 % --- Group annotations -------------------------------------------------------
 
 \begin{scope}[on background layer]
-    \node[groupbox, fit=(search)(files)] (g1) {};
+    \node[groupbox, fit=(search)(files), inner xsep=8pt, inner ysep=5pt] (g1) {};
     \node[grouplabel, above=1mm of g1.north] {Candidate identification};
 
     \node[groupbox, fit=(valid)] (g2) {};
     \node[grouplabel, above=1mm of g2.north] {Course validation};
 
-    \node[groupbox, fit=(users)(commits)(header)(features)(ai)] (g3) {};
-    \node[grouplabel, above=1mm of g3.north] {Parallel analysis and enrichment};
-
-    \node[groupbox, fit=(final)] (g4) {};
-    \node[grouplabel, above=1mm of g4.north] {Final assembly};
+    \node[groupbox, fit=(header)(features)(aiclass), inner ysep=5pt] (g3) {};
+    \node[grouplabel, above=1mm of g3.north] {Feature extraction \& classification};
 \end{scope}
 
-\end{tikzpicture}
-\caption{Publication-oriented overview of the ConnectedLecturer data construction workflow. After candidate identification and course validation, several analysis and enrichment branches are executed in parallel and merged into the final consolidated course dataset.}
+\end{tikzpicture}%
+}
+\caption{Data construction workflow.  The AI classification stage assigns
+an education level to each course, enabling the community segmentation
+described in Section~\ref{sec:four_groups}.}
 \label{fig:data_pipeline_pub}
 \end{figure}
 
-Our primary unit of analysis is the individual \emph{course file}
-(one validated \texttt{.md} file = one course).
-For grouping purposes courses are segmented by their \emph{repository
-context} (Section~\ref{sec:three_groups}).
+
+The dataset was constructed through a multi-stage pipeline
+(\Cref{fig:data_pipeline_pub}), implemented in the open-source
+\emph{ConnectedLecturer} project.\footnote{\url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation}}
+Starting from GitHub's Search API, we identified \num{1076} repositories
+containing potential LiaScript content (collected 2026-03-13).
+A tree-level aggregation step extracted \num{57096} Markdown files,
+of which \num{3317} (\SI{5.8}{\percent}) were validated as LiaScript courses
+using a combination of rule-based filters and an LLM classifier.
+For each validated course, the pipeline (a)~parsed header metadata
+(\SI{99.4}{\percent} success rate), (b)~extracted \num{44} binary
+feature flags, and (c)~assigned an education level via an LLM-based
+classifier (llama3.3:70b) that categorises each course into one of
+six levels (Primary, Secondary~I/II, Higher Education, Vocational,
+Continuing Education).
 
 \subsection{Feature Taxonomy}
 \label{sec:taxonomy}
@@ -258,7 +128,7 @@ We organise these features into four didactically motivated categories
   \centering
   \caption{LiaScript feature taxonomy (4 categories, 44 tracked features)}
   \label{tab:taxonomy}
-  \begin{tabular}{p{2.8cm}p{3.2cm}p{5.2cm}}
+  \begin{tabular}{p{2.0cm}p{3.8cm}p{5.6cm}}
     \toprule
     \textbf{Category} & \textbf{Design intent} & \textbf{Representative features} \\
     \midrule
@@ -288,70 +158,63 @@ allowing shared building blocks across a curriculum.
 \emph{Embedding} features close the gap between explanation and practice by
 running code, simulations, or visualisations directly in the browser.
 
-\subsection{Three-Group Segmentation}
-\label{sec:three_groups}
+\subsection{Four-Group Segmentation}
+\label{sec:four_groups}
 
 Each course resides in a GitHub repository owned by an individual or
 organisation account.
-The \num{3317} courses were contributed by \num{307} unique committers
+The \num{3317} courses were contributed by \num{314} unique committers
 working across \num{205} repository accounts (\num{167}~individual,
 \num{37}~organisational, 1~unclassified).
 Organisation accounts act as hosting containers; the actual authors are
 identified through the Git commit history (\texttt{contributors\_list}).
 
 To prevent distortions from authors with fundamentally different
-relationships to LiaScript, we segment courses into three groups based
-on the \emph{repository context}:
+relationships to LiaScript, we first separate courses by
+\emph{repository context} into Internal and MINT-the-GAP.
+Within the remaining community courses, the AI-based education-level
+classification reveals that higher-education courses and school-level
+courses exhibit substantially different feature profiles
+(Section~\ref{sec:profiles}), motivating a further split.
+The resulting four groups are:
 \begin{description}
-  \item[Internal] (462~courses, 7~repository accounts, 58~committers):
+  \item[Internal] (462~courses, 7~repository accounts):
     Repositories owned by the core development team and their
     organisational accounts
     (SebastianZug, andre-dietrich, LiaPlayground, LiaScript, LiaBooks,
     LiaTemplates, TUBAF-IfI-LiaScript).
     These include templates, demonstrations, and the developers' own
     teaching materials.
-  \item[MINT-the-GAP] (1\,147~courses, 1~organisation account, 3~committers):
+  \item[MINT-the-GAP] (1\,147~courses, 1~organisation account):
     A single prolific school-focused initiative producing structured
     STEM courses.
     With nearly a third of all courses, this account would dominate any
     community-level analysis if not separated.
-  \item[Community] (1\,708~courses, 197~repository accounts, 269~committers):
-    All remaining courses, representing independent adoption by
-    educators without direct involvement in LiaScript development.
-    The group spans a wide range of engagement:
-    82~accounts have produced exactly one course --- including
-    test repositories, workshop materials, and one-off teaching
-    projects --- while 8~accounts each contribute 56--146~courses.
-    Despite this spread, no single account dominates
-    (the largest accounts for \SI{8.5}{\percent}),
-    and feature adoption rates show no systematic divergence between
-    prolific and occasional contributors.
-    Excluding all single-course accounts shifts adoption rates by
-    less than one percentage point, confirming that the group is not
-    distorted by test or tutorial content.
+  \item[Comm-Uni] (1\,178~courses, 167~repository accounts):
+    Community courses classified as \emph{Higher Education} by the
+    AI classifier.
+    This is the largest and most diverse group, spanning universities
+    across multiple countries and disciplines.
+    The largest single account contributes \SI{10.9}{\percent} of courses;
+    excluding single-course accounts shifts adoption rates by less than
+    one percentage point.
+  \item[Comm-School] (186~courses, 38~repository accounts):
+    Community courses classified as \emph{Primary}, \emph{Secondary~I},
+    or \emph{Secondary~II}.
 \end{description}
 
 \noindent
+The remaining \num{344} community courses classified as Vocational
+Education, Continuing Education, or without a clear education-level
+assignment are excluded from the group comparison, yielding
+\num{2973}~courses for the four-group analysis.
+
 Because grouping follows the repository context, the same committer
 may appear in multiple groups.
-In particular, 21~committers --- including the two core developers ---
+In particular, 22~committers --- including the two core developers ---
 contribute to both Internal and Community repositories.
 Their work in Community repositories is counted as Community,
-reflecting the collaborative context rather than the contributor's
-identity.
-For \num{306} courses (\SI{9.2}{\percent}) no commit history was
-available; these are assigned solely based on their repository account.
-
-\subsection{Complementary User Survey}
-\label{sec:survey}
-
-To triangulate the corpus findings, we conducted a structured needs
-assessment with seven active LiaScript authors from different institutions
-(March~2026).
-Participants prioritised feature requests and usability issues on a
-five-point scale.
-The resulting 60~items are analysed qualitatively in
-Section~\ref{sec:implications}.
+reflecting the collaborative context.
 
 \subsection{Limitations}
 
@@ -360,8 +223,14 @@ Courses hosted on other platforms, behind authentication, or in private
 repositories are not captured.
 Feature detection via pattern matching may miss features used through
 indirect mechanisms (e.g.\ macros that generate quizzes programmatically).
-The three-group segmentation assigns courses by repository context,
-so the 21~committers active in multiple groups are counted in each
+The four-group segmentation assigns courses by repository context
+and AI-classified education level,
+so the 22~committers active in multiple groups are counted in each
 group separately rather than as a single entity.
-The AI enrichment step (titles, keywords, DDC classification) was not
-used in the present analysis but is available for future work.
+The AI-based education-level classification has not been manually
+validated beyond spot-checks against Internal and MINT-the-GAP;
+ambiguities between Secondary~I and~II are possible.
+The Comm-School group is comparatively small (\num{186}~courses,
+\num{38}~accounts) and shows moderate author concentration
+(top-3 accounts contribute \SI{44.1}{\percent}).
+%, which should be considered when interpreting its adoption rates.

@@ -46,7 +46,17 @@ broadly adopted to virtually unused features.
   \end{tabular}
 \end{table}
 
-The table reveals several patterns.
+A first observation concerns the overall breadth of adoption:
+of the \num{44} tracked features, only five fall below
+\SI{1}{\percent} (effects, TTS blocks, classroom, code projects,
+animated CSS).
+The remaining 39~features --- \SI{89}{\percent} of the designed feature
+space --- are used in measurable numbers.
+LiaScript's feature palette is thus not ignored; it is \emph{explored},
+albeit unevenly.
+
+Within this broad adoption, the table reveals several category-specific
+patterns.
 \textcolor{catPresentation}{Presentation} features split sharply: narrator
 and animations require minimal authoring effort (a single comment line
 activates TTS) and achieve broad uptake, while fine-grained variants
@@ -65,54 +75,55 @@ capability.
 \subsection{Group-level Adoption Profiles}
 \label{sec:profiles}
 
-Table~\ref{tab:group_diff} lists the features with notable adoption
-differences across the three groups (spread $> 10$ percentage points).
-Features with similar adoption rates across groups are omitted from the table
-and discussed below.
+Table~\ref{tab:group_diff} lists features with notable adoption
+differences across the four groups (spread $> 10$ percentage points).
+The four-group segmentation --- splitting the former Community group
+into Comm-Uni (\num{1178}~courses) and Comm-School (\num{186}~courses)
+--- reveals patterns that were previously hidden in the aggregate.
 
 \begin{table}[ht]
   \centering
   \caption{Features with divergent adoption rates across groups
-           (spread $> 10$ pp).  The highest value per row is set in
-           \textbf{bold}.}
+           (spread $> 10$ pp, selection of most informative features).
+           The highest value per row is set in \textbf{bold}.}
   \label{tab:group_diff}
-  \begin{tabular}{llrrr}
+  \begin{tabular}{llrrrr}
     \toprule
     \textbf{Category} & \textbf{Feature} &
-      \textbf{Internal} & \textbf{MINT} & \textbf{Community} \\
+      \textbf{Internal} & \textbf{MINT} & \textbf{Comm-Uni} & \textbf{Comm-Sch.} \\
     \midrule
     \multirow{5}{*}{\textcolor{catPresentation}{Presentation}}
-      & Narrator       & \textbf{86.6} &  9.4 & 84.0 \\
-      & TTS fragments  & \textbf{36.1} &  0.1 & 12.6 \\
-      & Animations     & \textbf{66.2} &  0.6 & 25.9 \\
-      & Anim.\ blocks  & \textbf{36.8} &  0.3 & 11.3 \\
-      & Galleries      & \textbf{17.3} &  0.0 &  9.5 \\
+      & Narrator       &  86.6 &   9.4 & \textbf{88.5} &  60.8 \\
+      & TTS fragments  & \textbf{36.1} &   0.1 &  13.3 &   7.0 \\
+      & Animations     & \textbf{66.2} &   0.6 &  29.7 &  29.6 \\
+      & Logo           &  41.1 &   0.3 &  21.4 & \textbf{57.0} \\
+      & Icon           &   9.7 &   0.0 &  24.1 & \textbf{46.2} \\
     \midrule
     \multirow{4}{*}{\textcolor{catInteraction}{Interaction}}
-      & Any quiz       & 22.7 & \textbf{78.3} & 29.6 \\
-      & Single choice  & 11.9 &  0.2 & \textbf{14.1} \\
-      & Multiple choice& 11.3 &  0.8 & \textbf{16.3} \\
-      & Text quiz      &  9.7 & \textbf{70.0} &  6.2 \\
+      & Any quiz       &  22.7 & \textbf{78.3} &  28.3 &  43.0 \\
+      & Text quiz      &   9.7 & \textbf{70.0} &   4.9 &  15.6 \\
+      & Selection quiz &   5.2 &   9.9 &   2.7 & \textbf{19.4} \\
+      & Multiple choice&  11.3 &   0.8 &  17.2 & \textbf{18.3} \\
     \midrule
     \multirow{3}{*}{\textcolor{catReuse}{Reuse}}
-      & Macros (any)   & 69.0 & \textbf{99.7} & 54.4 \\
-      & Imports        & 57.4 & \textbf{98.3} & 34.3 \\
-      & Ext.\ scripts  & 16.2 & \textbf{96.3} & 30.3 \\
+      & Macros (any)   &  69.0 & \textbf{99.7} &  52.6 &  58.6 \\
+      & Imports        &  57.4 & \textbf{98.3} &  31.7 &  45.7 \\
+      & Ext.\ scripts  &  16.2 & \textbf{96.3} &  31.8 &  25.8 \\
     \midrule
-    \multirow{5}{*}{\textcolor{catEmbedding}{Embedding}}
-      & Exec.\ code    & \textbf{11.7} &  0.3 &  2.7 \\
-      & WebApps        & \textbf{13.0} &  0.7 &  6.9 \\
-      & Script tags    & \textbf{33.3} &  8.2 & 25.8 \\
-      & ASCII diagrams & \textbf{38.5} &  2.3 &  7.1 \\
-      & Math           & 30.7 & \textbf{95.2} & 21.0 \\
-      & HTML embeds    & 18.6 &  5.9 & \textbf{21.5} \\
+    \multirow{6}{*}{\textcolor{catEmbedding}{Embedding}}
+      & Code blocks    & \textbf{82.5} &   9.3 &  53.7 &  28.5 \\
+      & Math           &  30.7 & \textbf{95.2} &  21.4 &  32.8 \\
+      & ASCII diagrams & \textbf{38.5} &   2.3 &   8.3 &   5.4 \\
+      & HTML embeds    &  20.4 &   5.9 &  20.5 & \textbf{39.2} \\
+      & WebApps        &  13.0 &   0.7 &   4.8 & \textbf{24.2} \\
+      & Audio          & \textbf{35.7} &   0.4 &  15.4 &  32.3 \\
     \bottomrule
   \end{tabular}
 \end{table}
 
-Three patterns emerge from these divergences:
+Four distinct profiles emerge from these divergences:
 
-\paragraph{MINT-the-GAP's standardised configuration.}
+\paragraph{MINT-the-GAP: template-driven workflow.}
 MINT-the-GAP dominates the Reuse category (macros~\SI{99.7}{\percent},
 imports~\SI{98.3}{\percent}, external scripts~\SI{96.3}{\percent})
 and relies heavily on text quizzes (\SI{70.0}{\percent}) and
@@ -121,30 +132,51 @@ This profile reflects a standardised configuration for small,
 self-contained STEM exercises: each course file imports a common set
 of libraries (TikZ visualisation, Algebrite CAS) and uses text quizzes
 as the primary interactive element.
-Notably, presentation features like narrator (\SI{9.4}{\percent}) and
+Presentation features like narrator (\SI{9.4}{\percent}) and
 animations (\SI{0.6}{\percent}) are nearly absent --- the exercise
 format does not call for them.
 
-\paragraph{Internal as feature showcase.}
-The Internal group leads in presentation features (narrator~\SI{86.6}{\percent},
-animations~\SI{66.2}{\percent}) and embedding features
-(ASCII diagrams~\SI{38.5}{\percent}, script tags~\SI{33.3}{\percent}).
+\paragraph{Internal: feature showcase.}
+The Internal group leads in code-oriented and presentation features
+(code blocks~\SI{82.5}{\percent}, animations~\SI{66.2}{\percent},
+ASCII diagrams~\SI{38.5}{\percent}, TTS fragments~\SI{36.1}{\percent}).
 This is consistent with the developers' role as feature demonstrators and
 early adopters of the full language surface.
 
-\paragraph{Community as selective adopters.}
-The Community group generally falls between the other two, but with
-notable exceptions: single-choice (\SI{14.1}{\percent}) and
-multiple-choice quizzes (\SI{16.3}{\percent}) are \emph{higher} than
-in Internal, suggesting that community authors prefer familiar quiz
-types over text-input quizzes.
-HTML embeds (\SI{21.5}{\percent}) also peak in the Community group.
+\paragraph{Comm-Uni: narrative-textual style.}
+Higher-education courses show the highest narrator adoption
+(\SI{88.5}{\percent}), strong use of code blocks (\SI{53.7}{\percent}),
+tables (\SI{45.8}{\percent}), and external CSS (\SI{43.0}{\percent}).
+This profile suggests a lecture-oriented authoring style:
+text-heavy, narrated content with structured data presentation
+but comparatively little multimedia embedding or interactive elements.
 
-\paragraph{Convergent features.}
-Several features show similar adoption across all three groups:
-matrix quizzes (\SIrange{0.3}{2.4}{\percent}), surveys
-(\SIrange{0.0}{4.8}{\percent}), task lists (\SIrange{0.0}{8.7}{\percent}),
-and code projects (\SIrange{0.0}{1.3}{\percent}).
+\paragraph{Comm-School: multimedia-interactive style.}
+School-level courses present a strikingly different profile.
+They lead in visual branding (logo~\SI{57.0}{\percent},
+icon~\SI{46.2}{\percent}), multimedia embedding
+(audio~\SI{32.3}{\percent}, video~\SI{26.9}{\percent},
+HTML embeds~\SI{39.2}{\percent}, WebApps~\SI{24.2}{\percent}),
+and favour selection-based quiz types
+(selection quiz~\SI{19.4}{\percent}, multiple choice~\SI{18.3}{\percent}).
+This reflects a pedagogy oriented toward engagement through
+varied media and familiar interactive formats rather than code or
+narrated text.
+
+A particularly noteworthy finding is that MINT-the-GAP and Comm-School
+both target school-level education but employ fundamentally different
+approaches.
+MINT-the-GAP achieves high feature adoption through a centralised
+template system; Comm-School authors arrive at a multimedia-rich style
+through direct, per-course authoring decisions.
+This contrast suggests that the educational context alone does not
+determine the feature profile --- the \emph{authoring infrastructure}
+is equally decisive.
+
+Several features show similar (low) adoption across all four groups:
+matrix quizzes (\SIrange{0.3}{5.9}{\percent}), surveys
+(\SIrange{0.0}{2.2}{\percent}), and code projects
+(\SIrange{0.0}{1.3}{\percent}).
 These consistently low rates indicate features that remain underutilised
-regardless of author background, pointing to adoption barriers that
-transcend group-specific workflows.
+regardless of author background or educational context, pointing to
+adoption barriers that transcend group-specific workflows.

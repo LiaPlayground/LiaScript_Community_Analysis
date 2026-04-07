@@ -2,7 +2,7 @@
 % Structure: OER challenge → LiaScript approach (with quiz example) →
 %            blind spot → research questions
 
-The creation of high-quality Open Educational Resources remains a persistent
+The creation of high-quality (Open) Educational Resources remains a persistent
 challenge in higher education.
 While content management systems and dedicated authoring tools exist,
 they often impose significant technical barriers or proprietary lock-in,
@@ -76,8 +76,8 @@ making a systematic empirical analysis both feasible and timely.
   \centering
   \begin{tikzpicture}
     \begin{axis}[
-      width=\columnwidth,
-      height=5.5cm,
+      width=0.95\columnwidth,
+      height=4.5cm,
       xlabel={Year},
       ylabel={Cumulative courses},
       axis y line*=left,
@@ -113,8 +113,8 @@ making a systematic empirical analysis both feasible and timely.
     \end{axis}
 
     \begin{axis}[
-      width=\columnwidth,
-      height=5.5cm,
+      width=0.95\columnwidth,
+      height=4.5cm,
       ylabel={Cumulative committers},
       axis y line*=right,
       axis x line=none,
@@ -155,23 +155,16 @@ making a systematic empirical analysis both feasible and timely.
 The only observable proxy for actual usage is the set of publicly available
 LiaScript courses on GitHub.
 This paper exploits that proxy systematically.
-We analyse a corpus of \num{3317} validated courses from \num{307} committers,
+We analyse a corpus of \num{3317} validated courses from \num{314} committers,
 introducing a didactically motivated taxonomy of LiaScript features and mapping
 actual adoption rates onto the designed feature space.
 The result is the first empirical picture of how LiaScript is used in the wild.
-
-A key methodological choice is the segmentation of the corpus into three
-groups: the LiaScript core developers (Internal), a prolific school-focused
-power user (MINT-the-GAP), and the broader community.
-This separation prevents the highly atypical output of the first two groups
-from distorting aggregate adoption statistics.
 
 Concretely, we address three research questions:
 \begin{description}
   \item[RQ\,1] Which LiaScript features are adopted by the community and
                which remain underutilised?
-  \item[RQ\,2] How do Internal, MINT-the-GAP, and Community groups differ
-               in their feature adoption profiles?
+  \item[RQ\,2] How do different author groups apply LiaScript feature sets in practice?
   \item[RQ\,3] What development and documentation priorities follow from
                the identified adoption gaps?
 \end{description}
@@ -180,8 +173,9 @@ The remainder of the paper is structured as follows.
 Section~\ref{sec:background} reviews related work on OER tools, feature
 adoption, and repository mining.
 Section~\ref{sec:methodology} describes the feature taxonomy, the corpus,
-and the three-group segmentation.
-Section~\ref{sec:adoption} presents the empirical results.
-Section~\ref{sec:implications} derives development priorities from the
-identified adoption gaps, and
+and the four-group segmentation.
+Section~\ref{sec:adoption} addresses RQ\,1 and RQ\,2 by presenting
+aggregate adoption rates and group-level profiles.
+Section~\ref{sec:implications} answers RQ\,3 by deriving development
+priorities from the identified adoption gaps, and
 Section~\ref{sec:conclusion} summarises the contributions.
