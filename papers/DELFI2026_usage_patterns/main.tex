@@ -5,7 +5,7 @@
 % Build (im build/ Verzeichnis):
 %   pdflatex main && biber main && pdflatex main && pdflatex main
 
-\documentclass[biblatex]{lni}
+\documentclass[biblatex, english]{lni}
 
 \usepackage{booktabs}
 \usepackage{multirow}
@@ -14,6 +14,10 @@
 \usepackage{xcolor}
 \usepackage{pgfplots}
 \pgfplotsset{compat=1.18}
+
+% TIKZ
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, fit, backgrounds, calc}
 
 %% Farben für Feature-Kategorien
 \definecolor{catPresentation}{HTML}{4393c3}

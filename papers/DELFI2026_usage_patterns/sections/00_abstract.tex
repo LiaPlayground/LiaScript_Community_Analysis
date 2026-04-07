@@ -1,27 +1,4 @@
-LiaScript is a Markdown-based language for creating interactive Open Educational
-Resources that runs entirely client-side: courses are interpreted directly in
-the learner's browser without any server infrastructure.
-This architectural decision ensures privacy and decentralisation, but leaves
-the developers with no telemetry, no usage statistics, and no systematic insight
-into how the tool's pedagogical affordances are actually employed in practice.
 
-This paper addresses that gap.
-Using a corpus of \num{3317} validated LiaScript courses collected from public
-GitHub repositories in March 2026, we conduct the first systematic analysis of
-feature adoption across \num{307} committers.
-We introduce a didactically motivated feature taxonomy covering four categories
---- presentation, interaction, reuse, and embedding --- and map
-it onto the corpus.
-The analysis reveals a pronounced adoption gradient: while presentation and
-reuse features are widely used, interactive and embedding affordances
-remain selectively adopted.
-A three-group comparison --- core developers (462~courses),
-a prolific school-focused initiative (1\,147~courses),
-and the broader community (1\,708~courses) --- uncovers sharply distinct
-usage profiles that would be invisible in aggregate statistics.
-Notably, prolific community authors exhibit the same feature profile as
-occasional contributors, indicating that production volume alone does not
-drive feature exploration.
-Based on these findings, we identify three adoption gap classes ---
-documentation deficits, workflow barriers, and configuration lock-in ---
-and derive concrete priorities for the further development of LiaScript.
+LiaScript is a Markdown-based language for creating interactive Open Educational Resources that runs entirely client-side, enabling courses to execute in the learner’s browser without server infrastructure. While this design supports privacy and decentralisation, it also eliminates telemetry and thus obscures how pedagogical features are used in practice.
+
+This paper addresses that gap through a corpus analysis of 3,317 validated LiaScript courses from public GitHub repositories (March 2026), authored by 307 contributors. We introduce a didactically motivated taxonomy spanning presentation, interaction, reuse, and embedding features, and apply it to the corpus. Results show a clear adoption gradient. Presentation and reuse features are widely used, whereas interaction and embedding remain selectively adopted. A comparison of core developers, a large school-focused initiative, and the broader community reveals distinct usage profiles. Notably, prolific authors do not exhibit broader feature use. We identify three adoption gap classes: documentation deficits, workflow barriers, and configuration lock-in, and derive implications for future development.
