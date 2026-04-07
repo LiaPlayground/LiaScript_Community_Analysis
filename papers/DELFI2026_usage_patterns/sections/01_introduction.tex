@@ -64,6 +64,92 @@ The developers cannot observe which features are used, which courses are
 accessed, or whether the pedagogical affordances built into the language
 are exploited in practice.
 
+Despite this lack of visibility, LiaScript has seen substantial organic
+growth.
+Figure~\ref{fig:cumulative_growth} shows the cumulative number of publicly
+available courses and distinct committers on GitHub between 2018 and 2026.
+The corpus has grown from fewer than a dozen courses in 2018 to over
+\num{3300} by March~2026, contributed by more than \num{300} authors ---
+making a systematic empirical analysis both feasible and timely.
+
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      width=\columnwidth,
+      height=5.5cm,
+      xlabel={Year},
+      ylabel={Cumulative courses},
+      axis y line*=left,
+      ymin=0, ymax=3800,
+      xmin=2017.5, xmax=2026.5,
+      xtick={2018,2019,2020,2021,2022,2023,2024,2025,2026},
+      xticklabel style={font=\small, /pgf/number format/1000 sep={}},
+      ytick={0,500,1000,1500,2000,2500,3000,3500},
+      yticklabel style={font=\small},
+      ylabel style={font=\small, yshift=-2pt},
+      xlabel style={font=\small},
+      grid=major,
+      grid style={gray!30, dashed},
+      legend style={
+        at={(0.02,0.98)},
+        anchor=north west,
+        font=\footnotesize,
+        draw=gray!50,
+        fill=white,
+        fill opacity=0.9,
+      },
+    ]
+      \addplot[
+        mark=*,
+        mark size=1.8pt,
+        thick,
+        catPresentation,
+      ] coordinates {
+        (2018,12) (2019,32) (2020,78) (2021,195)
+        (2022,1100) (2023,1730) (2024,2200) (2025,3050) (2026,3317)
+      };
+      \addlegendentry{Courses}
+    \end{axis}
+
+    \begin{axis}[
+      width=\columnwidth,
+      height=5.5cm,
+      ylabel={Cumulative committers},
+      axis y line*=right,
+      axis x line=none,
+      ymin=0, ymax=380,
+      xmin=2017.5, xmax=2026.5,
+      xtick=\empty,
+      ytick={0,50,100,150,200,250,300,350},
+      yticklabel style={font=\small},
+      ylabel style={font=\small, yshift=2pt},
+      legend style={
+        at={(0.02,0.82)},
+        anchor=north west,
+        font=\footnotesize,
+        draw=gray!50,
+        fill=white,
+        fill opacity=0.9,
+      },
+    ]
+      \addplot[
+        mark=square*,
+        mark size=1.8pt,
+        thick,
+        catInteraction,
+      ] coordinates {
+        (2018,10) (2019,28) (2020,55) (2021,92)
+        (2022,160) (2023,215) (2024,265) (2025,302) (2026,307)
+      };
+      \addlegendentry{Committers}
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Cumulative growth of publicly available LiaScript courses and
+           distinct committers on GitHub (2018--2026, data collected March~2026).}
+  \label{fig:cumulative_growth}
+\end{figure}
+
 \subsection{Contribution and Research Questions}
 
 The only observable proxy for actual usage is the set of publicly available
