@@ -3,7 +3,7 @@
 \subsection{Data Collection Pipeline}
 
 The dataset was constructed through a nine-stage pipeline
-(Table~\ref{tab:pipeline}), implemented in the open-source
+(\Cref{tab:data_pipeline} and \Cref{fig:data_pipeline_pub}), implemented in the open-source
 \emph{ConnectedLecturer} project.\footnote{\url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation}}
 Starting from GitHub's Search API, we identified \num{1076} repositories
 containing potential LiaScript content.
@@ -18,26 +18,228 @@ extracted \num{44} binary feature flags, and performed AI-based enrichment
 The final consolidated dataset comprises \num{3317} courses with
 166~columns each (collected 2026-03-13).
 
-\begin{table}[ht]
-  \centering
-  \caption{Data collection pipeline stages}
-  \label{tab:pipeline}
-  \begin{tabular}{llr}
-    \toprule
-    \textbf{Phase} & \textbf{Method} & \textbf{$n$} \\
-    \midrule
-    Repository search    & GitHub Search API           & \num{1076} repos \\
-    File extraction      & Tree API + heuristics       & \num{57096} files \\
-    Validation           & Rules + LLM                 & \num{3317} courses (\SI{5.8}{\percent}) \\
-    Commit analysis      & Commits API                 & \num{19366} commits \\
-    Header metadata      & Regex parsing               & \num{3297} courses (\SI{99.4}{\percent}) \\
-    Feature detection    & 44 regex patterns            & $\num{3317} \times 44$ \\
-    AI enrichment        & RAG + Llama 3.3 70B         & \num{3138} courses (\SI{94.6}{\percent}) \\
-    User profiles        & GitHub Users API             & 445 profiles \\
-    Consolidation        & Inner join                   & $\num{3317} \times 166$ \\
-    \bottomrule
-  \end{tabular}
+%\begin{table}[ht]
+%  \centering
+%  \caption{Data collection pipeline stages}
+%  \label{tab:pipeline}
+%  \begin{tabular}{llr}
+%    \toprule
+%    \textbf{Phase} & \textbf{Method} & \textbf{$n$} \\
+%    \midrule
+%    Repository search    & GitHub Search API           & \num{1076} repos \\
+%    File extraction      & Tree API + heuristics       & \num{57096} files \\
+%    Validation           & Rules + LLM                 & \num{3317} courses (\SI{5.8}{\percent}) \\
+%    Commit analysis      & Commits API                 & \num{19366} commits \\
+%    Header metadata      & Regex parsing               & \num{3297} courses (\SI{99.4}{\percent}) \\
+%    Feature detection    & 44 regex patterns            & $\num{3317} \times 44$ \\
+%    AI enrichment        & RAG + Llama 3.3 70B         & \num{3138} courses (\SI{94.6}{\percent}) \\
+%    User profiles        & GitHub Users API             & 445 profiles \\
+%    Consolidation        & Inner join                   & $\num{3317} \times 166$ \\
+%    \bottomrule
+%  \end{tabular}
+%\end{table}
+
+\begin{table}[t]
+\centering
+\caption{Nine-stage data construction pipeline for the ConnectedLecturer dataset.}
+\label{tab:data_pipeline}
+\begin{tabular}{p{2.2cm} p{3.2cm} p{2.6cm} p{2.8cm}}
+\toprule
+\textbf{Phase} & \textbf{Method} & \textbf{Output} & \textbf{Coverage} \\
+\midrule
+Repository search 
+& GitHub Search API 
+& 1{,}076 repositories 
+& -- \\
+
+File extraction 
+& Tree API + heuristics 
+& 57{,}096 Markdown files 
+& -- \\
+
+Validation 
+& Rule-based filters + LLM classifier 
+& 3{,}317 LiaScript courses 
+& 5.8\% of files \\
+
+Commit analysis 
+& Commits API 
+& 19{,}366 commits 
+& -- \\
+
+Header metadata 
+& Regex parsing 
+& Metadata for 3{,}297 courses 
+& 99.4\% of courses \\
+
+Feature detection 
+& 44 regex patterns 
+& 44 features for 3{,}317 courses 
+& 100\% \\
+
+AI enrichment 
+& RAG + Llama 3.3 70B 
+& Enrichment for 3{,}138 courses 
+& 94.6\% of courses \\
+
+User profiles 
+& GitHub Users API 
+& 445 profiles 
+& -- \\
+
+Consolidation 
+& Course-centered join 
+& Final dataset: 3{,}317 courses $\times$ 166 columns 
+& -- \\
+\bottomrule
+\end{tabular}
 \end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[
+    font=\small,
+    node distance=8mm and 12mm,
+    >={Stealth[length=3mm,width=2mm]},
+    base/.style={
+        rectangle,
+        rounded corners=2.2mm,
+        draw,
+        line width=0.8pt,
+        align=center,
+        minimum height=1.35cm,
+        text width=4.0cm,
+        inner sep=4pt
+    },
+    search/.style={
+        base,
+        draw=blue!55!black,
+        fill=blue!8
+    },
+    validate/.style={
+        base,
+        draw=orange!70!black,
+        fill=orange!12
+    },
+    enrich/.style={
+        base,
+        draw=teal!60!black,
+        fill=teal!10
+    },
+    aux/.style={
+        base,
+        draw=purple!55!black,
+        fill=purple!9
+    },
+    finalbox/.style={
+        base,
+        draw=black,
+        fill=gray!12,
+        text width=5.1cm,
+        minimum height=1.5cm
+    },
+    flow/.style={
+        ->,
+        line width=1.0pt,
+        draw=black!75
+    },
+    groupbox/.style={
+        rounded corners=2.5mm,
+        draw=black!45,
+        dashed,
+        line width=0.7pt,
+        inner sep=7pt
+    },
+    grouplabel/.style={
+        font=\footnotesize\bfseries,
+        fill=white,
+        inner sep=2pt
+    }
+]
+
+% --- Main linear path --------------------------------------------------------
+
+\node[search] (search) {Repository search\\
+GitHub Search API\\[1mm]
+\textbf{1,076 repositories}};
+
+\node[search, below=of search] (files) {File extraction\\
+Tree API + heuristics\\[1mm]
+\textbf{57,096 Markdown files}};
+
+\node[validate, below=15mm of files] (valid) {Validation\\
+Rules + LLM\\[1mm]
+\textbf{3,317 LiaScript courses}\\
+\emph{(5.8\% of files)}};
+
+% --- Parallel branches -------------------------------------------------------
+
+\node[enrich, below left=37mm and -18mm of valid] (commits) {Commit analysis\\
+Commits API\\[1mm]
+\textbf{19,366 commits}};
+
+\node[enrich, below=14mm of valid] (header) {Header metadata\\
+Regex parsing\\[1mm]
+metadata for \textbf{3,297 courses}\\
+\emph{(99.4\% coverage)}};
+
+\node[enrich, below right=37mm and -18mm of valid] (features) {Feature detection\\
+44 regex patterns\\[1mm]
+\textbf{44 features} for\\
+\textbf{3,317 courses}};
+
+\node[enrich, above right= 6mm and -18mm of features] (ai) {AI enrichment\\
+RAG + Llama 3.3 70B\\[1mm]
+enrichment for \textbf{3,138 courses}\\
+\emph{(94.6\% coverage)}};
+
+\node[aux, above left= 8mm and -18mm of commits] (users) {User profiles\\
+GitHub Users API\\[1mm]
+\textbf{445 profiles}};
+
+% --- Final node --------------------------------------------------------------
+
+\node[finalbox, below=40mm of header] (final) {Course-centered consolidation\\
+validated courses combined with derived metadata\\[1mm]
+\textbf{Final dataset: 3,317 courses $\times$ 166 columns}};
+
+% --- Arrows ------------------------------------------------------------------
+
+\draw[flow] (search) -- (files);
+\draw[flow] (files) -- (valid);
+
+\draw[flow] (valid.190) -| (commits);
+\draw[flow] (valid) -- (header);
+\draw[flow] (valid.350) -| (features);
+\draw[flow] (valid.east) -| (ai.north);
+\draw[flow] (valid.west) -| (users.north);
+
+\draw[flow] (users.south) |- (final.west);
+\draw[flow] (commits.south) -- (final.150);
+\draw[flow] (header) -- (final);
+\draw[flow] (features.south) -- (final.30);
+\draw[flow] (ai.south) |- (final.east);
+
+% --- Group annotations -------------------------------------------------------
+
+\begin{scope}[on background layer]
+    \node[groupbox, fit=(search)(files)] (g1) {};
+    \node[grouplabel, above=1mm of g1.north] {Candidate identification};
+
+    \node[groupbox, fit=(valid)] (g2) {};
+    \node[grouplabel, above=1mm of g2.north] {Course validation};
+
+    \node[groupbox, fit=(users)(commits)(header)(features)(ai)] (g3) {};
+    \node[grouplabel, above=1mm of g3.north] {Parallel analysis and enrichment};
+
+    \node[groupbox, fit=(final)] (g4) {};
+    \node[grouplabel, above=1mm of g4.north] {Final assembly};
+\end{scope}
+
+\end{tikzpicture}
+\caption{Publication-oriented overview of the ConnectedLecturer data construction workflow. After candidate identification and course validation, several analysis and enrichment branches are executed in parallel and merged into the final consolidated course dataset.}
+\label{fig:data_pipeline_pub}
+\end{figure}
 
 Our primary unit of analysis is the individual \emph{course file}
 (one validated \texttt{.md} file = one course).
