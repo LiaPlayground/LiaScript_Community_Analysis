@@ -20,11 +20,10 @@ H5P~\cite{Kiryakova2022,Fornasari2025} is widely adopted for creating
 self-contained interactive elements (quizzes, interactive videos) that can be
 embedded in any LMS, but requires a server and does not support version control.
 Jupyter Book~\cite{JupyterBook2025,Betlem2025} and mdBook generate complete
-websites from Markdown files and integrate naturally with Git workflows, but
-are primarily oriented towards computational and technical content.
+websites from Markdown files and integrate naturally with Git workflows, but they require setting up a tool-chain for compiling Markdown into HTML, JavaScript and CSS; thus, they are primarily oriented towards computational and technical content.
 The \emph{You Only Write Thrice} approach~\cite{WriteThrice2021} demonstrates
 that a single Markdown source can generate a book, a slide deck, and a
-computational notebook simultaneously --- a principle LiaScript generalises
+computational notebook simultaneously --- a principle LiaScript generalizes
 to the full OER lifecycle.
 Pandoc-based workflows~\cite{Krewinkel2017} address format interoperability
 but do not add interactive pedagogical elements.
@@ -40,14 +39,14 @@ that requires neither a server nor a pre-installed runtime~\cite{Baur2025}.
 \label{sec:rw:adoption}
 
 A recurring finding in educational technology research is that the number of
-available features in a system far exceeds the number of features that are
+available features in a system far exceeds those
 actually used.
 Studies on learning management systems document this pattern consistently:
 Hijazi et al.~\cite{Hijazi2020} found a strong positive correlation between
 feature \emph{awareness} and feature \emph{usage} in Moodle, with advanced
 features such as SCORM packages and workshop modules remaining largely unknown
 and therefore unused.
-Awad et al.~\cite{Awad2019} observed similarly uneven utilisation of LMS
+Awad et al.~\cite{Awad2019} observed similarly uneven utilization of LMS
 features even at well-resourced institutions.
 
 The Technology Acceptance Model (TAM) and its extensions provide a theoretical
@@ -59,9 +58,9 @@ require significant authoring effort.
 
 Crucially, all of these studies were conducted on server-based systems that
 generate usage logs.
-No prior work analyses feature adoption in a decentralised, client-side OER
-tool where no telemetry is available and repository content is the only
-observable proxy for usage behaviour.
+No prior work analyses feature adoption in a decentralized, client-side OER
+tool where no telemetry is available, and repository content is the only
+observable proxy for usage behavior.
 
 \subsection{Mining Educational Repositories}
 \label{sec:rw:mining}
@@ -69,10 +68,10 @@ observable proxy for usage behaviour.
 Mining software repositories (MSR) is an established methodology for
 understanding how tools are used in practice~\cite{Cosentino2017,Cosentino2016}.
 Schröder and Pfänder~\cite{Schroeder2020} specifically explore GitHub as a
-platform for OER, and Santos-Hermosa et al.~\cite{SantosHermosa2017} analyse
+platform for OER, and Santos-Hermosa et al.~\cite{SantosHermosa2017} analyze
 reuse indicators across OER repositories.
 Both studies confirm that repository metadata --- commit history, contributor
-counts, file content --- provides meaningful signals about authoring behaviour,
+counts, file content --- provides meaningful signals about authoring behavior,
 while also cautioning about the incompleteness of public repository data as a
 usage proxy.
 

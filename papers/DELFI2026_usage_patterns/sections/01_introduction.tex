@@ -9,15 +9,18 @@ they often impose significant technical barriers or proprietary lock-in,
 discouraging educators from investing in interactive, reusable
 materials~\cite{Henderson2018}.
 
-\subsection{The LiaScript Approach}
+%\subsection{The LiaScript Approach} 
 
 LiaScript~\cite{Dietrich2019} takes a different approach: it extends standard
 Markdown with interactive and multimedia elements using a human-readable syntax.
-Listing~\ref{lst:quiz} illustrates this principle: a single-choice quiz
+Fig.~\ref{lst:quiz} illustrates this principle: a single-choice quiz
 is expressed as a simple list with bracketed markers, directly within the
 Markdown source.
 
+\newcommand{\liascriptquiz}{https://liascript.github.io/LiveEditor/?/show/code/H4sIAAAAAAAAA1WOPQvCQBBE+/0VAzYaUMTCVhAVAwpaiIKkWJPVO0xy4W7j16/XSBAsHzPzmA5m89UixvzBRZULtrV9Ee2NeEHmJLTxaDgaQ/kqqHJOZULUx7GLXoJ1XdrUfPHwwY3TkHHxi5dcnGp/afg4SRLEChugRpByZZVzuDOmnstMyqY4oCiKiFoNjAv6/8Fd5LP2dLdqsJzFYP3qdqW9iQ9Wn42x3Q+o0b0BXO5S7uQAAAA=}
+
 \begin{figure}[ht]
+  \centering
   \begin{minipage}[t]{0.46\textwidth}
 \begin{verbatim}
 Where does DELFI 2026 take place?
@@ -25,7 +28,8 @@ Where does DELFI 2026 take place?
 - [( )] Munich
 - [(X)] Potsdam
 - [( )] Hamburg
-[[?]] It is the capital of Brandenburg.
+- [[?]] It is the capital of 
+        Brandenburg.
 ***
 Potsdam hosts DELFI 2026 together
 with HDI at the University of Potsdam.
@@ -37,16 +41,16 @@ with HDI at the University of Potsdam.
     \vspace{0pt}
     \includegraphics[width=\textwidth]{static_figures/Screenshot.png}
   \end{minipage}
-  \caption{A LiaScript single-choice quiz: Markdown source (left) and
-           rendered output (right).}
+  \caption{A LiaScript single-choice quiz: Markdown source (left) and rendered output (right)\footnotemark}
   \label{lst:quiz}
 \end{figure}
 
+\footnotetext{Click on \href{\liascriptquiz}{<LINK>} to open this example in LiaScript Live Editor.}
+
 Beyond quizzes, the language supports text-to-speech narration, animations,
-executable code environments, reusable macro libraries, and many more
-didactic elements --- all authored as plain text.
+executable code environments, reusable macro libraries, and native (first-class) JavaScript integration, as well as many more didactic elements --- all authored as plain text.
 Unlike H5P, which requires a server and a Moodle/WordPress installation,
-or Jupyter Book,
+or Jupyter Book (with Python installed),
 LiaScript executes without backend infrastructure.
 A course file is a standard \texttt{.md} file; the LiaScript interpreter
 is loaded client-side via a single URL.
@@ -55,14 +59,12 @@ and shares a link of the form \texttt{https://liascript.github.io/course/?URL}.
 The browser fetches the file and interprets it locally;
 no data is sent to any LiaScript server.
 
-This client-side architecture is a deliberate design choice with significant
+This client-side architecture represents a deliberate design choice with significant
 advantages: courses can be hosted anywhere, require no accounts, respect
-learner privacy, and remain accessible even offline.
-However, it introduces a fundamental blind spot for the developers.
-Because no requests pass through a central server, \emph{there is no telemetry}.
-The developers cannot observe which features are used, which courses are
+learner privacy, and remain accessible offline. These features demonstrate a commitment to digital sovereignty (\textbf{Quelle!}), enabling educators to operate independently of external platforms, accounts, or data infrastructures. At the tool level, this approach ensures that hosting is not controlled by agents, participation is not restricted by account requirments, and no data is collected for third parties.
+However, this design choice introduces a fundamental blind spot for developers. As no requests pass through a central server, \emph{there is no telemetry}, and developers cannot observe which features are used, which courses are
 accessed, or whether the pedagogical affordances built into the language
-are exploited in practice.
+are exploited in practice. Thus, studying feature adoption in a digitally sovereign OER tool requires a different methodology.
 
 Despite this lack of visibility, LiaScript has seen substantial organic
 growth.
@@ -150,16 +152,15 @@ making a systematic empirical analysis both feasible and timely.
   \label{fig:cumulative_growth}
 \end{figure}
 
-\subsection{Contribution and Research Questions}
+%\subsection{Contribution and Research Questions}
 
-The only observable proxy for actual usage is the set of publicly available
+To study the sovereignty-perserving tool LiaScript, the only observable proxy for actual usage is the set of publicly available
 LiaScript courses on GitHub.
 This paper exploits that proxy systematically.
 We analyse a corpus of \num{3317} validated courses from \num{314} committers,
 introducing a didactically motivated taxonomy of LiaScript features and mapping
 actual adoption rates onto the designed feature space.
-The result is the first empirical picture of how LiaScript is used in the wild.
-
+The result is the first empirical picture of how LiaScript is used in the wild. 
 Concretely, we address three research questions:
 \begin{description}
   \item[RQ\,1] Which LiaScript features are adopted by the community and
