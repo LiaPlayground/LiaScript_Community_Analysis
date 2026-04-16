@@ -5,11 +5,7 @@ adoption in the LiaScript ecosystem, which follows a sovereignty-by-design appro
 Exploiting the GitHub corpus as the only observable proxy for a
 tool with no server-side telemetry, we analysed \num{2973} courses
 from \num{314} committers using a four-category feature taxonomy
-and a four-group segmentation that distinguishes Internal developers,
-the MINT-the-GAP school initiative, and two community segments ---
-higher-education (Comm-Uni) and school-level courses (Comm-School) ---
-identified via AI-based education-level classification.
-
+and a four-group segmentation.
 The central finding is that \SI{89}{\percent} of the designed feature
 space is adopted in measurable numbers --- contrary to the common
 \SI{80}{\percent}-unused pattern reported for software
@@ -19,31 +15,42 @@ community explores only its own subset.
 The four-group comparison reveals structurally different adoption
 ladders for university and school educators, and shows that authoring
 infrastructure shapes adoption as strongly as pedagogical
-needs~(cf.\ MINT-the-GAP vs.\ Comm-School).
+needs.
+These findings translate into three concrete priorities
+(Section~\ref{sec:implications}):
+role-specific onboarding that mirrors the distinct adoption ladders
+of university and school authors,
+reduced embedding complexity to lower the entry barrier for
+non-technical educators,
+and open shared configurations that lift adoption without narrowing
+the explored feature space.
 
-These findings translate into concrete priorities:
-\begin{itemize}
-  \item \textbf{Role-specific onboarding.}
-    A single tutorial path cannot serve both audiences.
-    Comm-Uni authors plateau between code/macros ($\approx$\,\SI{50}{\percent})
-    and animations/imports ($\approx$\,\SI{30}{\percent}) ---
-    targeted animation tutorials would have the highest leverage.
-    Comm-School authors underuse narrator (\SI{61}{\percent}) despite
-    high multimedia adoption; demonstrating TTS integration in
-    multimedia-rich workflows could close this gap.
-  \item \textbf{Reduced embedding complexity.}
-    Executable code and code projects remain below \SI{5}{\percent}
-    across all groups.
-    A default code sandbox requiring no configuration and a visual
-    template picker would lower the entry barrier for non-technical
-    authors.
-  \item \textbf{Open shared configurations.}
-    The MINT-the-GAP model proves that standardised setups lift adoption,
-    but at the cost of feature-space narrowing.
-    Future configurations should expose optional extension points
-    (e.g.\ narrator, animations) so that template-driven workflows
-    do not inadvertently limit exploration.
-\end{itemize}
+Beyond static documentation, the context-specific adoption profiles
+identified in this study open a promising avenue for AI-assisted
+authoring.
+The LiaScript Teaching Agent~\cite{TeachingAgent2025} is an AI-based
+assistant that guides educators through the process of creating
+interactive courses.
+Currently, such agents treat the full feature space uniformly ---
+they can explain any feature but lack empirical grounding for
+\emph{which} features to recommend to \emph{whom}.
+The adoption ladders and gap classes derived in this work provide
+exactly this grounding:
+they allow the agent to tailor its suggestions to the author's context.
+For instance, a Comm-School author whose course already embeds
+multimedia but lacks narration could receive a targeted prompt to
+integrate TTS --- a low-effort step given the existing content
+structure.
+A Comm-Uni author with narrated, code-heavy slides could be guided
+toward animations, the next rung on the university adoption ladder.
+Rather than presenting the full feature catalogue, the agent would
+operate as a \emph{personalised onboarding companion} that meets
+authors where they are and nudges them toward the features most
+likely to enrich their specific course type.
+This closes the loop between corpus analysis and authoring practice:
+empirical adoption data informs the agent's recommendations, and
+repeated corpus analyses can evaluate whether agent-assisted
+authoring shifts the adoption profiles over time.
 
 Because LiaScript's architecture precludes runtime telemetry,
 repeating the GitHub corpus analysis at regular intervals is the only
