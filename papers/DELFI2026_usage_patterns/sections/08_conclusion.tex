@@ -3,15 +3,16 @@
 This paper presented the first systematic empirical analysis of feature
 adoption in the LiaScript ecosystem, which follows a sovereignty-by-design approach.
 Exploiting the GitHub corpus as the only observable proxy for a
-tool with no server-side telemetry, we analysed \num{2973} courses
-from \num{314} committers using a four-category feature taxonomy
-and a four-group segmentation.
+tool with no server-side telemetry, we analysed \num{3317} validated
+courses contributed by \num{314} committers using a four-category
+feature taxonomy; the \num{2973} courses with a clear education-level
+classification enter the four-group segmentation.
 The central finding is that \SI{89}{\percent} of the designed feature
-space is adopted in measurable numbers --- contrary to the common
-\SI{80}{\percent}-unused pattern reported for software
-products~\cite{pendo2019}.
-The challenge is not that features go unused, but that each author
-community explores only its own subset.
+space is adopted in measurable numbers: only five of 44~tracked
+features fall below \SI{1}{\percent} course-level containment.
+LiaScript's designed palette is thus broadly reached; the challenge
+is not that features go unused, but that each author community
+explores only its own subset.
 The four-group comparison reveals structurally different adoption
 ladders for university and school educators, and shows that authoring
 infrastructure shapes adoption as strongly as pedagogical
@@ -28,21 +29,21 @@ the explored feature space.
 Beyond static documentation, the context-specific adoption profiles
 identified in this study open a promising avenue for AI-assisted
 authoring.
+\ifanonymous
+{\color{orange}An AI-based authoring assistant for LiaScript
+[self-citation suppressed for blind review] guides educators through
+the process of creating interactive courses.}
+\else
 The LiaScript Teaching Agent~\cite{TeachingAgent2025} is an AI-based
 assistant that guides educators through the process of creating
 interactive courses.
+\fi
 Currently, such agents treat the full feature space uniformly ---
 they can explain any feature but lack empirical grounding for
 \emph{which} features to recommend to \emph{whom}.
 The adoption ladders and gap classes derived in this work provide
-exactly this grounding:
-they allow the agent to tailor its suggestions to the author's context.
-For instance, a Comm-School author whose course already embeds
-multimedia but lacks narration could receive a targeted prompt to
-integrate TTS --- a low-effort step given the existing content
-structure.
-A Comm-Uni author with narrated, code-heavy slides could be guided
-toward animations, the next rung on the university adoption ladder.
+exactly this grounding: they allow the agent to tailor its
+suggestions to the author's context.
 Rather than presenting the full feature catalogue, the agent would
 operate as a \emph{personalised onboarding companion} that meets
 authors where they are and nudges them toward the features most

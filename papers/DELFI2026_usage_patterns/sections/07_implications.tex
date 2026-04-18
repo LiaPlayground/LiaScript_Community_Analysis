@@ -1,67 +1,55 @@
 % ~750 words
 % Five subsections: target audience, gap analysis, adoption ladder, survey, monitoring
 
-The four-group comparison shows that prolific authors exhibit
-the same feature profile as occasional contributors
-(Section~\ref{sec:four_groups}) --- production volume does not drive
-feature exploration.
-Instead, the educational context shapes \emph{which} features authors
-adopt: Comm-Uni authors gravitate toward narrated, code-heavy content;
+The four-group comparison shows that the educational context shapes
+\emph{which} features authors adopt more strongly than production
+volume does: in Comm-Uni, top-10 and tail accounts share largely
+the same feature profile (Spearman $\rho = 0.91$, mean deviation
+$5.7$~pp); Comm-School is more author-concentrated (one account
+holds \SI{31}{\percent} of its courses, $\rho = 0.82$) but its
+multimedia-leaning profile remains clearly distinct from Comm-Uni.
+Comm-Uni authors gravitate toward narrated, code-heavy content;
 Comm-School authors toward multimedia and interactive elements.
-The MINT-the-GAP model demonstrates that infrastructure-level choices
+The \mintgroup{} model demonstrates that infrastructure-level choices
 can lift adoption for an entire community, but at the cost of narrowing
 the explored feature space.
 Effective improvements must therefore be \emph{context-sensitive}.
-These findings could not be obtained solely through passive observation or user self-discovery. The methodology shows what a structured feedback mechanism within the development cycle for sovereign educational tools which do not collect runtime data could look like.
 
 \subsection{Three Adoption Gap Classes}
 \label{sec:gap_classes}
 
-The adoption gradient itself can be explained through three gap classes.
-
 \paragraph{Documentation deficit.}
-Some features are syntactically non-obvious and lack progressive
-examples.
-Narrator adoption is high because activation requires a single header
-line, whereas animation effects demand a multi-layered secondary syntax
-documented only through a comprehensive reference.
-The four-group comparison reinforces this: Comm-Uni authors show
-significantly lower adoption of animation and script features than
-Internal authors, while Comm-School authors --- despite lower narrator
-adoption (\SI{60.8}{\percent} vs.\ \SI{88.5}{\percent}) --- achieve
-higher rates of multimedia embedding.
-The underlying syntax is identical, suggesting that documentation
-does not sufficiently bridge the gap for either audience.
+Narrator activation requires a single header line, whereas animation
+effects demand a multi-layered secondary syntax documented only
+through a comprehensive reference.
+The four-group comparison reinforces this: Comm-Uni authors trail
+Internal authors in animation and script features, while Comm-School
+authors achieve high multimedia embedding despite lower narrator
+adoption (\SI{60.8}{\percent} vs.\ \SI{88.5}{\percent}).
+The underlying syntax is identical --- documentation alone does not
+bridge the gap.
 
 \paragraph{Workflow barrier.}
 Code projects and executable code require authors to configure external
-services and understand multi-file code block interactions ---
-a barrier that documentation alone cannot resolve for non-technical
-educators.
+services and understand multi-file code interactions --- a barrier that
+documentation alone cannot resolve for non-technical educators.
 
 \paragraph{Configuration lock-in.}
-The MINT-the-GAP profile demonstrates that a standardised configuration
---- importing the same libraries (TikZ, Algebrite) across all exercise
-files --- can drive near-universal adoption of specific features
-(math~\SI{95}{\percent}, imports~\SI{98}{\percent}), but simultaneously
-leaves features outside this scope unexplored
-(narrator~\SI{9}{\percent}, animations~\SI{0.6}{\percent}).
-This pattern represents a design tension: standardised configurations
-lower the entry barrier for a predefined feature set but discourage
-exploration beyond it.
-Future shared configurations should expose optional extension points
-so that standardised workflows do not inadvertently narrow the
-feature space.
+The \mintgroup{} profile shows that a standardised configuration
+(shared TikZ/Algebrite imports) can drive near-universal adoption of
+scoped features (math~\SI{95}{\percent}, imports~\SI{98}{\percent}) but
+leaves outside-scope features unexplored (narrator~\SI{9}{\percent},
+animations~\SI{0.6}{\percent}).
+Shared configurations should therefore expose optional extension points
+so that standardised workflows do not narrow the feature space.
 
 Several features remain below \SI{5}{\percent} in \emph{all} four
 groups, including among the core developers themselves
-(animated CSS~\SI{2.4}{\percent}, code
-projects~\SI{1.3}{\percent}, effects~\SI{0}{\percent}).
-Unlike the documentation deficit, where Internal adoption proves that
-the feature \emph{can} succeed, these convergent floors suggest that the
-features' current design may not match real authoring needs.
-They warrant a critical review of whether the feature concepts
-themselves require rethinking rather than better documentation.
+(animated CSS~\SI{2.4}{\percent}, code projects~\SI{1.3}{\percent},
+effects~\SI{0}{\percent}).
+Since even Internal adoption is low, these convergent floors suggest
+that the feature concepts themselves may need rethinking rather than
+better documentation.
 
 \subsection{The Adoption Ladder}
 \label{sec:ladder}
@@ -74,9 +62,10 @@ Comm-Uni authors climb from narrator and links through code and macros
 before stalling at animations; Comm-School authors start from visual
 media and branding, pass through quizzes and imports, but rarely reach
 code-oriented features.
-Since prolific authors exhibit essentially the same feature profile as
-occasional contributors, production volume alone does not drive
-exploration beyond these ceilings.
+Since within Comm-Uni top and tail authors share largely the same
+profile (Section~\ref{sec:profiles}), production volume alone does
+not drive exploration beyond these ceilings; the ceilings reflect
+structural features of the authoring context.
 Onboarding documentation should therefore mirror these ladders and
 offer context-specific entry points for school vs.\ university authors
 rather than a single linear tutorial path.

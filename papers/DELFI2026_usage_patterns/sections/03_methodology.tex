@@ -102,13 +102,18 @@ described in Section~\ref{sec:four_groups}.}
 
 
 The dataset was constructed through a multi-stage pipeline
-(\Cref{fig:data_pipeline_pub}), implemented in the open-source
-\emph{ConnectedLecturer} project.\footnote{\url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation}}
+(\Cref{fig:data_pipeline_pub}), implemented in \anon[an open-source
+project]{the open-source \emph{ConnectedLecturer}
+project}.\footnote{\anon[URL redacted for review]{\url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation}}}
 Starting from GitHub's Search API, we identified \num{1076} repositories
 containing potential LiaScript content (collected 2026-03-13).
 A tree-level aggregation step extracted \num{57096} Markdown files,
 of which \num{3317} (\SI{5.8}{\percent}) were validated as LiaScript courses
 using a combination of rule-based filters and an LLM classifier.
+A manual spot-check on a stratified random sample of \num{100}~files
+(50 validated, 50 rejected) yielded precision of \SI{100}{\percent}
+(no false positives) and one false negative, corresponding to a
+sample recall of \SI{98}{\percent}.
 For each validated course, the pipeline (a)~parsed header metadata
 (\SI{99.4}{\percent} success rate), (b)~extracted \num{44} binary
 feature flags, and (c)~assigned an education level via an LLM-based
@@ -120,7 +125,7 @@ Continuing Education).
 \label{sec:taxonomy}
 
 For each course file the pipeline extracts \num{44} binary feature flags
-via syntactic pattern matching on the Markdown source.\footnote{All regex patterns and their mapping to feature labels are documented at \url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation/blob/main/cl-pipeline/run/pipelines/liascript/docs/LiaScript_Features_Patterns.md}}
+via syntactic pattern matching on the Markdown source.\footnote{\anon[URL redacted for review]{All regex patterns and their mapping to feature labels are documented at \url{https://github.com/TUBAF-IFI-ConnectedLecturer/Data_aggregation/blob/main/cl-pipeline/run/pipelines/liascript/docs/LiaScript_Features_Patterns.md}}}
 We organise these features into four didactically motivated categories
 (Table~\ref{tab:taxonomy}).
 
@@ -137,7 +142,7 @@ We organise these features into four didactically motivated categories
       Narrator (TTS), animations, effects, galleries \\[4pt]
     \textcolor{catInteraction}{\textbf{Interaction}} &
       Active learning \& formative feedback &
-      Single/multiple choice, text input, matrix quiz, surveys \\[4pt]
+      Single/multiple choice, selection quiz, text input, matrix quiz, surveys \\[4pt]
     \textcolor{catReuse}{\textbf{Reuse}} &
       Scalable authoring via shared components &
       Imports, custom macros, official templates \\[4pt]
@@ -164,14 +169,14 @@ running code, simulations, or visualizations directly in the browser.
 Each course resides in a GitHub repository owned by an individual or
 organization account.
 The \num{3317} courses were contributed by \num{314} unique committers
-working across \num{205} repository accounts (\num{167}~individual,
-\num{37}~organizational, 1~unclassified).
+working across \num{205} repository accounts (\num{168}~individual,
+\num{37}~organizational).
 Organization accounts act as hosting containers; the actual authors are
 identified through the Git commit history.
 
 To prevent distortions from authors with fundamentally different
 relationships to LiaScript, we first separate courses by
-\emph{repository context} into Internal and MINT-the-GAP.
+\emph{repository context} into Internal and \mintgroup.
 Within the remaining community courses, the AI-based education-level
 classification reveals that higher-education courses and school-level
 courses exhibit substantially different feature profiles
@@ -181,23 +186,24 @@ The resulting four groups are:
   \item[Internal] (462~courses, 7~repository accounts):
     Repositories owned by the core development team and their
     organisational accounts
-    (SebastianZug, andre-dietrich, LiaPlayground, LiaScript, LiaBooks,
-    LiaTemplates, TUBAF-IfI-LiaScript).
+    %(SebastianZug, andre-dietrich, LiaPlayground, LiaScript, LiaBooks,
+    %LiaTemplates, TUBAF-IfI-LiaScript).
     These include templates, demonstrations, and the developers' own
     teaching materials.
-  \item[MINT-the-GAP] (1\,147~courses, 1~organization account):
+  \item[\mintgroup] (\num{1147}~courses, 1~organization account):
     A single prolific school-focused initiative producing structured
-    STEM courses.
+    STEM courses\ifanonymous\else~(MINT is the German-language
+    equivalent of STEM)\fi.
     With nearly a third of all courses, this account would dominate any
     community-level analysis if not separated.
-  \item[Comm-Uni] (1\,178~courses, 167~repository accounts):
+  \item[Comm-Uni] (\num{1178}~courses, 167~repository accounts):
     Community courses classified as \emph{Higher Education} by the
     AI classifier.
     This is the largest and most diverse group, spanning universities
     across multiple countries and disciplines.
-    The largest single account contributes \SI{10.9}{\percent} of courses;
-    excluding single-course accounts shifts adoption rates by less than
-    one percentage point.
+    %The largest single account contributes \SI{10.9}{\percent} of courses;
+    %excluding single-course accounts shifts adoption rates by less than
+    %one percentage point.
   \item[Comm-School] (186~courses, 38~repository accounts):
     Community courses classified as \emph{Primary}, \emph{Secondary~I},
     or \emph{Secondary~II}.
@@ -210,11 +216,30 @@ assignment are excluded from the group comparison, yielding
 \num{2973}~courses for the four-group analysis.
 
 Because grouping follows the repository context, the same committer
-may appear in multiple groups.
-In particular, 22~committers --- including the two core developers ---
-contribute to both Internal and Community repositories.
-Their work in Community repositories is counted as Community,
-reflecting the collaborative context.
+may appear in multiple groups: 22~committers --- including the two
+core developers --- contribute to both Internal and Community
+repositories, and their Community work is counted as Community.
+Similarly, 24~accounts (mostly organisational accounts spanning
+multiple education levels) host courses in both Comm-Uni and
+Comm-School, so the four-group account counts sum to
+$7+1+167+38=213$ over \num{189}~distinct accounts; the remaining
+\num{16}~accounts of the corpus contribute only to the excluded
+bucket.
+
+\paragraph{Validation of the education-level classifier.}
+We validated the AI classification against four organisations with
+known ground truth: \mintgroup{} (school, \num{1147}~courses),
+\anon[Org~A]{TUBAF-IfI-LiaScript} and \anon[Org~B]{arcus} (higher
+education, \num{115} and \num{107}~courses), and
+\anon[Org~C]{Ifi-DiAgnostiK-Project} (vocational education,
+\num{79}~courses).
+Across these \num{1448}~anchor courses (\SI{44}{\percent} of the
+corpus), classification precision is \SI{97.9}{\percent} on classified
+courses.
+Most importantly, the higher-education/school boundary that defines
+the Comm-Uni/Comm-School split shows only \num{10}~confusions across
+\num{1369}~anchor courses with either an HE or a school ground truth
+(\SI{0.7}{\percent} error rate).
 
 \subsection{Limitations}
 
@@ -222,15 +247,13 @@ The corpus is restricted to \emph{public} GitHub repositories.
 Courses hosted on other platforms, behind authentication, or in private
 repositories are not captured.
 Feature detection via pattern matching may miss features used through
-indirect mechanisms (e.g.\ macros that generate quizzes programmatically).
+indirect mechanisms.
+%(e.g.\ macros that generate quizzes programmatically).
 The four-group segmentation assigns courses by repository context
 and AI-classified education level,
 so the 22~committers active in multiple groups are counted in each
 group separately rather than as a single entity.
-The AI-based education-level classification has not been manually
-validated beyond spot-checks against Internal and MINT-the-GAP;
-ambiguities between Secondary~I and~II are possible.
 The Comm-School group is comparatively small (\num{186}~courses,
-\num{38}~accounts) and shows moderate author concentration
+\num{38}~accounts) and shows moderate author concentration.
 (top-3 accounts contribute \SI{44.1}{\percent}).
 %, which should be considered when interpreting its adoption rates.

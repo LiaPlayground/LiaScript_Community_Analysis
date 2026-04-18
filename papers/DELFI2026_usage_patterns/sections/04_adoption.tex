@@ -25,10 +25,11 @@ broadly adopted to virtually unused features.
       & TTS fragments   & 11.6 & TTS blocks     &  0.1 \\
       & Anim.\ blocks   & 11.0 & Effects        &  0.0 \\
     \midrule
-    \multirow{5}{*}{\textcolor{catInteraction}{Interaction}}
+    \multirow{6}{*}{\textcolor{catInteraction}{Interaction}}
       & Any quiz        & 45.5 & Single choice  &  9.0 \\
-      & Text quiz       & 28.8 & Quiz hints     &  4.9 \\
-      & Multiple choice & 10.2 & Task lists     &  4.7 \\
+      & Text quiz       & 28.8 & Selection quiz &  7.3 \\
+      & Multiple choice & 10.2 & Quiz hints     &  4.9 \\
+      &                 &      & Task lists     &  4.7 \\
       &                 &      & Surveys        &  2.7 \\
       &                 &      & Matrix quiz    &  1.6 \\
     \midrule
@@ -90,7 +91,7 @@ into Comm-Uni (\num{1178}~courses) and Comm-School (\num{186}~courses)
   \begin{tabular}{llrrrr}
     \toprule
     \textbf{Category} & \textbf{Feature} &
-      \textbf{Internal} & \textbf{MINT} & \textbf{Comm-Uni} & \textbf{Comm-Sch.} \\
+      \textbf{Internal} & \textbf{\mintcol} & \textbf{Comm-Uni} & \textbf{Comm-Sch.} \\
     \midrule
     \multirow{5}{*}{\textcolor{catPresentation}{Presentation}}
       & Narrator       &  86.6 &   9.4 & \textbf{88.5} &  60.8 \\
@@ -123,8 +124,8 @@ into Comm-Uni (\num{1178}~courses) and Comm-School (\num{186}~courses)
 
 Four distinct profiles emerge from these divergences:
 
-\paragraph{MINT-the-GAP: template-driven workflow.}
-MINT-the-GAP dominates the Reuse category (macros~\SI{99.7}{\percent},
+\paragraph{\mintgroup: template-driven workflow.}
+\mintgroup{} dominates the Reuse category (macros~\SI{99.7}{\percent},
 imports~\SI{98.3}{\percent}, external scripts~\SI{96.3}{\percent})
 and relies heavily on text quizzes (\SI{70.0}{\percent}) and
 math notation (\SI{95.2}{\percent}).
@@ -163,20 +164,8 @@ This reflects a pedagogy oriented toward engagement through
 varied media and familiar interactive formats rather than code or
 narrated text.
 
-A particularly noteworthy finding is that MINT-the-GAP and Comm-School
-both target school-level education but employ fundamentally different
-approaches.
-MINT-the-GAP achieves high feature adoption through a centralised
-template system; Comm-School authors arrive at a multimedia-rich style
-through direct, per-course authoring decisions.
-This contrast suggests that the educational context alone does not
-determine the feature profile --- the \emph{authoring infrastructure}
-is equally decisive.
-
-Several features show similar (low) adoption across all four groups:
-matrix quizzes (\SIrange{0.3}{5.9}{\percent}), surveys
-(\SIrange{0.0}{2.2}{\percent}), and code projects
-(\SIrange{0.0}{1.3}{\percent}).
-These consistently low rates indicate features that remain underutilised
-regardless of author background or educational context, pointing to
-adoption barriers that transcend group-specific workflows.
+\mintgroup{} and Comm-School both target school-level education but
+arrive at high feature adoption through opposite routes: a centralised
+template system versus per-course authoring decisions.
+Educational context alone therefore does not determine the feature
+profile --- the \emph{authoring infrastructure} is equally decisive.
